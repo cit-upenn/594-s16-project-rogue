@@ -4,9 +4,10 @@
  *************************************************************************/
 public class Dungeon {
 	
-    private boolean[][] isRoom;        // is (x, y) a room site?
+	private char[][] board;    // the character representation of this board   
+    private boolean[][] isRoom;    // is (x, y) a room site?
     private boolean[][] isCorridor;    // is (x, y) a corridor site?
-    private int size;                     // dimension of the dungeon
+    private int size;    // dimension of the dungeon
 
     /**
      * constructor
@@ -15,9 +16,10 @@ public class Dungeon {
      */
     public Dungeon(char[][] board) {
     	// TODO
-        size = board.length;
-        isRoom = new boolean[size][size];
-        isCorridor = new boolean[size][size];
+        this.size = board.length;
+        this.board = board;
+        this.isRoom = new boolean[size][size];
+        this.isCorridor = new boolean[size][size];
         
         // initialize each grid
         for (int i = 0; i < size; i++) {
@@ -35,6 +37,14 @@ public class Dungeon {
      */
     public int size() { 
     	return size; 
+    }
+    
+    /**
+     * returns character representation of this board
+     * @return character representation of this board
+     */
+    public char[][] getBoard() {
+    	return board;
     }
 
     /**
