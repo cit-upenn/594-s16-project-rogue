@@ -1,5 +1,6 @@
-/Dungeon.class
-/Game.class
-/Monster.class
-/Rogue.class
-/Site.class
+/Controller.class
+/MainFrame.class
+/DifficultyFrame.class
+/MapFrameController.class
+/DifficultyFrameController.class
+/GameFrameController.class
