@@ -1,13 +1,15 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Observable;
+import java.util.Scanner;
+
 /*************************************************************************
  *  Compilation:  javac Game.java
  *  Execution:    java Game < input.txt
  *  Dependencies: Dungeon.java Site.java In.java Monster.java Rogue.java
  *
  *************************************************************************/
-public class Game {
-
-    // portable newline
-//    private final static String NEWLINE = System.getProperty("line.separator");
+public class Game extends Observable {
   
     private Dungeon dungeon;     // the dungeon
     private char MONSTER;        // name of the monster (A - Z)
@@ -19,33 +21,66 @@ public class Game {
     private Rogue rogue;         // the rogue
 
     // initialize board from file
-    public Game() {
+    public Game(String filename) {
+    	// create Scanner to read in file
+    	Scanner sc = null;
+		try {
+			sc = new Scanner(new File(filename));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
-//        // read in data
-//        N = Integer.parseInt(in.readLine());
-//        char[][] board = new char[N][N];
-//        for (int i = 0; i < N; i++) {
-//            String s = in.readLine();
-//            for (int j = 0; j < N; j++) {
-//                board[i][j] = s.charAt(2*j);
-//
-//                // check for monster's location
-//                if (board[i][j] >= 'A' && board[i][j] <= 'Z') {
-//                    MONSTER = board[i][j];
-//                    board[i][j] = '.';
-//                    monsterSite = new Site(i, j);
-//                }
-//
-//                // check for rogue's location
-//                if (board[i][j] == ROGUE) {
-//                    board[i][j] = '.';
-//                    rogueSite  = new Site(i, j);
-//                }
-//            }
-//        }
-//        dungeon = new Dungeon(board);
-//        monster = new Monster(this);
-//        rogue   = new Rogue(this);
+        // read in data
+        N = Integer.parseInt(sc.nextLine());
+        char[][] board = new char[N][N];
+        for (int i = 0; i < N; i++) { 
+            String s = sc.nextLine();
+            for (int j = 0; j < N; j++) {
+                board[i][j] = s.charAt(2 * j);
+
+                // check for monster's location
+                if (board[i][j] >= 'A' && board[i][j] <= 'Z') {
+                    MONSTER = board[i][j];
+                    board[i][j] = '.';
+                    monsterSite = new Site(i, j);
+                }
+
+                // check for rogue's location
+                if (board[i][j] == ROGUE) {
+                    board[i][j] = '.';
+                    rogueSite  = new Site(i, j);
+                }
+            }
+        }
+        
+        // initialize dungeon, monster, rogue
+        dungeon = new Dungeon(board);
+        monster = new Monster(this);
+        rogue = new Rogue(this);
+    }
+    
+    /**
+     * gets the name of the monster
+     * @return the name of the monster
+     */
+    public char getMonsterName() {
+    	return MONSTER;
+    }
+    
+    /**
+     * gets the rogue of this game
+     * @return the rogue of this game
+     */
+    public Rogue getRogue() {
+    	return rogue;
+    }
+    
+    /**
+     * gets the monster of this game
+     * @return the monster of this game
+     */
+    public Monster getMonster() {
+    	return monster;
     }
 
     /**
@@ -54,6 +89,22 @@ public class Game {
      */
     public Site getMonsterSite() { 
     	return monsterSite; 
+    }
+
+    /**
+     * sets the position of rogue
+     * @return the position of rogue
+     */
+    public void setRogueSite(Site rogueSite) { 
+    	this.rogueSite = rogueSite;   
+    }
+    
+    /**
+     * sets the position of monster
+     * @return the position of monster
+     */
+    public void setMonsterSite(Site monsterSite) { 
+    	this.monsterSite = monsterSite; 
     }
 
     /**
@@ -72,11 +123,11 @@ public class Game {
     	return dungeon;     
     }
 
-    /**
-     * simulates the game play
-     * play until monster catches the rogue
-     */
-    public void play() {
+//    /**
+//     * simulates the game play
+//     * play until monster catches the rogue
+//     */
+//    public void play() {
 //        for (int t = 1; true; t++) {
 //            System.out.println("Move " + t);
 //            System.out.println();
@@ -97,42 +148,8 @@ public class Game {
 //        }
 //
 //        System.out.println("Caught by monster");
-
-    }
-
-    /**
-     * returns string representation of game state
-     */
-    public String toString() {
-        String s = "";
-//        for (int i = 0; i < N; i++) {
-//            for (int j = 0; j < N; j++) {
-//                Site site = new Site(i, j);
-//                if (rogueSite.equals(monsterSite) && (rogueSite.equals(site))) s += "* ";
-//                else if (rogueSite.equals(site))                               s += ROGUE   + " ";
-//                else if (monsterSite.equals(site))                             s += MONSTER + " ";
-//                else if (dungeon.isRoom(site))                                 s += ". ";
-//                else if (dungeon.isCorridor(site))                             s += "+ ";
-//                else if (dungeon.isRoom(site))                                 s += ". ";
-//                else if (dungeon.isWall(site))                                 s += "  ";
-//            }
-//            s += NEWLINE;
-//        }
-        return s;
-    }
-
-    /**
-     * main method
-     * tests the Rogue game and simulates the play
-     */
-    public static void main(String[] args) {
-//        In stdin = new In();
-//        Game game = new Game(stdin);
-//        System.out.println(game);
-//        game.play();
-    }
+//
+//    }
 
 }
-
-
 
