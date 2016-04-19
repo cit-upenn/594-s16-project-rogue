@@ -17,47 +17,45 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
- * This class represents the game lobby, which has 3 difficulty modes:
- * Easy, Medium, Hard.
+ * This class represents the medium game mode.
  *
  * @author SHANG
  * 
  */
 @SuppressWarnings("serial")
-public class GameView extends JFrame {
+public class MediumView extends JFrame {
 
 	/**
 	 * GUI variables
 	 */
 	private JPanel top, left, right, bottom, center;
-	private JButton easy, medium, hard;
-	private JLabel gameView;
+	private JButton map1, map2, map3, back;
+	private JLabel mediumView;
 
 	/**
 	 * GUI constants
 	 */
 	private static final Border WHITE_BORDER = new LineBorder(Color.WHITE, 2);
 	private static final Color BLACK = new Color(0, 0, 0);
-	private static final Color MEDIUM_ORCHID = new Color(186, 85, 211);
+	private static final Color SIENNA = new Color(160, 82, 45);
 
 	/**
 	 * constructor
 	 */
-	public GameView() {
+	public MediumView() {
 		display();
 	}
 
 	/**
-	 * helper method to construct the lobby
+	 * helper method to construct the view
 	 */
 	private void display() {
-		setTitle("Lobby");
+		setTitle("Medium");
 		layOutComponents();
 		attachListenersToComponents();
 		setPreferredSize(new Dimension(600, 400));
 		setLocation();
 		pack();
-		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -81,8 +79,8 @@ public class GameView extends JFrame {
 		Image img = image.getImage();
 		Image newImg = img.getScaledInstance(600, 360, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newImage = new ImageIcon(newImg);
-		gameView = new JLabel(newImage);
-		center.add(gameView);
+		mediumView = new JLabel(newImage);
+		center.add(mediumView);
 	}
 
 	/**
@@ -120,20 +118,23 @@ public class GameView extends JFrame {
 	private void addSubPanels() {
 
 		// set buttom panel layout
-		bottom.setLayout(new GridLayout(1, 3));
+		bottom.setLayout(new GridLayout(1, 4));
 		bottom.setBackground(BLACK);
 
 		// add 3 option buttons
-		easy = new JButton("Easy");
-		setButton(easy);
-		bottom.add(easy);
-		medium = new JButton("Medium");
-		medium.setForeground(Color.white);
-		setButton(medium);
-		bottom.add(medium);
-		hard = new JButton("Hard");
-		setButton(hard);
-		bottom.add(hard);
+		map1 = new JButton("Map 1");
+		setButton(map1);
+		bottom.add(map1);
+		map2 = new JButton("Map 2");
+		map2.setForeground(Color.white);
+		setButton(map2);
+		bottom.add(map2);
+		map3 = new JButton("Map 3");
+		setButton(map3);
+		bottom.add(map3);
+		back = new JButton("Back");
+		setButton(back);
+		bottom.add(back);
 
 	}
 
@@ -145,7 +146,7 @@ public class GameView extends JFrame {
 	 */
 	private void setButton(JButton button) {
 		button.setForeground(Color.white);
-		button.setBackground(MEDIUM_ORCHID);
+		button.setBackground(SIENNA);
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
@@ -159,32 +160,12 @@ public class GameView extends JFrame {
 	private void attachListenersToComponents() {
 
 		// add listeners to buttons
-		easy.addActionListener(new ActionListener() {
+		back.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				Main.easyView.setVisible(true);
-			}
-
-		});
-		
-		medium.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				Main.mediumView.setVisible(true);
-			}
-
-		});
-		
-		hard.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				Main.hardView.setVisible(true);
+				Main.gameView.setVisible(true);
 			}
 
 		});
@@ -192,3 +173,4 @@ public class GameView extends JFrame {
 	}
 
 }
+
