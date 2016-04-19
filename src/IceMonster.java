@@ -1,10 +1,6 @@
 
 public class IceMonster extends Monster {
 	
-	private Game game;    // the game this monster is in
-    private Dungeon dungeon;    // the dungeon in the game
-    private int size;    // size of the dungeon
-    
     public IceMonster(Game game) {
     	super(game);
 	}
@@ -27,7 +23,6 @@ public class IceMonster extends Monster {
                 }
             }
         }
-        
         return move;
 	}
 

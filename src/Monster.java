@@ -4,9 +4,9 @@
  *************************************************************************/
 public abstract class Monster {
 	
-    private Game game;    // the game this monster is in
-    private Dungeon dungeon;    // the dungeon in the game
-    private int size;    // size of the dungeon
+	protected Game game;    // the game this monster is in
+	protected Dungeon dungeon;    // the dungeon in the game
+	protected int size;    // size of the dungeon
 
 	/**
      * constructor
