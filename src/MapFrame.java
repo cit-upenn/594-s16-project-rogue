@@ -79,6 +79,7 @@ public class MapFrame extends JFrame {
 	 */
 	public void setLevel(String level) {
 		this.level = level;
+		addImage("src/rogue.png");
 	}
 
 	/**
@@ -107,12 +108,12 @@ public class MapFrame extends JFrame {
 	/**
 	 * helper method to add image to the view
 	 */
-	private void addImage() {
+	private void addImage(String imagePath) {
 
 		// adjust image size and add to view
 		mapView = new MapView();
 		mapView.setPreferredSize(new Dimension(600, 360));
-		mapView.setImage("src/rogue.png");
+		mapView.setImage(imagePath);
 		mapView.repaint();
 		center.add(mapView);
 	}
@@ -124,7 +125,6 @@ public class MapFrame extends JFrame {
 		setLayout(new BorderLayout());
 		addPanels();
 		addSubPanels();
-		addImage();
 	}
 
 	/**
