@@ -17,20 +17,24 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
- * This class represents the hard game mode.
- *
- * @author SHANG
+ * This class represents the easy game mode.
  * 
+ * @author zhiyuanli
+ *
  */
-@SuppressWarnings("serial")
-public class HardView extends JFrame {
+public class MapFrame extends JFrame {
+
+	/**
+	 * Game controller
+	 */
+	private GameController controller;
 
 	/**
 	 * GUI variables
 	 */
 	private JPanel top, left, right, bottom, center;
 	private JButton map1, map2, map3, back;
-	private JLabel hardView;
+	private MapView mapView;
 
 	/**
 	 * GUI constants
@@ -40,27 +44,58 @@ public class HardView extends JFrame {
 	private static final Color TEAL = new Color(0, 128, 128);
 
 	/**
+	 * difficulty level
+	 */
+	private String level;
+
+	/**
 	 * constructor
 	 */
-	public HardView() {
+	public MapFrame(GameController controller) {
+		this.controller = controller;
+
 		display();
+	}
+
+	/**
+	 * set visible of this frame
+	 * 
+	 * @param visible
+	 */
+	public void setFrameVisible(boolean visible) {
+		setVisible(visible);
+	}
+
+	/**
+	 * @return the level
+	 */
+	public String getLevel() {
+		return level;
+	}
+
+	/**
+	 * @param level
+	 *            the level to set
+	 */
+	public void setLevel(String level) {
+		this.level = level;
 	}
 
 	/**
 	 * helper method to construct the view
 	 */
 	private void display() {
-		setTitle("Hard");
-		layOutComponents();
-		attachListenersToComponents();
+		setTitle("Map");
 		setPreferredSize(new Dimension(600, 400));
 		setLocation();
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		layOutComponents();
+		attachListenersToComponents();
 	}
 
 	/**
-	 * set the location of lobby window
+	 * set the location of map window
 	 */
 	private void setLocation() {
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -75,12 +110,11 @@ public class HardView extends JFrame {
 	private void addImage() {
 
 		// adjust image size and add to view
-		ImageIcon image = new ImageIcon(getClass().getResource("rogue.png"));
-		Image img = image.getImage();
-		Image newImg = img.getScaledInstance(600, 360, java.awt.Image.SCALE_SMOOTH);
-		ImageIcon newImage = new ImageIcon(newImg);
-		hardView = new JLabel(newImage);
-		center.add(hardView);
+		mapView = new MapView();
+		mapView.setPreferredSize(new Dimension(600, 360));
+		mapView.setImage("src/rogue.png");
+		mapView.repaint();
+		center.add(mapView);
 	}
 
 	/**
@@ -164,14 +198,10 @@ public class HardView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				Main.gameView.setVisible(true);
+				controller.showGameFrame();
 			}
 
 		});
-		
+
 	}
-
 }
-
-
