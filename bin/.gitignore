@@ -1,9 +1,6 @@
-/Controller.class
-/MainFrame.class
-/DifficultyFrame.class
-/MapFrameController.class
-/DifficultyFrameController.class
-/GameFrameController.class
-/Model.class
-/Game.class
+/GameView.class
+/MapView.class
+/DifficultyView.class
 /View.class
+/Main.class
+/rogue.png
