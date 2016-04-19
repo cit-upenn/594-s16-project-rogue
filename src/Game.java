@@ -55,7 +55,7 @@ public class Game extends Observable {
         
         // initialize dungeon, monster, rogue
         dungeon = new Dungeon(board);
-        monster = new Monster(this);
+        monster = new IceMonster(this);
         rogue = new Rogue(this);
     }
     
