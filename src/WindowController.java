@@ -4,17 +4,17 @@
  * @author zhiyuanli
  *
  */
-public class GameController {
+public class WindowController {
 
-	private GameFrame gameFrame;
-	private MapFrame mapFrame;
+	private MainMenu gameFrame;
+	private MapMenu mapFrame;
 
 	/**
 	 * Constructor
 	 */
-	public GameController() {
-		gameFrame = new GameFrame(this);
-		mapFrame = new MapFrame(this);
+	public WindowController() {
+		gameFrame = new MainMenu(this);
+		mapFrame = new MapMenu(this);
 
 		gameFrame.setVisible(true);
 		mapFrame.setVisible(false);
@@ -40,7 +40,7 @@ public class GameController {
 	}
 
 	public static void main(String[] args) {
-		GameController gameController = new GameController();
+		WindowController gameController = new WindowController();
 	}
 
 }

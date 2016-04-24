@@ -10,7 +10,7 @@ import javax.swing.*;
  *
  */
 @SuppressWarnings("serial")
-public class View extends JPanel implements Observer {
+public class GameView extends JPanel implements Observer {
 
 	/**
 	 * Instance variables for View
@@ -22,14 +22,11 @@ public class View extends JPanel implements Observer {
 	private final static int size = 25;
 	private final static BasicStroke stroke = new BasicStroke(2.0f);
 
-//	public View () {
-//		
-//	}
 	/**
 	 * Constructor for View
 	 * @param model
 	 */
-	public View(Game model) {
+	public GameView(Game model) {
 		this.model = model;
 		this.board = model.getDungeon().getBoard();
 	}

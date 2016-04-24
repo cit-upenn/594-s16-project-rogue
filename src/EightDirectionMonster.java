@@ -1,17 +1,17 @@
 import java.util.*;
 
 /**
- * NaiveMonster, can only move to 4 direction: East, South, West, North
+ * SecondNaiveMonster, can have 8 directions: E, S, N, W, WN, NE, ES, SW
  * @author woody
  *
  */
-public class NaiveMonster extends Monster {
+public class EightDirectionMonster extends Monster {
 
 	/**
 	 * Constructor for NaiveMonster.
 	 * @param game
 	 */
-	public NaiveMonster(Game game) {
+	public EightDirectionMonster(Game game) {
 		super(game);
 	}
 
@@ -28,6 +28,10 @@ public class NaiveMonster extends Monster {
         potentialMoves.put(new Site(monster.getX(), monster.getY() - 1), 0);
         potentialMoves.put(new Site(monster.getX() + 1, monster.getY()), 0);
         potentialMoves.put(new Site(monster.getX(), monster.getY() + 1), 0); 
+        potentialMoves.put(new Site(monster.getX() - 1, monster.getY() - 1), 0);
+        potentialMoves.put(new Site(monster.getX() - 1, monster.getY() + 1), 0);
+        potentialMoves.put(new Site(monster.getX() + 1, monster.getY() - 1), 0);
+        potentialMoves.put(new Site(monster.getX() + 1, monster.getY() + 1), 0);
         for (Site s: potentialMoves.keySet()) {
         	if (dungeon.isLegalMove(monster, s)) {
         		potentialMoves.put(s, s.manhattanTo(rogue));
@@ -53,6 +57,4 @@ public class NaiveMonster extends Monster {
         	return MapSort.sortByValue(potentialMoves, 1).keySet().iterator().next();
         }  
 	}
-
-
 }

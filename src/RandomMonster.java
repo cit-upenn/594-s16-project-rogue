@@ -1,7 +1,7 @@
 
-public class IceMonster extends Monster {
+public class RandomMonster extends Monster {
 	
-    public IceMonster(Game game) {
+    public RandomMonster(Game game) {
     	super(game);
 	}
 

@@ -3,53 +3,55 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
- * This class represents the game lobby, which has 3 difficulty modes: Easy,
- * Medium, Hard.
- *
- * @author SHANG
+ * This class represents the easy game mode.
  * 
+ * @author zhiyuanli
+ *
  */
 @SuppressWarnings("serial")
-public class GameFrame extends JFrame {
+public class MapMenu extends JFrame {
 
 	/**
 	 * Game controller
 	 */
-	private GameController controller;
+	private WindowController controller;
 
 	/**
 	 * GUI variables
 	 */
 	private JPanel top, left, right, bottom, center;
-	private JButton easy, medium, hard;
-	private JLabel gameView;
+	private JButton map1, map2, map3, back;
+	private MapView mapView;
 
 	/**
 	 * GUI constants
 	 */
 	private static final Border WHITE_BORDER = new LineBorder(Color.WHITE, 2);
 	private static final Color BLACK = new Color(0, 0, 0);
-	private static final Color MEDIUM_ORCHID = new Color(186, 85, 211);
+	private static final Color TEAL = new Color(0, 128, 128);
+
+	/**
+	 * difficulty level
+	 */
+	private String level;
 
 	/**
 	 * constructor
 	 */
-	public GameFrame(GameController controller) {
+	public MapMenu(WindowController controller) {
 		this.controller = controller;
+
 		display();
 	}
 
@@ -63,20 +65,36 @@ public class GameFrame extends JFrame {
 	}
 
 	/**
-	 * helper method to construct the lobby
+	 * @return the level
+	 */
+	public String getLevel() {
+		return level;
+	}
+
+	/**
+	 * @param level
+	 *            the level to set
+	 */
+	public void setLevel(String level) {
+		this.level = level;
+		addImage("src/rogue.png");
+	}
+
+	/**
+	 * helper method to construct the view
 	 */
 	private void display() {
-		setTitle("Lobby");
-		layOutComponents();
-		attachListenersToComponents();
+		setTitle("Map");
 		setPreferredSize(new Dimension(600, 400));
 		setLocation();
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		layOutComponents();
+		attachListenersToComponents();
 	}
 
 	/**
-	 * set the location of lobby window
+	 * set the location of map window
 	 */
 	private void setLocation() {
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -88,15 +106,14 @@ public class GameFrame extends JFrame {
 	/**
 	 * helper method to add image to the view
 	 */
-	private void addImage() {
+	private void addImage(String imagePath) {
 
 		// adjust image size and add to view
-		ImageIcon image = new ImageIcon(getClass().getResource("rogue.png"));
-		Image img = image.getImage();
-		Image newImg = img.getScaledInstance(600, 360, java.awt.Image.SCALE_SMOOTH);
-		ImageIcon newImage = new ImageIcon(newImg);
-		gameView = new JLabel(newImage);
-		center.add(gameView);
+		mapView = new MapView();
+		mapView.setPreferredSize(new Dimension(600, 360));
+		mapView.setImage(imagePath);
+		mapView.repaint();
+		center.add(mapView);
 	}
 
 	/**
@@ -106,7 +123,6 @@ public class GameFrame extends JFrame {
 		setLayout(new BorderLayout());
 		addPanels();
 		addSubPanels();
-		addImage();
 	}
 
 	/**
@@ -134,20 +150,23 @@ public class GameFrame extends JFrame {
 	private void addSubPanels() {
 
 		// set buttom panel layout
-		bottom.setLayout(new GridLayout(1, 3));
+		bottom.setLayout(new GridLayout(1, 4));
 		bottom.setBackground(BLACK);
 
 		// add 3 option buttons
-		easy = new JButton("Easy");
-		setButton(easy);
-		bottom.add(easy);
-		medium = new JButton("Medium");
-		medium.setForeground(Color.white);
-		setButton(medium);
-		bottom.add(medium);
-		hard = new JButton("Hard");
-		setButton(hard);
-		bottom.add(hard);
+		map1 = new JButton("Map 1");
+		setButton(map1);
+		bottom.add(map1);
+		map2 = new JButton("Map 2");
+		map2.setForeground(Color.white);
+		setButton(map2);
+		bottom.add(map2);
+		map3 = new JButton("Map 3");
+		setButton(map3);
+		bottom.add(map3);
+		back = new JButton("Back");
+		setButton(back);
+		bottom.add(back);
 
 	}
 
@@ -159,7 +178,7 @@ public class GameFrame extends JFrame {
 	 */
 	private void setButton(JButton button) {
 		button.setForeground(Color.white);
-		button.setBackground(MEDIUM_ORCHID);
+		button.setBackground(TEAL);
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
@@ -173,36 +192,14 @@ public class GameFrame extends JFrame {
 	private void attachListenersToComponents() {
 
 		// add listeners to buttons
-		easy.addActionListener(new ActionListener() {
+		back.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.showMapFrame("easy");
-
-			}
-
-		});
-
-		medium.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controller.showMapFrame("medium");
-
-			}
-
-		});
-
-		hard.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controller.showMapFrame("hard");
-
+				controller.showGameFrame();
 			}
 
 		});
 
 	}
-
 }
