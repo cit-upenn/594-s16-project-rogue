@@ -57,10 +57,10 @@ public abstract class Controller extends JFrame {
 	 * set the location of the frame
 	 */
 	public void setLocation() {
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() / 2 - this.getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() / 2 - this.getHeight()) / 2);
-		setLocation(x, y);
+//		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+//		int x = (int) ((dimension.getWidth() / 2 - this.getWidth()) / 2);
+//		int y = (int) ((dimension.getHeight() / 2 - this.getHeight()) / 2);
+		setLocation(100, 100);
 	}
 
 }
