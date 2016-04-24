@@ -3,6 +3,7 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -154,6 +155,28 @@ public class MapMenu extends Controller {
 		setButton(back);
 		bottom.add(back);
 
+	}
+	
+	@Override
+	public void setButton(JButton button) {
+		button.setForeground(Color.white);
+		button.setBackground(MEDIUM_ORCHID);
+		button.setOpaque(true);
+		button.setBorderPainted(true);
+		button.setBorder(WHITE_BORDER);
+		button.setFont(new Font("Arial", Font.PLAIN, 25));
+		
+		switch(level) {
+		case "easy":
+			button.setBackground(CRIMSON);	
+			break;
+		case "medium":
+			button.setBackground(SIENNA);
+			break;
+		case "hard":
+			button.setBackground(TEAL);
+			break;
+		}
 	}
 
 	@Override

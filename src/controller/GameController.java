@@ -1,6 +1,8 @@
 package controller;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,6 +93,16 @@ public class GameController extends Controller {
 		setButton(back);
 		bottom.add(back);
 
+	}
+	
+	@Override
+	public void setButton(JButton button) {
+		button.setForeground(Color.white);
+		button.setBackground(INDIGO);
+		button.setOpaque(true);
+		button.setBorderPainted(true);
+		button.setBorder(WHITE_BORDER);
+		button.setFont(new Font("Arial", Font.PLAIN, 25));
 	}
 
 	@Override

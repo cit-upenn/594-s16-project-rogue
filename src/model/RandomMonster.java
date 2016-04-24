@@ -24,6 +24,7 @@ public class RandomMonster extends Monster {
                 }
             }
         }
+        
         return move;
 	}
 

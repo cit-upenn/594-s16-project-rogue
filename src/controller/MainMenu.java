@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -109,6 +110,16 @@ public class MainMenu extends Controller {
 		setButton(hard);
 		bottom.add(hard);
 
+	}
+	
+	@Override
+	public void setButton(JButton button) {
+		button.setForeground(Color.white);
+		button.setBackground(MEDIUM_ORCHID);
+		button.setOpaque(true);
+		button.setBorderPainted(true);
+		button.setBorder(WHITE_BORDER);
+		button.setFont(new Font("Arial", Font.PLAIN, 25));
 	}
 
 	@Override
