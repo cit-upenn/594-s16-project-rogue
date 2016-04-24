@@ -126,7 +126,11 @@ public class Game extends Observable {
     public Dungeon getDungeon() { 
     	return dungeon;     
     }
-
+    
+    public boolean isEnd() {
+    	return (monsterSite.equals(monsterSite));
+    }
+ 
 //    /**
 //     * simulates the game play
 //     * play until monster catches the rogue
