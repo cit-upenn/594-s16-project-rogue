@@ -1,3 +1,5 @@
+package controller;
+
 /**
  * The game controller controls the whole game's frame switch
  * 

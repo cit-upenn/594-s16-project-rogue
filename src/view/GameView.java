@@ -1,7 +1,11 @@
+package view;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
+
+import model.Game;
+import model.Site;
 
 
 /**
