@@ -17,7 +17,7 @@ public class Dungeon {
      * @param board the board info from input file
      */
     public Dungeon(char[][] board) {
-    	// TODO
+    	// initialize instance variables
         this.size = board.length;
         this.board = board;
         this.isRoom = new boolean[size][size];

@@ -22,39 +22,34 @@ public class FourDirectionMonster extends Monster {
 		// get current sites for monster and rogue
         Site monster = game.getMonsterSite();
         Site rogue = game.getRogueSite();
-        Site move = null;
         
-        // get potential move to an hashmap
-        Hashtable<Site, Integer> potentialMoves = new Hashtable<Site, Integer>();
-        potentialMoves.put(new Site(monster.getX() - 1, monster.getY()), 0);
-        potentialMoves.put(new Site(monster.getX(), monster.getY() - 1), 0);
-        potentialMoves.put(new Site(monster.getX() + 1, monster.getY()), 0);
-        potentialMoves.put(new Site(monster.getX(), monster.getY() + 1), 0); 
-        for (Site s: potentialMoves.keySet()) {
-        	if (dungeon.isLegalMove(monster, s)) {
-        		potentialMoves.put(s, s.manhattanTo(rogue));
-        	} else {
-        		potentialMoves.remove(s);
-        	}
-        }
-        // compute the min abs distance of potential move to rogue
-        if (potentialMoves.isEmpty()) {
-        	// do random move take random legal move
-            int n = 0;
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
-                    Site site = new Site(i, j);
-                    if (dungeon.isLegalMove(monster, site)) {
-                        n++;
-                        if (Math.random() <= 1.0 / n) move = site;
-                    }
-                }
-            }
-            return move;
-        } else {
-        	return MapSort.sortByValue(potentialMoves, 1).keySet().iterator().next();
-        }  
-	}
+        // get 4 adjacent sites
+        int x = monster.getX();
+        int y = monster.getY();
+        
+        Site east = new Site(x + 1, y);
+        Site west = new Site(x - 1, y);
+        Site north = new Site(x, y - 1);
+        Site south = new Site(x, y + 1);
+        
+        // create a priority queue to choose next site to move
+        PriorityQueue<Site> pq = new PriorityQueue<Site>(new Comparator<Site>() {
 
+			@Override
+			public int compare(Site s1, Site s2) {
+				return s1.manhattanTo(rogue) - s2.manhattanTo(rogue);
+			}
+        	
+		});
+        
+        // add 4 adjacent sites to priority queue if legal move
+        if (dungeon.isLegalMove(monster, east)) pq.offer(east);
+        if (dungeon.isLegalMove(monster, west)) pq.offer(west);
+        if (dungeon.isLegalMove(monster, north)) pq.offer(north);
+        if (dungeon.isLegalMove(monster, south)) pq.offer(south);
+        
+        // return the site with minimum distance to rogue
+        return pq.poll();
+	}
 
 }
