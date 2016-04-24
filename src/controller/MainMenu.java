@@ -1,43 +1,41 @@
 package controller;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
- * This class represents the game lobby, which has 3 difficulty modes: Easy,
+ * This class represents the game lobby(main menu), which has 3 difficulty modes: Easy,
  * Medium, Hard.
  *
  * @author SHANG
  * 
  */
 @SuppressWarnings("serial")
-public class MainMenu extends JFrame {
+public class MainMenu extends Controller {
 
 	/**
 	 * Game controller
 	 */
-	private WindowController controller;
+	private WindowSwitcher switcher;
 
 	/**
 	 * GUI variables
 	 */
 	private JPanel top, left, right, bottom, center;
 	private JButton easy, medium, hard;
-	private JLabel gameView;
+	private JLabel lobbyView;
 
 	/**
 	 * GUI constants
@@ -49,65 +47,36 @@ public class MainMenu extends JFrame {
 	/**
 	 * constructor
 	 */
-	public MainMenu(WindowController controller) {
-		this.controller = controller;
-		display();
+	public MainMenu(WindowSwitcher controller) {
+		this.switcher = controller;
+	}
+	
+	@Override
+	public void enable() {
+		display("Lobby", 600, 400);
+		setVisible(true);
 	}
 
-	/**
-	 * set visible of this frame
-	 * 
-	 * @param visible
-	 */
-	public void setFrameVisible(boolean visible) {
-		setVisible(visible);
-	}
-
-	/**
-	 * helper method to construct the lobby
-	 */
-	private void display() {
-		setTitle("Lobby");
-		layOutComponents();
-		attachListenersToComponents();
-		setPreferredSize(new Dimension(600, 400));
-		setLocation();
-		pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-
-	/**
-	 * set the location of lobby window
-	 */
-	private void setLocation() {
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() / 2 - this.getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() / 2 - this.getHeight()) / 2);
-		setLocation(x, y);
-	}
-
-	/**
-	 * helper method to add image to the view
-	 */
-	private void addImage() {
-
-		// adjust image size and add to view
-		ImageIcon image = new ImageIcon(getClass().getResource("rogue.png"));
-		Image img = image.getImage();
-		Image newImg = img.getScaledInstance(600, 360, java.awt.Image.SCALE_SMOOTH);
-		ImageIcon newImage = new ImageIcon(newImg);
-		gameView = new JLabel(newImage);
-		center.add(gameView);
-	}
-
-	/**
-	 * helper method to set the layout
-	 */
-	private void layOutComponents() {
+	@Override
+	public void layOutComponents() {
 		setLayout(new BorderLayout());
 		addPanels();
 		addSubPanels();
 		addImage();
+	}
+
+	/**
+	 * helper method to add image to the center of main menu layout
+	 */
+	private void addImage() {
+
+		// adjust image size and add to view
+		ImageIcon image = new ImageIcon("rogue.png");
+		Image img = image.getImage();
+		Image newImg = img.getScaledInstance(600, 360, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newImage = new ImageIcon(newImg);
+		lobbyView = new JLabel(newImage);
+		center.add(lobbyView);
 	}
 
 	/**
@@ -168,17 +137,15 @@ public class MainMenu extends JFrame {
 
 	}
 
-	/**
-	 * attach action listeners to buttons
-	 */
-	private void attachListenersToComponents() {
+	@Override
+	public void attachListenersToComponents() {
 
 		// add listeners to buttons
 		easy.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.showMapFrame("easy");
+				switcher.showMapMenu("easy");
 
 			}
 
@@ -188,7 +155,7 @@ public class MainMenu extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.showMapFrame("medium");
+				switcher.showMapMenu("medium");
 
 			}
 
@@ -198,7 +165,7 @@ public class MainMenu extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.showMapFrame("hard");
+				switcher.showMapMenu("hard");
 
 			}
 

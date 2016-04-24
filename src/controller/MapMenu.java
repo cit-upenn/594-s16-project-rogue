@@ -1,15 +1,14 @@
 package controller;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -17,18 +16,18 @@ import javax.swing.border.LineBorder;
 import view.MapView;
 
 /**
- * This class represents the easy game mode.
+ * This class represents the easy/medium/hard mode map selection menu.
  * 
  * @author zhiyuanli
  *
  */
 @SuppressWarnings("serial")
-public class MapMenu extends JFrame {
+public class MapMenu extends Controller {
 
 	/**
 	 * Game controller
 	 */
-	private WindowController controller;
+	private WindowSwitcher switcher;
 
 	/**
 	 * GUI variables
@@ -36,6 +35,8 @@ public class MapMenu extends JFrame {
 	private JPanel top, left, right, bottom, center;
 	private JButton map1, map2, map3, back;
 	private MapView mapView;
+	private String[] mapFiles;
+	private String imageFile;
 
 	/**
 	 * GUI constants
@@ -52,19 +53,15 @@ public class MapMenu extends JFrame {
 	/**
 	 * constructor
 	 */
-	public MapMenu(WindowController controller) {
-		this.controller = controller;
+	public MapMenu(WindowSwitcher controller) {
+		this.switcher = controller;
 
-		display();
 	}
 
-	/**
-	 * set visible of this frame
-	 * 
-	 * @param visible
-	 */
-	public void setFrameVisible(boolean visible) {
-		setVisible(visible);
+	@Override
+	public void enable() {
+		display("Map Menu", 600, 400);
+		setVisible(true);
 	}
 
 	/**
@@ -80,34 +77,39 @@ public class MapMenu extends JFrame {
 	 */
 	public void setLevel(String level) {
 		this.level = level;
-		addImage("src/rogue.png");
+		// TODO: change each level background image
+		switch (level) {
+		case "easy":
+			imageFile = "rogue.png";
+			mapFiles = new String[] { "dungeonA.txt", "dungeonB.txt", "dungeonC.txt" };
+			break;
+
+		case "medium":
+			imageFile = "rogue.png";
+			mapFiles = new String[] { "dungeonF.txt", "dungeonG.txt", "dungeonH.txt" };
+			break;
+
+		case "hard":
+			imageFile = "rogue.png";
+			mapFiles = new String[] { "dungeonI.txt", "dungeonJ.txt", "dungeonM.txt" };
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	@Override
+	public void layOutComponents() {
+		setLayout(new BorderLayout());
+		addPanels();
+		addSubPanels();
+		addImage(imageFile);
 	}
 
 	/**
-	 * helper method to construct the view
-	 */
-	private void display() {
-		setTitle("Map");
-		setPreferredSize(new Dimension(600, 400));
-		setLocation();
-		pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		layOutComponents();
-		attachListenersToComponents();
-	}
-
-	/**
-	 * set the location of map window
-	 */
-	private void setLocation() {
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() / 2 - this.getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() / 2 - this.getHeight()) / 2);
-		setLocation(x, y);
-	}
-
-	/**
-	 * helper method to add image to the view
+	 * helper method to add image to the the center of the map menu layout
 	 */
 	private void addImage(String imagePath) {
 
@@ -117,15 +119,6 @@ public class MapMenu extends JFrame {
 		mapView.setImage(imagePath);
 		mapView.repaint();
 		center.add(mapView);
-	}
-
-	/**
-	 * helper method to set the layout
-	 */
-	private void layOutComponents() {
-		setLayout(new BorderLayout());
-		addPanels();
-		addSubPanels();
 	}
 
 	/**
@@ -189,17 +182,35 @@ public class MapMenu extends JFrame {
 
 	}
 
-	/**
-	 * attach action listeners to buttons
-	 */
-	private void attachListenersToComponents() {
+	@Override
+	public void attachListenersToComponents() {
 
 		// add listeners to buttons
-		back.addActionListener(new ActionListener() {
-
+		map1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.showGameFrame();
+				switcher.showGame(mapFiles[0]);
+			}
+		});
+
+		map2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switcher.showGame(mapFiles[1]);
+			}
+		});
+
+		map3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switcher.showGame(mapFiles[2]);
+			}
+		});
+
+		back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switcher.showMainMenu();
 			}
 
 		});

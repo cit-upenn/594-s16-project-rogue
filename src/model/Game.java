@@ -44,6 +44,7 @@ public class Game extends Observable {
                 if (board[i][j] >= 'A' && board[i][j] <= 'Z') {
                     MONSTER = board[i][j];
                     board[i][j] = '.';
+                    System.out.println("monster@ " + i  +  "," + j);
                     monsterSite = new Site(i, j);
                 }
 
@@ -51,6 +52,7 @@ public class Game extends Observable {
                 if (board[i][j] == ROGUE) {
                     board[i][j] = '.';
                     rogueSite  = new Site(i, j);
+                    System.out.println("rogue@ " + i  +  "," + j);
                 }
             }
         }
