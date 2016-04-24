@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -12,8 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
 /**
  * This class represents the game lobby(main menu), which has 3 difficulty modes: Easy,
@@ -36,13 +33,6 @@ public class MainMenu extends Controller {
 	private JPanel top, left, right, bottom, center;
 	private JButton easy, medium, hard;
 	private JLabel lobbyView;
-
-	/**
-	 * GUI constants
-	 */
-	private static final Border WHITE_BORDER = new LineBorder(Color.WHITE, 2);
-	private static final Color BLACK = new Color(0, 0, 0);
-	private static final Color MEDIUM_ORCHID = new Color(186, 85, 211);
 
 	/**
 	 * constructor
@@ -118,22 +108,6 @@ public class MainMenu extends Controller {
 		hard = new JButton("Hard");
 		setButton(hard);
 		bottom.add(hard);
-
-	}
-
-	/**
-	 * set button attributes
-	 * 
-	 * @param button
-	 *            the button to be set
-	 */
-	private void setButton(JButton button) {
-		button.setForeground(Color.white);
-		button.setBackground(MEDIUM_ORCHID);
-		button.setOpaque(true);
-		button.setBorderPainted(true);
-		button.setBorder(WHITE_BORDER);
-		button.setFont(new Font("Arial", Font.PLAIN, 25));
 
 	}
 

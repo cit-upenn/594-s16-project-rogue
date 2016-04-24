@@ -3,15 +3,12 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
 import view.MapView;
 
@@ -37,13 +34,6 @@ public class MapMenu extends Controller {
 	private MapView mapView;
 	private String[] mapFiles;
 	private String imageFile;
-
-	/**
-	 * GUI constants
-	 */
-	private static final Border WHITE_BORDER = new LineBorder(Color.WHITE, 2);
-	private static final Color BLACK = new Color(0, 0, 0);
-	private static final Color TEAL = new Color(0, 128, 128);
 
 	/**
 	 * difficulty level
@@ -163,22 +153,6 @@ public class MapMenu extends Controller {
 		back = new JButton("Back");
 		setButton(back);
 		bottom.add(back);
-
-	}
-
-	/**
-	 * set button attributes
-	 * 
-	 * @param button
-	 *            the button to be set
-	 */
-	private void setButton(JButton button) {
-		button.setForeground(Color.white);
-		button.setBackground(TEAL);
-		button.setOpaque(true);
-		button.setBorderPainted(true);
-		button.setBorder(WHITE_BORDER);
-		button.setFont(new Font("Arial", Font.PLAIN, 25));
 
 	}
 

@@ -1,8 +1,9 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -26,7 +27,8 @@ public class GameController extends Controller {
 	 * GUI variables
 	 */
 	private JPanel top, left, right, bottom, center;
-
+	private JButton back;
+	
 	/**
 	 * constructor
 	 * 
@@ -80,14 +82,27 @@ public class GameController extends Controller {
 	 * helper method to add sub-panels within the bottom panel
 	 */
 	private void addSubPanels() {
+		// set buttom panel layout
+		bottom.setLayout(new GridLayout(1, 4));
+		bottom.setBackground(BLACK);
 
+		// add 3 option buttons
+		back = new JButton("Back");
+		setButton(back);
+		bottom.add(back);
 
 	}
 
 	@Override
 	public void attachListenersToComponents() {
-		// TODO Auto-generated method stub
 		
+		back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switcher.showMainMenu();
+			}
+
+		});		
 
 	}
 

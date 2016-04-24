@@ -1,9 +1,13 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.Font;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 /**
  * super class of all controller of the game frame: MainMenu, MapMenu, and
@@ -14,11 +18,19 @@ import javax.swing.JFrame;
  */
 @SuppressWarnings("serial")
 public abstract class Controller extends JFrame {
-
+	
+	/**
+	 * GUI constants
+	 */
+	public static final Border WHITE_BORDER = new LineBorder(Color.WHITE, 2);
+	public static final Color BLACK = new Color(0, 0, 0);
+	public static final Color MEDIUM_ORCHID = new Color(186, 85, 211);
+	public static final Color CRIMSON = new Color(220, 20, 60);
+	public static final Color SIENNA = new Color(160, 82, 45);
+	public static final Color TEAL = new Color(0, 128, 128);
+	
 	/**
 	 * enable the frame
-	 * 
-	 * 
 	 */
 	public abstract void enable();
 
@@ -47,6 +59,22 @@ public abstract class Controller extends JFrame {
 	 * set the lay out
 	 */
 	public abstract void layOutComponents();
+	
+	/**
+	 * set button attributes
+	 * 
+	 * @param button
+	 *            the button to be set
+	 */
+	public void setButton(JButton button) {
+		button.setForeground(Color.white);
+		button.setBackground(TEAL);
+		button.setOpaque(true);
+		button.setBorderPainted(true);
+		button.setBorder(WHITE_BORDER);
+		button.setFont(new Font("Arial", Font.PLAIN, 25));
+
+	}
 
 	/**
 	 * attach action listeners
