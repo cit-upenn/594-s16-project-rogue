@@ -23,18 +23,6 @@ public class EightDirectionMonster extends Monster {
         Site monster = game.getMonsterSite();
         Site rogue = game.getRogueSite();
         
-        // get potential move to an hashmap
-        Hashtable<Site, Integer> potentialMoves = new Hashtable<Site, Integer>();
-        potentialMoves.put(new Site(monster.getX() - 1, monster.getY()), 0);
-        potentialMoves.put(new Site(monster.getX(), monster.getY() - 1), 0);
-        potentialMoves.put(new Site(monster.getX() + 1, monster.getY()), 0);
-        potentialMoves.put(new Site(monster.getX(), monster.getY() + 1), 0); 
-        potentialMoves.put(new Site(monster.getX() - 1, monster.getY() - 1), 0);
-        potentialMoves.put(new Site(monster.getX() - 1, monster.getY() + 1), 0);
-        potentialMoves.put(new Site(monster.getX() + 1, monster.getY() - 1), 0);
-        potentialMoves.put(new Site(monster.getX() + 1, monster.getY() + 1), 0);
-
-        
         // get 8 adjacent sites
         int x = monster.getX();
         int y = monster.getY();
@@ -63,10 +51,10 @@ public class EightDirectionMonster extends Monster {
         if (dungeon.isLegalMove(monster, west)) pq.offer(west);
         if (dungeon.isLegalMove(monster, north)) pq.offer(north);
         if (dungeon.isLegalMove(monster, south)) pq.offer(south);
-        if (dungeon.isLegalMove(monster, east)) pq.offer(northeast);
-        if (dungeon.isLegalMove(monster, west)) pq.offer(northwest);
-        if (dungeon.isLegalMove(monster, north)) pq.offer(southeast);
-        if (dungeon.isLegalMove(monster, south)) pq.offer(southwest);
+        if (dungeon.isLegalMove(monster, northeast)) pq.offer(northeast);
+        if (dungeon.isLegalMove(monster, northwest)) pq.offer(northwest);
+        if (dungeon.isLegalMove(monster, southeast)) pq.offer(southeast);
+        if (dungeon.isLegalMove(monster, southwest)) pq.offer(southwest);
         
         // return the site with minimum distance to rogue
         return pq.poll();
