@@ -59,7 +59,7 @@ public class Game extends Observable {
         
         // initialize dungeon, monster, rogue
         dungeon = new Dungeon(board);
-        monster = new RandomMonster(this);
+        monster = new FourDirectionMonster(this);
         rogue = new Rogue(this);
     }
     
@@ -100,7 +100,9 @@ public class Game extends Observable {
      * @return the position of rogue
      */
     public void setRogueSite(Site rogueSite) { 
-    	this.rogueSite = rogueSite;   
+    	this.rogueSite = rogueSite;
+    	setChanged();
+    	notifyObservers();
     }
     
     /**
@@ -109,6 +111,8 @@ public class Game extends Observable {
      */
     public void setMonsterSite(Site monsterSite) { 
     	this.monsterSite = monsterSite; 
+    	setChanged();
+    	notifyObservers();
     }
 
     /**

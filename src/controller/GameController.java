@@ -6,11 +6,14 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import model.Game;
+import model.Site;
 import view.GameView;
 
 /**
@@ -20,9 +23,9 @@ import view.GameView;
  *
  */
 @SuppressWarnings("serial")
-public class GameController extends Controller {
+public class GameController extends Controller implements KeyListener {
 	private WindowSwitcher switcher;
-	private Game model;
+	private Game game;
 	private GameView view;
 
 	/**
@@ -30,7 +33,7 @@ public class GameController extends Controller {
 	 */
 	private JPanel top, left, right, bottom, center;
 	private JButton back;
-	
+
 	/**
 	 * constructor
 	 * 
@@ -44,6 +47,8 @@ public class GameController extends Controller {
 	public void enable() {
 
 		display("Game", 600, 400);
+		addKeyListener(this);
+		setFocusable(true);
 		setVisible(true);
 		// add the map view
 		view.repaint();
@@ -54,8 +59,9 @@ public class GameController extends Controller {
 	 * load the map of the game
 	 */
 	public void setGameMap(String Mapname) {
-		model = new Game(Mapname);
-		view = new GameView(model);
+		game = new Game(Mapname);
+		view = new GameView(game);
+		game.addObserver(view);
 	}
 
 	@Override
@@ -94,7 +100,7 @@ public class GameController extends Controller {
 		bottom.add(back);
 
 	}
-	
+
 	@Override
 	public void setButton(JButton button) {
 		button.setForeground(Color.white);
@@ -107,14 +113,62 @@ public class GameController extends Controller {
 
 	@Override
 	public void attachListenersToComponents() {
-		
+
 		back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switcher.showMainMenu();
 			}
 
-		});		
+		});
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			System.out.println("key pressed");
+			Site current = game.getRogueSite();
+			Site next = new Site(current.getX() - 1, current.getY());
+			if (game.getDungeon().isLegalMove(current, next)) {
+				game.setRogueSite(next);
+				game.setMonsterSite(game.getMonster().move());
+				
+			}
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			Site current = game.getRogueSite();
+			Site next = new Site(current.getX() + 1, current.getY());
+			if (game.getDungeon().isLegalMove(current, next)) {
+				game.setRogueSite(next);
+				game.setMonsterSite(game.getMonster().move());
+			}
+		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			Site current = game.getRogueSite();
+			Site next = new Site(current.getX(), current.getY() + 1);
+			if (game.getDungeon().isLegalMove(current, next)) {
+				game.setRogueSite(next);
+				game.setMonsterSite(game.getMonster().move());
+			}
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			Site current = game.getRogueSite();
+			Site next = new Site(current.getX(), current.getY() - 1);
+			if (game.getDungeon().isLegalMove(current, next)) {
+				game.setRogueSite(next);
+				game.setMonsterSite(game.getMonster().move());
+			}
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 
 	}
 
