@@ -103,7 +103,6 @@ public class MainMenu extends Controller {
 		setButton(easy);
 		bottom.add(easy);
 		medium = new JButton("Medium");
-		medium.setForeground(Color.white);
 		setButton(medium);
 		bottom.add(medium);
 		hard = new JButton("Hard");
@@ -119,7 +118,7 @@ public class MainMenu extends Controller {
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
-		button.setFont(new Font("Arial", Font.PLAIN, 25));
+		button.setFont(new Font("Book Antiqua",Font.BOLD,14));
 	}
 
 	@Override
