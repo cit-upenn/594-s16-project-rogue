@@ -128,32 +128,26 @@ public class GameController extends Controller implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
+		if (e.getKeyChar() == 'w') {
 			System.out.println("key pressed");
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX() - 1, current.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				game.nextStep(next);
 			}
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+		} else if (e.getKeyChar() == 's') {
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX() + 1, current.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				game.nextStep(next);
 			}
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+		} else if (e.getKeyChar() == 'd') {
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX(), current.getY() + 1);
 			if (game.getDungeon().isLegalMove(current, next)) {
 				game.nextStep(next);
 			}
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+		} else if (e.getKeyChar() == 'a') {
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX(), current.getY() - 1);
 			if (game.getDungeon().isLegalMove(current, next)) {
@@ -165,6 +159,14 @@ public class GameController extends Controller implements KeyListener {
 			removeKeyListener(this);
 			JOptionPane.showMessageDialog(getParent(), "HaHa, ni ge sb");
 		}
+		
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
