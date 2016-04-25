@@ -59,7 +59,7 @@ public class Game extends Observable {
         
         // initialize dungeon, monster, rogue
         dungeon = new Dungeon(board);
-        monster = new FourDirectionMonster(this);
+        monster = new RandomMonster(this);
         rogue = new Rogue(this);
     }
     
@@ -132,7 +132,14 @@ public class Game extends Observable {
     }
     
     public boolean isEnd() {
-    	return (monsterSite.equals(monsterSite));
+    	return (rogueSite.equals(monsterSite));
+    }
+    
+    public void nextStep(Site next) {
+    	setRogueSite(next);
+    	if (!isEnd()) {
+			setMonsterSite(getMonster().move());
+		}
     }
  
 //    /**

@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.Game;
@@ -138,31 +139,31 @@ public class GameController extends Controller implements KeyListener {
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX() - 1, current.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
-				game.setRogueSite(next);
-				game.setMonsterSite(game.getMonster().move());
-				
+				game.nextStep(next);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX() + 1, current.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
-				game.setRogueSite(next);
-				game.setMonsterSite(game.getMonster().move());
+				game.nextStep(next);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX(), current.getY() + 1);
 			if (game.getDungeon().isLegalMove(current, next)) {
-				game.setRogueSite(next);
-				game.setMonsterSite(game.getMonster().move());
+				game.nextStep(next);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX(), current.getY() - 1);
 			if (game.getDungeon().isLegalMove(current, next)) {
-				game.setRogueSite(next);
-				game.setMonsterSite(game.getMonster().move());
+				game.nextStep(next);
 			}
+		}
+
+		if (game.isEnd()) {
+			removeKeyListener(this);
+			JOptionPane.showMessageDialog(getParent(), "HaHa, ni ge sb");
 		}
 	}
 

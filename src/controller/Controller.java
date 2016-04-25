@@ -21,7 +21,7 @@ public abstract class Controller extends JFrame {
 	/**
 	 * GUI constants
 	 */
-	public static final Border WHITE_BORDER = new LineBorder(Color.WHITE, 2);
+	public static final Border WHITE_BORDER = new LineBorder(Color.WHITE, 3);
 	public static final Color BLACK = new Color(0, 0, 0);
 	public static final Color MEDIUM_ORCHID = new Color(186, 85, 211);
 	public static final Color CRIMSON = new Color(220, 20, 60);

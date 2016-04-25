@@ -160,7 +160,7 @@ public class MapMenu extends Controller {
 	@Override
 	public void setButton(JButton button) {
 		button.setForeground(Color.white);
-		button.setBackground(MEDIUM_ORCHID);
+//		button.setBackground(MEDIUM_ORCHID);
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
