@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -34,6 +36,8 @@ public class GameController extends Controller implements KeyListener {
 	 */
 	private JPanel top, left, right, bottom, center;
 	private JButton back;
+	private Timer t;
+	private TimerTask tt;
 
 	/**
 	 * constructor
@@ -42,6 +46,7 @@ public class GameController extends Controller implements KeyListener {
 	 */
 	public GameController(WindowSwitcher switcher) {
 		this.switcher = switcher;
+		this.t = new Timer();
 	}
 
 	@Override
@@ -128,28 +133,52 @@ public class GameController extends Controller implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getKeyChar() == 'w') {
-			System.out.println("key pressed");
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if (tt != null) {
+			return;
+		}
+		tt = new TimerTask() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+			}
+		};
+		t.scheduleAtFixedRate(tt, 0, 500);
+
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			System.out.println("up key pressed");
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX() - 1, current.getY());
+			System.out.println("up: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				game.nextStep(next);
 			}
-		} else if (e.getKeyChar() == 's') {
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			System.out.println("down key pressed");
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX() + 1, current.getY());
+			System.out.println("down: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				game.nextStep(next);
 			}
-		} else if (e.getKeyChar() == 'd') {
+		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			System.out.println("right key pressed");
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX(), current.getY() + 1);
+			System.out.println("right: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				game.nextStep(next);
 			}
-		} else if (e.getKeyChar() == 'a') {
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			System.out.println("left key pressed");
 			Site current = game.getRogueSite();
 			Site next = new Site(current.getX(), current.getY() - 1);
+			System.out.println("left: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				game.nextStep(next);
 			}
@@ -159,20 +188,14 @@ public class GameController extends Controller implements KeyListener {
 			removeKeyListener(this);
 			JOptionPane.showMessageDialog(getParent(), "HaHa, ni ge sb");
 		}
-		
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		if (tt != null) {
+			tt.cancel();
+			tt = null;
+		}
 	}
-
 }
