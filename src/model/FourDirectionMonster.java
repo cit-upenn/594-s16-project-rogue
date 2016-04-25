@@ -8,6 +8,9 @@ import java.util.*;
  *
  */
 public class FourDirectionMonster extends Monster {
+	
+	private boolean[][] marked;
+	private int size;
 
 	/**
 	 * Constructor for NaiveMonster.
@@ -15,6 +18,8 @@ public class FourDirectionMonster extends Monster {
 	 */
 	public FourDirectionMonster(Game game) {
 		super(game);
+		size = game.getDungeon().size();
+		marked = new boolean[size][size];
 	}
 
 	@Override
@@ -36,8 +41,14 @@ public class FourDirectionMonster extends Monster {
         PriorityQueue<Site> pq = new PriorityQueue<Site>(new Comparator<Site>() {
 
 			@Override
-			public int compare(Site s1, Site s2) {
-				return distance(s1, rogue) - distance(s2, rogue);
+			public int compare(Site s1, Site s2) {	
+				marked = new boolean[size][size];
+				int dist1 = distance(s1, rogue);
+				
+				marked = new boolean[size][size];
+				int dist2 = distance(s2, rogue);
+				
+				return dist1 - dist2;
 			}
         	
 		});
@@ -65,6 +76,7 @@ public class FourDirectionMonster extends Monster {
         // get 4 adjacent sites
         int x = start.getX();
         int y = start.getY();
+        marked[x][y] = true;
         
         Site east = new Site(x + 1, y);
         Site west = new Site(x - 1, y);
@@ -72,15 +84,15 @@ public class FourDirectionMonster extends Monster {
         Site south = new Site(x, y + 1);
         
         // get 4 distances to end
-        int eastDist = Integer.MAX_VALUE;
-        int westDist = Integer.MAX_VALUE;
-        int northDist = Integer.MAX_VALUE;
-        int southDist = Integer.MAX_VALUE;
+        int eastDist = size * size;
+        int westDist = size * size;
+        int northDist = size * size;
+        int southDist = size * size;
         
-        if (dungeon.isLegalMove(start, east)) eastDist = distance(east, end);
-        if (dungeon.isLegalMove(start, west)) westDist = distance(west, end);
-        if (dungeon.isLegalMove(start, north)) northDist = distance(north, end);
-        if (dungeon.isLegalMove(start, south)) southDist = distance(south, end);
+        if (dungeon.isLegalMove(start, east) && !marked[east.getX()][east.getY()]) eastDist = distance(east, end);
+        if (dungeon.isLegalMove(start, west) && !marked[west.getX()][west.getY()]) westDist = distance(west, end);
+        if (dungeon.isLegalMove(start, north) && !marked[north.getX()][north.getY()]) northDist = distance(north, end);
+        if (dungeon.isLegalMove(start, south) && !marked[south.getX()][south.getY()]) southDist = distance(south, end);
         
         // return the smallest distance
         if (eastDist < westDist && eastDist < northDist && eastDist < southDist) return eastDist + 1;
