@@ -43,9 +43,11 @@ public class GameView extends JPanel implements Observer {
 		this.model = model;
 		this.board = model.getDungeon().getBoard();
 		System.out.println(Arrays.deepToString(board));
-		room = loadImage("pic/room.png");
-		corridor = loadImage("pic/corridor.png");
-		wall = loadImage("pic/wall.png");
+		room = loadImage("pic/room3.jpg");
+		corridor = loadImage("pic/corridor3.jpg");
+		wall = loadImage("pic/wall3.jpg");
+		monster = loadImage("pic/randommonster.jpg");
+		rogue = loadImage("pic/rogue.jpg");
 	}
 
 	/**
@@ -80,19 +82,13 @@ public class GameView extends JPanel implements Observer {
 				int y = i * size + pad;
 				if (board[i][j] == '+') {
 					// corridor
-					//					g2D.setColor(Color.yellow);
 					g2D.drawImage(corridor, x+5, y+5, 25, 25, null);
-					//					g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
 				} else if (board[i][j] == '.') {
 					// room
-					//					g2D.setColor(Color.gray);
 					g2D.drawImage(room, x+5, y+5, 25, 25, null);
-					//					g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
 				} else {
 					// wall
-					//					g2D.setColor(Color.white);
 					g2D.drawImage(wall, x+5, y+5, 25, 25, null);
-					//					g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
 				}
 			}
 		}
@@ -104,8 +100,7 @@ public class GameView extends JPanel implements Observer {
 		System.out.println("rogue: " + rogueX + "," + rogueY);
 		int x = rogueY * size + pad;
 		int y = rogueX * size + pad;
-		g2D.setColor(Color.red);
-		g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
+		g2D.drawImage(rogue, x+5, y+5, 25, 25, null);
 
 		// paint monster position
 		Site monsterSite = model.getMonsterSite();
@@ -114,8 +109,7 @@ public class GameView extends JPanel implements Observer {
 		System.out.println("monster: " + monsterX + "," + monsterY);
 		x = monsterY * size + pad;
 		y = monsterX * size + pad;
-		g2D.setColor(Color.green);
-		g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
+		g2D.drawImage(monster, x+5, y+5, 25, 25, null);
 
 	}
 
