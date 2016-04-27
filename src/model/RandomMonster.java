@@ -12,6 +12,12 @@ public class RandomMonster extends Monster {
         Site monster = game.getMonsterSite();
         Site rogue = game.getRogueSite();
         Site move = null;
+        
+        // move closer if monster is too far from rogue
+        if (monster.manhattanTo(rogue) > 3) {            
+    		BreadthFirstPaths bfp = new BreadthFirstPaths(dungeon, monster);
+    		return bfp.pathTo(rogue).pop();
+        }
 
         // take random legal move
         int n = 0;
