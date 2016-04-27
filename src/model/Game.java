@@ -59,7 +59,27 @@ public class Game extends Observable {
         
         // initialize dungeon, monster, rogue
         dungeon = new Dungeon(board);
-        monster = new FourDirectionMonster(this);
+        switch (filename) {
+        // easy mode monster
+		case "dungeonA.txt":
+		case "dungeonN.txt":
+		case "dungeonC.txt":
+			monster = new RandomMonster(this);
+			break;
+		// medium mode monster
+		case "dungeonF.txt":
+		case "dungeonI.txt":
+		case "dungeonH.txt":
+			monster = new FourDirectionMonster(this);
+			break;
+		// hard mode monster
+		case "dungeonP.txt":
+		case "dungeonJ.txt":
+		case "dungeonQ.txt":
+			monster = new EightDirectionMonster(this);
+			break;
+		}
+       
         rogue = new Rogue(this);
     }
     
@@ -131,10 +151,18 @@ public class Game extends Observable {
     	return dungeon;     
     }
     
+    /**
+     * check is games end
+     * @return true / false
+     */
     public boolean isEnd() {
     	return (rogueSite.equals(monsterSite));
     }
     
+    /**
+     * get next step of monster
+     * @param next
+     */
     public void nextStep(Site next) {
     	setRogueSite(next);
     	if (!isEnd()) {

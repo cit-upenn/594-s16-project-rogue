@@ -72,17 +72,17 @@ public class MapMenu extends Controller {
 		switch (level) {
 		case "easy":
 			imageFile = "rogue.png";
-			mapFiles = new String[] { "dungeonA.txt", "dungeonB.txt", "dungeonC.txt" };
+			mapFiles = new String[] { "dungeonA.txt", "dungeonN.txt", "dungeonC.txt" };
 			break;
 
 		case "medium":
 			imageFile = "rogue.png";
-			mapFiles = new String[] { "dungeonF.txt", "dungeonG.txt", "dungeonH.txt" };
+			mapFiles = new String[] { "dungeonF.txt", "dungeonI.txt", "dungeonH.txt" };
 			break;
 
 		case "hard":
 			imageFile = "rogue.png";
-			mapFiles = new String[] { "dungeonI.txt", "dungeonJ.txt", "dungeonM.txt" };
+			mapFiles = new String[] { "dungeonP.txt", "dungeonJ.txt", "dungeonQ.txt" };
 			break;
 
 		default:
