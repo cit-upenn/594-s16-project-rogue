@@ -61,21 +61,21 @@ public class Game extends Observable {
         dungeon = new Dungeon(board);
         switch (filename) {
         // easy mode monster
-		case "dungeonA.txt":
-		case "dungeonN.txt":
-		case "dungeonC.txt":
+		case "dungeon/dungeonA.txt":
+		case "dungeon/dungeonN.txt":
+		case "dungeon/dungeonC.txt":
 			monster = new RandomMonster(this);
 			break;
 		// medium mode monster
-		case "dungeonF.txt":
-		case "dungeonI.txt":
-		case "dungeonH.txt":
+		case "dungeon/dungeonF.txt":
+		case "dungeon/dungeonI.txt":
+		case "dungeon/dungeonH.txt":
 			monster = new FourDirectionMonster(this);
 			break;
 		// hard mode monster
-		case "dungeonP.txt":
-		case "dungeonJ.txt":
-		case "dungeonQ.txt":
+		case "dungeon/dungeonP.txt":
+		case "dungeon/dungeonJ.txt":
+		case "dungeon/dungeonQ.txt":
 			monster = new EightDirectionMonster(this);
 			break;
 		}

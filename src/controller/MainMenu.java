@@ -62,7 +62,7 @@ public class MainMenu extends Controller {
 	private void addImage() {
 
 		// adjust image size and add to view
-		ImageIcon image = new ImageIcon("rogue.png");
+		ImageIcon image = new ImageIcon("pic/rogue.png");
 		Image img = image.getImage();
 		Image newImg = img.getScaledInstance(600, 360, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newImage = new ImageIcon(newImg);
@@ -118,7 +118,7 @@ public class MainMenu extends Controller {
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
-		button.setFont(new Font("Book Antiqua",Font.BOLD,14));
+		button.setFont(new Font("Book Antiqua",Font.BOLD,20));
 	}
 
 	@Override

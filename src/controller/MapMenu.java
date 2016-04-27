@@ -71,18 +71,18 @@ public class MapMenu extends Controller {
 		// TODO: change each level background image
 		switch (level) {
 		case "easy":
-			imageFile = "rogue.png";
-			mapFiles = new String[] { "dungeonA.txt", "dungeonN.txt", "dungeonC.txt" };
+			imageFile = "pic/rogue.png";
+			mapFiles = new String[] { "dungeon/dungeonA.txt", "dungeon/dungeonN.txt", "dungeon/dungeonC.txt" };
 			break;
 
 		case "medium":
-			imageFile = "rogue.png";
-			mapFiles = new String[] { "dungeonF.txt", "dungeonI.txt", "dungeonH.txt" };
+			imageFile = "pic/rogue.png";
+			mapFiles = new String[] { "dungeon/dungeonF.txt", "dungeon/dungeonI.txt", "dungeon/dungeonH.txt" };
 			break;
 
 		case "hard":
-			imageFile = "rogue.png";
-			mapFiles = new String[] { "dungeonP.txt", "dungeonJ.txt", "dungeonQ.txt" };
+			imageFile = "pic/rogue.png";
+			mapFiles = new String[] { "dungeon/dungeonP.txt", "dungeon/dungeonJ.txt", "dungeon/dungeonQ.txt" };
 			break;
 
 		default:

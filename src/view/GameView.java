@@ -2,7 +2,12 @@ package view;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.Game;
@@ -23,6 +28,8 @@ public class GameView extends JPanel implements Observer {
 	private Game model;
 	private char[][] board;
 
+	private BufferedImage rogue, monster;
+	private BufferedImage wall, corridor, room;
 	private final static int pad = 50;
 	private final static int size = 25;
 	private final static BasicStroke stroke = new BasicStroke(2.0f);
@@ -36,11 +43,28 @@ public class GameView extends JPanel implements Observer {
 		this.model = model;
 		this.board = model.getDungeon().getBoard();
 		System.out.println(Arrays.deepToString(board));
+		room = loadImage("pic/room.png");
+		corridor = loadImage("pic/corridor.png");
+		wall = loadImage("pic/wall.png");
 	}
+
+	/**
+	 * Open and return a fixed size image file
+	 * @param filename
+	 * @return
+	 */
+	private BufferedImage loadImage(String filename) {
+		try {
+		return ImageIO.read(new File(filename));
+		} catch(IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 
 	@Override
 	public void paint(Graphics g) {
-		System.out.println("paint");
 		super.paint(g);
 		Graphics2D g2D = (Graphics2D) g;
 
@@ -56,16 +80,19 @@ public class GameView extends JPanel implements Observer {
 				int y = i * size + pad;
 				if (board[i][j] == '+') {
 					// corridor
-					g2D.setColor(Color.yellow);
-					g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size - 10, size - 10));
+					//					g2D.setColor(Color.yellow);
+					g2D.drawImage(corridor, x+5, y+5, 25, 25, null);
+					//					g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
 				} else if (board[i][j] == '.') {
 					// room
-					g2D.setColor(Color.gray);
-					g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size - 10, size - 10));
+					//					g2D.setColor(Color.gray);
+					g2D.drawImage(room, x+5, y+5, 25, 25, null);
+					//					g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
 				} else {
 					// wall
-					g2D.setColor(Color.white);
-					g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size - 10, size - 10));
+					//					g2D.setColor(Color.white);
+					g2D.drawImage(wall, x+5, y+5, 25, 25, null);
+					//					g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
 				}
 			}
 		}
@@ -78,7 +105,7 @@ public class GameView extends JPanel implements Observer {
 		int x = rogueY * size + pad;
 		int y = rogueX * size + pad;
 		g2D.setColor(Color.red);
-		g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size - 10, size - 10));
+		g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
 
 		// paint monster position
 		Site monsterSite = model.getMonsterSite();
@@ -88,7 +115,7 @@ public class GameView extends JPanel implements Observer {
 		x = monsterY * size + pad;
 		y = monsterX * size + pad;
 		g2D.setColor(Color.green);
-		g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size - 10, size - 10));
+		g2D.fill(new Rectangle2D.Double(x + 5, y + 5, size-2, size-2));
 
 	}
 
@@ -97,31 +124,4 @@ public class GameView extends JPanel implements Observer {
 		// TODO Auto-generated method stub
 		repaint();
 	}
-
-	// /**
-	// * For test
-	// * @param args
-	// */
-	// public static void main(String[] args) {
-	// Game model = new Game("dungeonA.txt");
-	// GameView v = new GameView(model);
-	// v.board = new char[10][10];
-	// for (int i = 0; i < 10; i++) {
-	// for (int j = 0; j < 10; j++) {
-	// if (j < 5) {
-	// v.board[i][j] = '+';
-	// } else if (j < 8){
-	// v.board[i][j] = '.';
-	// } else {
-	// v.board[i][j] = ' ';
-	// }
-	// }
-	// }
-	// JFrame p = new JFrame("helloc");
-	// p.add(v);
-	// p.setPreferredSize(new Dimension(600, 600));
-	// p.setVisible(true);
-	//
-	// v.repaint();
-	// }
 }
