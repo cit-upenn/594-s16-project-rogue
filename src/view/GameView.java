@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.Game;
+import model.Monster;
 import model.Site;
 
 /**
@@ -27,7 +28,7 @@ public class GameView extends JPanel implements Observer {
 	 */
 	private Game model;
 	private char[][] board;
-	private BufferedImage rogue, monster;
+	private BufferedImage rogue, r_monster, f_monster, e_monster;
 	private BufferedImage wall, corridor, room, tunnel, powerup, sword;
 	private final static int pad = 50;
 	private final static int size = 25;
@@ -46,7 +47,9 @@ public class GameView extends JPanel implements Observer {
 		tunnel = loadImage("pic/tunnel.jpg");
 		sword = loadImage("pic/sword.jpg");
 		powerup = loadImage("pic/hp.jpg");
-		monster = loadImage("pic/randommonster.jpg");
+		r_monster = loadImage("pic/randommonster.jpg");
+		f_monster = loadImage("pic/fourdirectionmonster.jpg");
+		e_monster = loadImage("pic/eightdirectionmonster.jpg");
 		rogue = loadImage("pic/rogue.jpg");
 
 	}
@@ -94,11 +97,20 @@ public class GameView extends JPanel implements Observer {
 		paintImage(model.getRogueSite(), rogue, g2D);
 
 		// paint monster position
-		paintImage(model.getMonsterSite(), monster, g2D);
-
+		HashMap<Monster, Site> monsterSiteMap = model.getMonsterSiteMap();
+		for (Monster m : monsterSiteMap.keySet()) {
+			String mName = m.getName();
+			if(mName.equals("R")) {
+				paintImage(monsterSiteMap.get(m), r_monster, g2D);
+			} else if (mName.equals("F")) {
+				paintImage(monsterSiteMap.get(m), f_monster, g2D);
+			} else {
+				paintImage(monsterSiteMap.get(m), e_monster, g2D);
+			}
+		}
 		// paint tunnel position
 		paintImage(model.getTunnelSite(), tunnel, g2D);
-		
+
 		// paint sword position
 		paintImage(model.getSwordSite(), sword, g2D);
 
@@ -137,11 +149,13 @@ public class GameView extends JPanel implements Observer {
 	 * @param g2D
 	 */
 	private void paintImage(Site characterSite, Image character, Graphics2D g2D) {
-		int X = characterSite.getX();
-		int Y = characterSite.getY();
-		int x = Y * size + pad;
-		int y = X * size + pad;
-		g2D.drawImage(character, x + 5, y + 5, 25, 25, null);
+		if (characterSite != null) {
+			int X = characterSite.getX();
+			int Y = characterSite.getY();
+			int x = Y * size + pad;
+			int y = X * size + pad;
+			g2D.drawImage(character, x + 5, y + 5, 25, 25, null);
+		}
 	}
 
 }
