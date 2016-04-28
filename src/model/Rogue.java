@@ -29,7 +29,7 @@ public class Rogue {
 	 * rogue power up
 	 */
 	public void powerup() {
-		System.out.println(hp);
+//		System.out.println(hp);
 		hp = hp + 1;
 	}
 

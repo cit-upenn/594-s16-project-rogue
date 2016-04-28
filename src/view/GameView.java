@@ -28,7 +28,7 @@ public class GameView extends JPanel implements Observer {
 	private Game model;
 	private char[][] board;
 	private BufferedImage rogue, monster;
-	private BufferedImage wall, corridor, room, tunnel, powerup;
+	private BufferedImage wall, corridor, room, tunnel, powerup, sword;
 	private final static int pad = 50;
 	private final static int size = 25;
 	private final static BasicStroke stroke = new BasicStroke(2.0f);
@@ -44,6 +44,7 @@ public class GameView extends JPanel implements Observer {
 		corridor = loadImage("pic/corridor3.jpg");
 		wall = loadImage("pic/wall3.jpg");
 		tunnel = loadImage("pic/tunnel.jpg");
+		sword = loadImage("pic/sword.jpg");
 		powerup = loadImage("pic/hp.jpg");
 		monster = loadImage("pic/randommonster.jpg");
 		rogue = loadImage("pic/rogue.jpg");
@@ -70,7 +71,7 @@ public class GameView extends JPanel implements Observer {
 		int row = board.length;
 		int column = board[0].length;
 
-		// paint the by value
+		// paint char array by value
 		g2D.setStroke(stroke);
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
@@ -97,6 +98,9 @@ public class GameView extends JPanel implements Observer {
 
 		// paint tunnel position
 		paintImage(model.getTunnelSite(), tunnel, g2D);
+		
+		// paint sword position
+		paintImage(model.getSwordSite(), sword, g2D);
 
 		// paint power up position
 		ArrayList<Site> powerUpSiteMap = model.getPowerUpSiteMap();
@@ -108,7 +112,6 @@ public class GameView extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 		repaint();
 	}
 
@@ -136,7 +139,6 @@ public class GameView extends JPanel implements Observer {
 	private void paintImage(Site characterSite, Image character, Graphics2D g2D) {
 		int X = characterSite.getX();
 		int Y = characterSite.getY();
-		// System.out.println("tunnel: " + X + "," + Y);
 		int x = Y * size + pad;
 		int y = X * size + pad;
 		g2D.drawImage(character, x + 5, y + 5, 25, 25, null);

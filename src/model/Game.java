@@ -33,6 +33,7 @@ public class Game extends Observable {
 	private Site monsterSite; // location of monster
 	private Site rogueSite; // location of rogue
 	private Site tunnelSite; // location of tunnel
+	private Site swordSite; // location of sword
 	private ArrayList<Site> powerUpSiteMap; // location of power up
 
 	/**
@@ -159,6 +160,22 @@ public class Game extends Observable {
 	public boolean isMonsterSite() {
 		return rogueSite.equals(monsterSite);
 	}
+	
+	/**
+	 * check is current rogue site is sword site
+	 * @return
+	 */
+	public boolean isSwordSite() {
+		return rogueSite.equals(swordSite);
+	}
+
+	/**
+	 * @return the swordSite
+	 */
+	public Site getSwordSite() {
+		return swordSite;
+	}
+	
 
 	/**
 	 * This is a helper method to read file, get map info if it success,
