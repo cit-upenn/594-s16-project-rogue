@@ -1,16 +1,21 @@
 package controller;
 
 /**
- * The switcher controls the whole game's window switch
+ * The window switcher controls the whole game's window switch
  * 
- * @author zhiyuanli
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
  *
  */
 public class WindowSwitcher {
 
-	private MainMenu mainMenu;
-	private DifficultyMenu difficultyMenu;
-	private GameController gameController;
+	/**
+	 * represent 3 controllers of each kind of window in the game
+	 */
+	private MainMenu mainMenu; // main menu("lobby")
+	private DifficultyMenu difficultyMenu;// the menu to select difficulty
+	private GameController gameController;// the controller for the actual game
 
 	/**
 	 * Constructor
@@ -23,7 +28,7 @@ public class WindowSwitcher {
 	}
 
 	/**
-	 * only show main menu
+	 * show main menu
 	 */
 	public void showMainMenu() {
 		difficultyMenu.disable();
@@ -32,9 +37,8 @@ public class WindowSwitcher {
 	}
 
 	/**
-	 * show one map menu with specific difficulty level
+	 * show a menu with 3 difficulty levels to choose
 	 * 
-	 * @param level
 	 */
 	public void showDifficultyMenu() {
 		mainMenu.disable();
@@ -43,20 +47,16 @@ public class WindowSwitcher {
 	}
 
 	/**
-	 * show one specific map for player to play
+	 * show the window with one specific map to play
 	 * 
-	 * @param mapName
+	 * @param mapFile
+	 *            the map file to load
 	 */
-	public void showGame(String mapName) {
+	public void showGame(String mapFile) {
 		mainMenu.disable();
 		difficultyMenu.disable();
-		gameController.setGameMap(mapName);
+		gameController.setGameMap(mapFile);
 		gameController.enable();
-	}
-
-	public static void main(String[] args) {
-		WindowSwitcher switcher = new WindowSwitcher();
-		switcher.showMainMenu();
 	}
 
 }

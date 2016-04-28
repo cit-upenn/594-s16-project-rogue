@@ -21,18 +21,39 @@ import model.Site;
 import view.GameView;
 
 /**
- * This class is the controller of the game for player to play
+ * This class represents the controller of the actual game for player to play
  * 
- * @author zhiyuanli
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
  *
  */
 @SuppressWarnings("serial")
 public class GameController extends Controller implements KeyListener {
-	
+
+	/**
+	 * Game window switcher
+	 */
 	private WindowSwitcher switcher;
+
+	/**
+	 * model
+	 */
 	private Game game;
+
+	/**
+	 * view
+	 */
 	private GameView view;
+
+	/**
+	 * the current map
+	 */
 	private String mapFile;
+
+	/**
+	 * store the total map files
+	 */
 	public static ArrayList<String> mapFiles;
 
 	/**
@@ -40,6 +61,10 @@ public class GameController extends Controller implements KeyListener {
 	 */
 	private JPanel top, left, right, bottom, center;
 	private JButton back;
+
+	/**
+	 * to control the keyboard action
+	 */
 	private Timer t;
 	private TimerTask tt;
 
@@ -47,6 +72,7 @@ public class GameController extends Controller implements KeyListener {
 	 * constructor
 	 * 
 	 * @param switcher
+	 *            window switcher
 	 */
 	public GameController(WindowSwitcher switcher) {
 		this.switcher = switcher;
@@ -61,29 +87,35 @@ public class GameController extends Controller implements KeyListener {
 
 	@Override
 	public void enable() {
-
-		display("Game", 1000, 1000);
+		display("Game", 800, 800);
 		addKeyListener(this);
 		setFocusable(true);
 		setVisible(true);
-		// add the map view
-		// view.repaint();
-
 	}
 
 	/**
 	 * load the map of the game
+	 * 
+	 * @param mapFile
+	 *            the map file to load
 	 */
-	public void setGameMap(String mapName) {
-		this.mapFile = mapName;
+	public void setGameMap(String mapFile) {
+		this.mapFile = mapFile;
 		game = new Game();
-		game.setMap(mapName);
+		game.setMap(mapFile);
 		view = new GameView(game);
+		// add observer to game
 		game.addObserver(view);
 	}
 
-	public void switchMap(String mapName) {
-		game.setMap(mapName);
+	/**
+	 * switch map file
+	 * 
+	 * @param mapFile
+	 *            the map file to switch
+	 */
+	public void switchMap(String mapFile) {
+		game.setMap(mapFile);
 		view.setGame(game);
 	}
 
@@ -94,6 +126,9 @@ public class GameController extends Controller implements KeyListener {
 		addSubPanels();
 	}
 
+	/**
+	 * helper method to add panels
+	 */
 	private void addPanels() {
 		top = new JPanel();
 		left = new JPanel();
@@ -148,38 +183,45 @@ public class GameController extends Controller implements KeyListener {
 	}
 
 	/**
-	 * do next step
+	 * do next step of the game after player next move
 	 * 
 	 * @param next
+	 *            the next site the player want to move
 	 */
 	public void nextStep(Site next) {
+		// set rogue's new position
 		game.setRogueSite(next);
 		if (game.removePowerUpSiteMap(next)) {
+			// rogue get a power up
 			game.getRogue().powerup();
 		}
 		if (!game.isTunnel()) {
+			// rogue do not enter the entrance of next map
+
+			// let monster move
 			game.setMonsterSite(game.getMonster().move());
 			if (game.isCatchUp()) {
+				// if the monster catch the rogue, it will hurt the rogue
 				game.getRogue().takeDamage(game.getMonster().getDamage());
+
+				// determine whether the rogue is dead
 				if (game.getRogue().isDead()) {
-					System.out.println("game over");
 					removeKeyListener(this);
 					JOptionPane.showMessageDialog(getParent(), "Game Over!");
 				}
 			}
 		} else {
+			// rogue enter the entrance of next map, change map
 			int i = mapFiles.indexOf(mapFile);
 			if (i < mapFiles.size() - 1) {
+				// if the map is not the final map, "level up", set next map
 				mapFile = mapFiles.get(i + 1);
 				switchMap(mapFile);
-
 			} else {
+				// if the map is the final map, the rogue wins
 				removeKeyListener(this);
 				JOptionPane.showMessageDialog(getParent(), "You win!");
 			}
-
-			System.out.println("level up");
-
 		}
 	}
 
@@ -191,10 +233,17 @@ public class GameController extends Controller implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		/* only one key press+release counts for a move of rogue */
+
+		// if the key not released yet, do nothing
 		if (tt != null) {
 			return;
 		}
+
+		/*
+		 * when one key pressed after release, start a timer task, rogue move
+		 * one step
+		 */
 		tt = new TimerTask() {
 			@Override
 			public void run() {
@@ -203,35 +252,31 @@ public class GameController extends Controller implements KeyListener {
 		};
 		t.scheduleAtFixedRate(tt, 0, 500);
 
+		/*
+		 * rogue moves one step
+		 */
+		Site current = game.getRogueSite(); // rogue current site
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			System.out.println("up key pressed");
-			Site current = game.getRogueSite();
+			// move up
 			Site next = new Site(current.getX() - 1, current.getY());
-			System.out.println("up: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				nextStep(next);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			System.out.println("down key pressed");
-			Site current = game.getRogueSite();
+			// move down
 			Site next = new Site(current.getX() + 1, current.getY());
-			System.out.println("down: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				nextStep(next);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			System.out.println("right key pressed");
-			Site current = game.getRogueSite();
+			// move right
 			Site next = new Site(current.getX(), current.getY() + 1);
-			System.out.println("right: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				nextStep(next);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			System.out.println("left key pressed");
-			Site current = game.getRogueSite();
+			// move left
 			Site next = new Site(current.getX(), current.getY() - 1);
-			System.out.println("left: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
 				nextStep(next);
 			}
@@ -240,11 +285,11 @@ public class GameController extends Controller implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// when a key releases, cancel the timer task
 		if (tt != null) {
 			tt.cancel();
 			tt = null;
 		}
 	}
-	
+
 }

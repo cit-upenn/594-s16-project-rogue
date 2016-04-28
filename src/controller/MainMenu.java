@@ -14,16 +14,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * This class represents the game lobby(main menu)
+ * This class represents the game lobby(main menu), inherits from Controller
+ * class
  *
- * @author SHANG
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
  * 
  */
 @SuppressWarnings("serial")
 public class MainMenu extends Controller {
 
 	/**
-	 * Game controller
+	 * Game window switcher
 	 */
 	private WindowSwitcher switcher;
 
@@ -35,7 +38,10 @@ public class MainMenu extends Controller {
 	private JLabel lobbyView;
 
 	/**
-	 * constructor
+	 * Constructor
+	 * 
+	 * @param controller
+	 *            window switcher
 	 */
 	public MainMenu(WindowSwitcher controller) {
 		this.switcher = controller;
@@ -59,7 +65,6 @@ public class MainMenu extends Controller {
 	 * helper method to add image to the center of main menu layout
 	 */
 	private void addImage() {
-
 		// adjust image size and add to view
 		ImageIcon image = new ImageIcon("pic/rogue.png");
 		Image img = image.getImage();

@@ -16,14 +16,16 @@ import view.DifficultyView;
 /**
  * This class represents the easy/medium/hard mode map selection menu.
  * 
- * @author zhiyuanli
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
  *
  */
 @SuppressWarnings("serial")
 public class DifficultyMenu extends Controller {
 
 	/**
-	 * Game controller
+	 * Game window switcher
 	 */
 	private WindowSwitcher switcher;
 
@@ -34,7 +36,7 @@ public class DifficultyMenu extends Controller {
 	private JButton easy, medium, hard, back;
 	private DifficultyView difficultyView;
 	private String[] startMapFiles;
-	private String imageFile;
+	private String backgroundImage;
 
 	/**
 	 * difficulty level
@@ -46,7 +48,9 @@ public class DifficultyMenu extends Controller {
 	 */
 	public DifficultyMenu(WindowSwitcher controller) {
 		this.switcher = controller;
-		imageFile = "pic/rogue.png";
+		// initialize the background image
+		backgroundImage = "pic/rogue.png";
+		// initialize the entrance map for 3 difficulty levels
 		startMapFiles = new String[] { "dungeon/1.txt", "dungeon/2.txt", "dungeon/3.txt" };
 	}
 
@@ -63,20 +67,18 @@ public class DifficultyMenu extends Controller {
 		return level;
 	}
 
-
 	@Override
 	public void layOutComponents() {
 		setLayout(new BorderLayout());
 		addPanels();
 		addSubPanels();
-		addImage(imageFile);
+		addImage(backgroundImage);
 	}
 
 	/**
 	 * helper method to add image to the the center of the map menu layout
 	 */
 	private void addImage(String imagePath) {
-
 		// adjust image size and add to view
 		difficultyView = new DifficultyView();
 		difficultyView.setPreferredSize(new Dimension(600, 360));
