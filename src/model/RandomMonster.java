@@ -31,7 +31,7 @@ public class RandomMonster extends Monster {
         
         // move closer if monster is too far from rogue
         if (monster.manhattanTo(rogue) > 3) {            
-    		BreadthFirstPaths bfp = new BreadthFirstPaths(dungeon, monster);
+    		FourBreadthFirstPaths bfp = new FourBreadthFirstPaths(dungeon, monster);
     		return bfp.pathTo(rogue).pop();
         }
         

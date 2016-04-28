@@ -32,7 +32,7 @@ public class FourDirectionMonster extends Monster {
         }
         
         // create BFS paths from monster to rogue
-		BreadthFirstPaths bfp = new BreadthFirstPaths(dungeon, monster);
+		FourBreadthFirstPaths bfp = new FourBreadthFirstPaths(dungeon, monster);
 		Site next = bfp.pathTo(rogue).pop();
 		if (next.equals(rogue)) {
 			if (hit) {
