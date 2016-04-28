@@ -9,7 +9,7 @@ package controller;
 public class WindowSwitcher {
 
 	private MainMenu mainMenu;
-	private MapMenu mapMenu;
+	private DifficultyMenu difficultyMenu;
 	private GameController gameController;
 
 	/**
@@ -17,7 +17,7 @@ public class WindowSwitcher {
 	 */
 	public WindowSwitcher() {
 		mainMenu = new MainMenu(this);
-		mapMenu = new MapMenu(this);
+		difficultyMenu = new DifficultyMenu(this);
 		gameController = new GameController(this);
 
 	}
@@ -26,7 +26,7 @@ public class WindowSwitcher {
 	 * only show main menu
 	 */
 	public void showMainMenu() {
-		mapMenu.disable();
+		difficultyMenu.disable();
 		gameController.disable();
 		mainMenu.enable();
 	}
@@ -36,11 +36,10 @@ public class WindowSwitcher {
 	 * 
 	 * @param level
 	 */
-	public void showMapMenu(String level) {
+	public void showDifficultyMenu() {
 		mainMenu.disable();
 		gameController.disable();
-		mapMenu.setLevel(level);
-		mapMenu.enable();
+		difficultyMenu.enable();
 	}
 
 	/**
@@ -50,7 +49,7 @@ public class WindowSwitcher {
 	 */
 	public void showGame(String mapName) {
 		mainMenu.disable();
-		mapMenu.disable();
+		difficultyMenu.disable();
 		gameController.setGameMap(mapName);
 		gameController.enable();
 	
