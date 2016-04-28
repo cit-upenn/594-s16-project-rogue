@@ -199,6 +199,7 @@ public class GameController extends Controller implements KeyListener {
 		}
 		if (game.isSwordSite()) {
 			game.getRogue().setHasSword(true);
+			game.setSwordSite();
 		}
 
 		if (!game.isTunnelSite()) {
@@ -213,6 +214,7 @@ public class GameController extends Controller implements KeyListener {
 				if (game.getRogue().isHasSword()) {
 					// remove monster
 					game.removeMonster(game.caughtBy());	
+					game.getRogue().setHasSword(false);
 				} else {
 					game.getRogue().takeDamage(game.caughtBy().getDamage());
 				}

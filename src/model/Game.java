@@ -46,6 +46,7 @@ public class Game extends Observable {
 	 * Constructor for game
 	 */
 	public Game() {
+		rogue = new Rogue(this);
 	}
 
 	/**
@@ -110,9 +111,8 @@ public class Game extends Observable {
 			if (m.getName().equals(name))
 				return monsterSiteMap.get(m);
 		return null;
-
 	}
-
+	
 	/**
 	 * sets the position of monster
 	 * 
@@ -158,6 +158,7 @@ public class Game extends Observable {
 		return powerUpSiteMap;
 	}
 
+	
 	/**
 	 * @return the tunnelSite
 	 */
@@ -202,6 +203,10 @@ public class Game extends Observable {
 			}
 		}
 		return null;
+	}
+	
+	public void setSwordSite() {
+		swordSite = null;
 	}
 
 	/**
@@ -284,7 +289,6 @@ public class Game extends Observable {
 	private void init(char[][] board, String filename) {
 		// initialize dungeon, rogue, monster
 		dungeon = new Dungeon(board);
-		rogue = new Rogue(this);
 		for (String s : monsterNameSiteMap.keySet()) {
 			if (s.equals("R")) {
 				monsterSiteMap.put(new RandomMonster(this, s), monsterNameSiteMap.get(s));
