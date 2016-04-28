@@ -1,120 +1,57 @@
 package model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-/*************************************************************************
- * Compilation: javac Game.java Execution: java Game < input.txt Dependencies:
- * Dungeon.java Site.java In.java Monster.java Rogue.java
- *
- *************************************************************************/
+/**
+ * Game class to control whole game, offer method for Game controller
+ * 
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
+ */
 public class Game extends Observable {
 
+	/**
+	 * static char variables used in game
+	 */
+	private static final char MONSTER = 'M'; // name of the monster
+	private static final char ROGUE = '@'; // name of the rogue
+	private static final char POWERUP = '*'; // name of the power up
+	private static final char TUNNEL = '#'; // name of tunnel
+
+	/**
+	 * class instance variables that used in game
+	 */
 	private Dungeon dungeon; // the dungeon
-	public static final char MONSTER = 'M'; // name of the monster
-	public static final char ROGUE = '@'; // name of the rogue
-	public static final char POWERUP = '*'; // name of the power up
-	public static final char TUNNEL = '#'; // name of tunnel
-	private int N; // board dimension
+	private Monster monster; // the monster
+	private Rogue rogue; // the rogue
+
+	/**
+	 * keep track to record monster, rogue tunnel powerup site
+	 */
 	private Site monsterSite; // location of monster
 	private Site rogueSite; // location of rogue
 	private Site tunnelSite; // location of tunnel
 	private ArrayList<Site> powerUpSiteMap; // location of power up
-	private Monster monster; // the monster
-	private Rogue rogue; // the rogue
-	private Scanner sc;
 
-	// initialize board from file
+	/**
+	 * Constructor for game
+	 */
 	public Game() {
-
-	}
-	
-	public void setMap(String filename){
-		// create Scanner to read in file
-		sc = null;
-		try {
-			sc = new Scanner(new File(filename));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		powerUpSiteMap = new ArrayList<>();
-
-		// read in data
-		N = Integer.parseInt(sc.nextLine());
-		char[][] board = new char[N][N];
-		for (int i = 0; i < N; i++) {
-			String s = sc.nextLine();
-			for (int j = 0; j < N; j++) {
-				board[i][j] = s.charAt(2 * j);
-
-				// check for monster's location
-				if (board[i][j] == MONSTER) {
-					board[i][j] = '.';
-					System.out.println("monster@ " + i + "," + j);
-					monsterSite = new Site(i, j);
-				}
-
-				// check for rogue's location
-				if (board[i][j] == ROGUE) {
-					board[i][j] = '.';
-					rogueSite = new Site(i, j);
-					System.out.println("rogue@ " + i + "," + j);
-				}
-
-				// check for power up location
-				if (board[i][j] == POWERUP) {
-					board[i][j] = '.';
-					powerUpSiteMap.add(new Site(i, j));
-				}
-
-				// check for tunnel location
-				if (board[i][j] == TUNNEL) {
-					board[i][j] = '.';
-					tunnelSite = new Site(i, j);
-				}
-			}
-		}
-
-		// initialize dungeon, monster, rogue
-		dungeon = new Dungeon(board);
-		switch (filename) {
-		// easy mode monster
-		case "dungeon/1.txt":
-		case "dungeon/2.txt":
-		case "dungeon/3.txt":
-			monster = new RandomMonster(this);
-			break;
-		// medium mode monster
-		case "dungeon/4.txt":
-		case "dungeon/5.txt":
-		case "dungeon/dungeonH.txt":
-			monster = new FourDirectionMonster(this);
-			break;
-		// hard mode monster
-		case "dungeon/dungeonP.txt":
-		case "dungeon/dungeonJ.txt":
-		case "dungeon/dungeonQ.txt":
-			monster = new EightDirectionMonster(this);
-			break;
-		}
-
-		rogue = new Rogue(this);
-		
-		setChanged();
-		notifyObservers();
-		
 	}
 
 	/**
-	 * gets the name of the monster
+	 * Used for set level map
 	 * 
-	 * @return the name of the monster
+	 * @param filename
+	 *            the file that contains the map
 	 */
-	public char getMonsterName() {
-		return MONSTER;
+	public void setLevelMap(String filename) {
+		powerUpSiteMap = new ArrayList<>();
+		char[][] board = readMap(filename);
+		init(board, filename);
+		sendNotification();
 	}
 
 	/**
@@ -124,6 +61,62 @@ public class Game extends Observable {
 	 */
 	public Rogue getRogue() {
 		return rogue;
+	}
+
+	/**
+	 * gets the monster of this game
+	 * 
+	 * @return the monster of this game
+	 */
+	public Monster getMonster() {
+		return monster;
+	}
+
+	/**
+	 * gets the dungeon
+	 * 
+	 * @return the dungeon
+	 */
+	public Dungeon getDungeon() {
+		return dungeon;
+	}
+
+	/**
+	 * gets the position of monster
+	 * 
+	 * @return the position of monster
+	 */
+	public Site getMonsterSite() {
+		return monsterSite;
+	}
+
+	/**
+	 * sets the position of monster
+	 * 
+	 * @return the position of monster
+	 */
+	public void setMonsterSite(Site monsterSite) {
+		this.monsterSite = monsterSite;
+		sendNotification();
+	}
+
+	/**
+	 * gets the position of rogue
+	 * 
+	 * @return the position of rogue
+	 */
+	public Site getRogueSite() {
+		return rogueSite;
+	}
+
+	/**
+	 * sets the position of rogue
+	 * 
+	 * @return the position of rogue
+	 */
+	public void setRogueSite(Site rogueSite) {
+		this.rogueSite = rogueSite;
+		sendNotification();
 	}
 
 	/**
@@ -150,74 +143,100 @@ public class Game extends Observable {
 	}
 
 	/**
-	 * gets the monster of this game
+	 * check is current rogue site is tunnel site
 	 * 
-	 * @return the monster of this game
+	 * @return true / false
 	 */
-	public Monster getMonster() {
-		return monster;
-	}
-
-	/**
-	 * gets the position of monster
-	 * 
-	 * @return the position of monster
-	 */
-	public Site getMonsterSite() {
-		return monsterSite;
-	}
-
-	/**
-	 * sets the position of rogue
-	 * 
-	 * @return the position of rogue
-	 */
-	public void setRogueSite(Site rogueSite) {
-		this.rogueSite = rogueSite;
-		setChanged();
-		notifyObservers();
-	}
-
-	/**
-	 * sets the position of monster
-	 * 
-	 * @return the position of monster
-	 */
-	public void setMonsterSite(Site monsterSite) {
-		this.monsterSite = monsterSite;
-		setChanged();
-		notifyObservers();
-	}
-
-	/**
-	 * gets the position of rogue
-	 * 
-	 * @return the position of rogue
-	 */
-	public Site getRogueSite() {
-		return rogueSite;
-	}
-
-	/**
-	 * gets the dungeon
-	 * 
-	 * @return the dungeon
-	 */
-	public Dungeon getDungeon() {
-		return dungeon;
-	}
-
-	public boolean isTunnel() {
+	public boolean isTunnelSite() {
 		return rogueSite.equals(tunnelSite);
 	}
 
 	/**
-	 * check is games end
+	 * check is current rogue site is monster site
 	 * 
 	 * @return true / false
 	 */
-	public boolean isCatchUp() {
+	public boolean isMonsterSite() {
 		return rogueSite.equals(monsterSite);
+	}
+
+	/**
+	 * This is a helper method to read file, get map info if it success,
+	 * otherwise system exit will be called.
+	 */
+	private char[][] readMap(String filename) {
+		// create Scanner to read in file
+		try (Scanner sc = new Scanner(new File(filename))) {
+			// read in data
+			int boardLength = Integer.parseInt(sc.nextLine());
+			char[][] board = new char[boardLength][boardLength];
+			for (int i = 0; i < boardLength; i++) {
+				String s = sc.nextLine();
+				for (int j = 0; j < boardLength; j++) {
+					board[i][j] = s.charAt(2 * j);
+					if (board[i][j] == MONSTER) { // check for monster's
+													// location
+						monsterSite = new Site(i, j);
+						board[i][j] = '.';
+						// System.out.println("monster@ " + i + "," + j);
+					} else if (board[i][j] == ROGUE) { // check for rogue's
+														// location
+						rogueSite = new Site(i, j);
+						board[i][j] = '.';
+						// System.out.println("rogue@ " + i + "," + j);
+					} else if (board[i][j] == POWERUP) { // check for power up's
+															// location
+						powerUpSiteMap.add(new Site(i, j));
+						board[i][j] = '.';
+					} else if (board[i][j] == TUNNEL) { // check for tunnel's
+														// location
+						tunnelSite = new Site(i, j);
+						board[i][j] = '.';
+					}
+				}
+			}
+			return board;
+		} catch (FileNotFoundException e) {
+			System.exit(-1);
+			return null;
+		}
+	}
+
+	/**
+	 * This is a helper method to initialize game variables.
+	 * 
+	 * @param board
+	 * @param filename
+	 */
+	private void init(char[][] board, String filename) {
+		// initialize dungeon, rogue, monster
+		dungeon = new Dungeon(board);
+		rogue = new Rogue(this);
+		switch (filename) {
+		// easy mode monster
+		case "dungeon/1.txt":
+		case "dungeon/2.txt":
+			monster = new RandomMonster(this);
+			break;
+		// medium mode monster
+		case "dungeon/3.txt":
+			monster = new FourDirectionMonster(this);
+			break;
+		// hard mode monster
+		case "dungeon/4.txt":
+		case "dungeon/5.txt":
+			monster = new EightDirectionMonster(this);
+			break;
+		}
+
+	}
+
+	/**
+	 * This is a helper method is used to send notification to observers
+	 */
+	private void sendNotification() {
+		setChanged();
+		notifyObservers();
 	}
 
 }

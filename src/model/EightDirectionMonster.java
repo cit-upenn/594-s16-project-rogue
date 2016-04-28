@@ -3,15 +3,18 @@ package model;
 import java.util.*;
 
 /**
- * SecondNaiveMonster, can have 8 directions: E, S, N, W, WN, NE, ES, SW
- * @author woody
+ * This monster can move to 8 directions: E, S, N, W, WN, NE, ES, SW
+ * 
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
  *
  */
 public class EightDirectionMonster extends Monster {
 
 	/**
-	 * Constructor for NaiveMonster.
-	 * @param game
+	 * Constructor
+	 * @param game the rogie
 	 */
 	public EightDirectionMonster(Game game) {
 		super(game);

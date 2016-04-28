@@ -1,15 +1,18 @@
 package model;
 
 /**
- * NaiveMonster, can only move to 4 direction: East, South, West, North
- * @author woody
+ * This monster can only move to 4 direction: East, South, West, North.
+ * 
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
  *
  */
 public class FourDirectionMonster extends Monster {
 
 	/**
-	 * Constructor for NaiveMonster.
-	 * @param game
+	 * Constructor
+	 * @param game the rogue game
 	 */
 	public FourDirectionMonster(Game game) {
 		super(game);
@@ -20,12 +23,15 @@ public class FourDirectionMonster extends Monster {
 	public Site move() {
 		// get current sites for monster and rogue
         Site monster = game.getMonsterSite();
-        Site rogue = game.getRogueSite();       
+        Site rogue = game.getRogueSite(); 
+        
+        // stay still if already hit rogue
         if (monster.equals(rogue)) {
         	hit = true;
         	return monster; 
         }
         
+        // create BFS paths from monster to rogue
 		BreadthFirstPaths bfp = new BreadthFirstPaths(dungeon, monster);
 		Site next = bfp.pathTo(rogue).pop();
 		if (next.equals(rogue)) {

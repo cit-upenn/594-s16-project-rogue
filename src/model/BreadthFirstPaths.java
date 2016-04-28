@@ -4,18 +4,30 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+/**
+ * This class represents breadth first paths, which use BFS to calculate paths
+ * from a certain source site.
+ * 
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
+ * 
+ */
 public class BreadthFirstPaths {
 	
-	private static final int INFINITY = Integer.MAX_VALUE;
-	private boolean[][] marked;  // marked[v] = is there an s-v path
-	private Site[][] edgeTo;      // edgeTo[v] = previous edge on shortest s-v path
-	private int[][] distTo;      // distTo[v] = number of edges shortest s-v path
+	/**
+	 * instance variables
+	 */
+	private static final int INFINITY = Integer.MAX_VALUE;    // max distance value
+	private boolean[][] marked;    // is this site visited?
+	private Site[][] edgeTo;    // last edge to this site on the path
+	private int[][] distTo;    // distance from source to this site
 
 	/**
-	 * Computes the shortest path between the source vertex <tt>s</tt>
-	 * and every other vertex in the graph <tt>G</tt>.
-	 * @param G the graph
-	 * @param s the source vertex
+	 * Computes the shortest path between the source site 
+	 * and every other vertex in the dungeon.
+	 * @param d the dungeon
+	 * @param s the source site
 	 */
 	public BreadthFirstPaths(Dungeon d, Site s) {
 		marked = new boolean[d.size()][d.size()];
@@ -24,26 +36,37 @@ public class BreadthFirstPaths {
 		bfs(d, s);
 	}
 
-	// breadth-first search from a single source
+	/**
+	 * BFS from a single source site
+	 * @param d the dungeon
+	 * @param s the source site
+	 */
 	private void bfs(Dungeon d, Site s) {
+		
+		// use a queue to do BFS, and initialize instance variables
 		Queue<Site> q = new LinkedList<Site>();
 		for (int x = 0; x < d.size(); x++)
 			for (int y = 0; y < d.size(); y++)
 				distTo[x][y] = INFINITY;       
 		distTo[s.getX()][s.getY()] = 0;
 		marked[s.getX()][s.getY()] = true;
+		
+		// pop site from queue until it's empty
 		q.offer(s);
-
 		while (!q.isEmpty()) {
+			
+			// pop the next site in the queue
 			Site v = q.poll();    	        
 			int x = v.getX();
 			int y = v.getY();
 
+			// 4 adjacent sites
 			Site east = new Site(x + 1, y);
 			Site west = new Site(x - 1, y);
 			Site north = new Site(x, y - 1);
 			Site south = new Site(x, y + 1);
 
+			// BFS the rest of the dungeon
 			if (d.isLegalMove(v, east) && !marked[east.getX()][east.getY()]) {
 				edgeTo[east.getX()][east.getY()] = v;
 				distTo[east.getX()][east.getY()] = distTo[x][y] + 1;
@@ -74,35 +97,34 @@ public class BreadthFirstPaths {
 	}
 
 	/**
-	 * Is there a path between the source vertex <tt>s</tt> (or sources) and vertex <tt>v</tt>?
-	 * @param v the vertex
-	 * @return <tt>true</tt> if there is a path, and <tt>false</tt> otherwise
+	 * Is there a path between the source site and site s?
+	 * @param s the site s
+	 * @return true if there is a path
 	 */
 	public boolean hasPathTo(Site s) {
 		return marked[s.getX()][s.getY()];
 	}
 
 	/**
-	 * Returns the number of edges in a shortest path between the source vertex <tt>s</tt>
-	 * (or sources) and vertex <tt>v</tt>?
-	 * @param v the vertex
-	 * @return the number of edges in a shortest path
+	 * Returns the number of edges in a BFS shortest path between the source site and s.
+	 * @param s the site s
+	 * @return the number of edges in a BFS shortest path
 	 */
 	public int distTo(Site s) {
 		return distTo[s.getX()][s.getY()];
 	}
 
 	/**
-	 * Returns a shortest path between the source vertex <tt>s</tt> (or sources)
-	 * and <tt>v</tt>, or <tt>null</tt> if no such path.
-	 * @param s the vertex
-	 * @return the sequence of vertices on a shortest path, as an Iterable
+	 * Returns a shortest path between the source site and s.
+	 * @param s the site s
+	 * @return the sequence of vertices on a shortest path
 	 */
 	public Stack<Site> pathTo(Site s) {
+		
+		// put all sites on the path into a stack
 		if (!hasPathTo(s)) return null;
 		Stack<Site> path = new Stack<Site>();
-		Site site;
-		for (site = s; distTo[site.getX()][site.getY()] != 0; site = edgeTo[site.getX()][site.getY()])
+		for (Site site = s; distTo[site.getX()][site.getY()] != 0; site = edgeTo[site.getX()][site.getY()])
 			path.push(site);
 		return path;
 	}

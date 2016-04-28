@@ -1,11 +1,18 @@
 package model;
 
-/*************************************************************************
- *  Compilation:  javac Dungeon.java
+/**
+ * This class represents a dungeon, which is composed of rooms, corridors and walls.
+ * 
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
  *
- *************************************************************************/
+ */
 public class Dungeon {
 	
+	/**
+	 * instance variables
+	 */
 	private char[][] board;    // the character representation of this board   
     private boolean[][] isRoom;    // is (x, y) a room site?
     private boolean[][] isCorridor;    // is (x, y) a corridor site?
@@ -17,7 +24,8 @@ public class Dungeon {
      * @param board the board info from input file
      */
     public Dungeon(char[][] board) {
-    	// TODO
+    	
+    	// initialization of variables
         this.size = board.length;
         this.board = board;
         this.isRoom = new boolean[size][size];
@@ -26,7 +34,7 @@ public class Dungeon {
         // initialize each grid
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if      (board[i][j] == '.') isRoom[i][j] = true;
+                if (board[i][j] == '.') isRoom[i][j] = true;
                 else if (board[i][j] == '+') isCorridor[i][j] = true;
             }
         }
@@ -126,5 +134,3 @@ public class Dungeon {
     }
 
 }
-
-

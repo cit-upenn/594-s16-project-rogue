@@ -59,7 +59,7 @@ public class GameController extends Controller implements KeyListener {
 	/**
 	 * GUI variables
 	 */
-	private JPanel top, left, right, bottom, center;
+	private JPanel top, left, right, bottom;
 	private JButton back;
 
 	/**
@@ -102,7 +102,7 @@ public class GameController extends Controller implements KeyListener {
 	public void setGameMap(String mapFile) {
 		this.mapFile = mapFile;
 		game = new Game();
-		game.setMap(mapFile);
+		game.setLevelMap(mapFile);
 		view = new GameView(game);
 		// add observer to game
 		game.addObserver(view);
@@ -115,7 +115,7 @@ public class GameController extends Controller implements KeyListener {
 	 *            the map file to switch
 	 */
 	public void switchMap(String mapFile) {
-		game.setMap(mapFile);
+		game.setLevelMap(mapFile);
 		view.setGame(game);
 	}
 
@@ -195,12 +195,11 @@ public class GameController extends Controller implements KeyListener {
 			// rogue get a power up
 			game.getRogue().powerup();
 		}
-		if (!game.isTunnel()) {
-			// rogue do not enter the entrance of next map
 
-			// let monster move
-			game.setMonsterSite(game.getMonster().move());
-			if (game.isCatchUp()) {
+		if (!game.isTunnelSite()) {
+			// rogue do not enter the entrance of next map
+			game.setMonsterSite(game.getMonster().move());// let monster move
+			if (game.isMonsterSite()) {
 				// if the monster catch the rogue, it will hurt the rogue
 				game.getRogue().takeDamage(game.getMonster().getDamage());
 
