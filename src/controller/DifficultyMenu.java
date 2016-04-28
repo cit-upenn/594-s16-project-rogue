@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import view.MapView;
+import view.DifficultyView;
 
 /**
  * This class represents the easy/medium/hard mode map selection menu.
@@ -20,7 +20,7 @@ import view.MapView;
  *
  */
 @SuppressWarnings("serial")
-public class MapMenu extends Controller {
+public class DifficultyMenu extends Controller {
 
 	/**
 	 * Game controller
@@ -31,9 +31,9 @@ public class MapMenu extends Controller {
 	 * GUI variables
 	 */
 	private JPanel top, left, right, bottom, center;
-	private JButton map1, map2, map3, back;
-	private MapView mapView;
-	private String[] mapFiles;
+	private JButton easy, medium, hard, back;
+	private DifficultyView difficultyView;
+	private String[] startMapFiles;
 	private String imageFile;
 
 	/**
@@ -44,9 +44,10 @@ public class MapMenu extends Controller {
 	/**
 	 * constructor
 	 */
-	public MapMenu(WindowSwitcher controller) {
+	public DifficultyMenu(WindowSwitcher controller) {
 		this.switcher = controller;
-
+		imageFile = "pic/rogue.png";
+		startMapFiles = new String[] { "dungeon/1.txt", "dungeon/2.txt", "dungeon/3.txt" };
 	}
 
 	@Override
@@ -60,35 +61,6 @@ public class MapMenu extends Controller {
 	 */
 	public String getLevel() {
 		return level;
-	}
-
-	/**
-	 * @param level
-	 *            the level to set
-	 */
-	public void setLevel(String level) {
-		this.level = level;
-		// TODO: change each level background image
-		switch (level) {
-		case "easy":
-			imageFile = "pic/rogue.png";
-			mapFiles = new String[] { "dungeon/dungeonA.txt", "dungeon/dungeonN.txt", "dungeon/dungeonC.txt" };
-			break;
-
-		case "medium":
-			imageFile = "pic/rogue.png";
-			mapFiles = new String[] { "dungeon/dungeonF.txt", "dungeon/dungeonI.txt", "dungeon/dungeonH.txt" };
-			break;
-
-		case "hard":
-			imageFile = "pic/rogue.png";
-			mapFiles = new String[] { "dungeon/dungeonP.txt", "dungeon/dungeonJ.txt", "dungeon/dungeonQ.txt" };
-			break;
-
-		default:
-			break;
-		}
-
 	}
 
 	@Override
@@ -105,11 +77,11 @@ public class MapMenu extends Controller {
 	private void addImage(String imagePath) {
 
 		// adjust image size and add to view
-		mapView = new MapView();
-		mapView.setPreferredSize(new Dimension(600, 360));
-		mapView.setImage(imagePath);
-		mapView.repaint();
-		center.add(mapView);
+		difficultyView = new DifficultyView();
+		difficultyView.setPreferredSize(new Dimension(600, 360));
+		difficultyView.setImage(imagePath);
+		difficultyView.repaint();
+		center.add(difficultyView);
 	}
 
 	/**
@@ -141,66 +113,55 @@ public class MapMenu extends Controller {
 		bottom.setBackground(BLACK);
 
 		// add 3 option buttons
-		map1 = new JButton("Map 1");
-		setButton(map1);
-		bottom.add(map1);
-		map2 = new JButton("Map 2");
-		map2.setForeground(Color.white);
-		setButton(map2);
-		bottom.add(map2);
-		map3 = new JButton("Map 3");
-		setButton(map3);
-		bottom.add(map3);
+		easy = new JButton("Easy");
+		setButton(easy);
+		bottom.add(easy);
+		medium = new JButton("Medium");
+		medium.setForeground(Color.white);
+		setButton(medium);
+		bottom.add(medium);
+		hard = new JButton("Hard");
+		setButton(hard);
+		bottom.add(hard);
 		back = new JButton("Back");
 		setButton(back);
 		bottom.add(back);
 
 	}
-	
+
 	@Override
 	public void setButton(JButton button) {
 		button.setForeground(Color.white);
-//		button.setBackground(MEDIUM_ORCHID);
+		// button.setBackground(MEDIUM_ORCHID);
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
 		button.setFont(new Font("Arial", Font.PLAIN, 25));
-		
-		switch(level) {
-		case "easy":
-			button.setBackground(CRIMSON);	
-			break;
-		case "medium":
-			button.setBackground(SIENNA);
-			break;
-		case "hard":
-			button.setBackground(TEAL);
-			break;
-		}
+		button.setBackground(CRIMSON);
 	}
 
 	@Override
 	public void attachListenersToComponents() {
 
 		// add listeners to buttons
-		map1.addActionListener(new ActionListener() {
+		easy.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switcher.showGame(mapFiles[0]);
+				switcher.showGame(startMapFiles[0]);
 			}
 		});
 
-		map2.addActionListener(new ActionListener() {
+		medium.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switcher.showGame(mapFiles[1]);
+				switcher.showGame(startMapFiles[1]);
 			}
 		});
 
-		map3.addActionListener(new ActionListener() {
+		hard.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switcher.showGame(mapFiles[2]);
+				switcher.showGame(startMapFiles[2]);
 			}
 		});
 

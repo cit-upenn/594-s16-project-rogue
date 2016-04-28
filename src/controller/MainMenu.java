@@ -14,8 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * This class represents the game lobby(main menu), which has 3 difficulty modes: Easy,
- * Medium, Hard.
+ * This class represents the game lobby(main menu)
  *
  * @author SHANG
  * 
@@ -32,7 +31,7 @@ public class MainMenu extends Controller {
 	 * GUI variables
 	 */
 	private JPanel top, left, right, bottom, center;
-	private JButton easy, medium, hard;
+	private JButton start, rules, authorInfo;
 	private JLabel lobbyView;
 
 	/**
@@ -41,7 +40,7 @@ public class MainMenu extends Controller {
 	public MainMenu(WindowSwitcher controller) {
 		this.switcher = controller;
 	}
-	
+
 	@Override
 	public void enable() {
 		display("Lobby", 600, 400);
@@ -99,18 +98,18 @@ public class MainMenu extends Controller {
 		bottom.setBackground(BLACK);
 
 		// add 3 option buttons
-		easy = new JButton("Easy");
-		setButton(easy);
-		bottom.add(easy);
-		medium = new JButton("Medium");
-		setButton(medium);
-		bottom.add(medium);
-		hard = new JButton("Hard");
-		setButton(hard);
-		bottom.add(hard);
+		start = new JButton("Start");
+		setButton(start);
+		bottom.add(start);
+		rules = new JButton("Rules");
+		setButton(rules);
+		bottom.add(rules);
+		authorInfo = new JButton("About Us");
+		setButton(authorInfo);
+		bottom.add(authorInfo);
 
 	}
-	
+
 	@Override
 	public void setButton(JButton button) {
 		button.setForeground(Color.white);
@@ -118,38 +117,36 @@ public class MainMenu extends Controller {
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
-		button.setFont(new Font("Book Antiqua",Font.BOLD,20));
+		button.setFont(new Font("Book Antiqua", Font.BOLD, 20));
 	}
 
 	@Override
 	public void attachListenersToComponents() {
 
 		// add listeners to buttons
-		easy.addActionListener(new ActionListener() {
+		start.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switcher.showMapMenu("easy");
+				switcher.showDifficultyMenu();
 
 			}
 
 		});
 
-		medium.addActionListener(new ActionListener() {
+		rules.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switcher.showMapMenu("medium");
 
 			}
 
 		});
 
-		hard.addActionListener(new ActionListener() {
+		authorInfo.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switcher.showMapMenu("hard");
 
 			}
 

@@ -30,6 +30,8 @@ public class GameController extends Controller implements KeyListener {
 	private WindowSwitcher switcher;
 	private Game game;
 	private GameView view;
+	private static final String[] mapFiles = { "dungeon/1.txt", "dungeon/2.txt", "dungeon/3.txt", "dungeon/4.txt",
+			"dungeon/5.txt" };
 
 	/**
 	 * GUI variables

@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class MapView extends JPanel {
+public class DifficultyView extends JPanel {
 
 	private BufferedImage bImage;
 
