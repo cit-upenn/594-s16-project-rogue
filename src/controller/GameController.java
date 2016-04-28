@@ -77,13 +77,13 @@ public class GameController extends Controller implements KeyListener {
 	public void setGameMap(String mapName) {
 		this.mapFile = mapName;
 		game = new Game();
-		game.setMap(mapName);
+		game.setLevelMap(mapName);
 		view = new GameView(game);
 		game.addObserver(view);
 	}
 
 	public void switchMap(String mapName) {
-		game.setMap(mapName);
+		game.setLevelMap(mapName);
 		view.setGame(game);
 	}
 
@@ -157,9 +157,9 @@ public class GameController extends Controller implements KeyListener {
 		if (game.removePowerUpSiteMap(next)) {
 			game.getRogue().powerup();
 		}
-		if (!game.isTunnel()) {
+		if (!game.isTunnelSite()) {
 			game.setMonsterSite(game.getMonster().move());
-			if (game.isCatchUp()) {
+			if (game.isMonsterSite()) {
 				game.getRogue().takeDamage(game.getMonster().getDamage());
 				if (game.getRogue().isDead()) {
 					System.out.println("game over");

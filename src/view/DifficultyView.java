@@ -7,9 +7,19 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * This is class to draw the DifficultyView, used for chose difficulty
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
+ *
+ */
 @SuppressWarnings("serial")
 public class DifficultyView extends JPanel {
 
+	/**
+	 * Instance variable for DifficultyView
+	 */
 	private BufferedImage bImage;
 
 	/**
@@ -27,20 +37,8 @@ public class DifficultyView extends JPanel {
 		this.bImage = img;
 	}
 
-	/**
-	 * Displays what is going on in the Model. Note: This method should NEVER be
-	 * called directly; call repaint() instead.
-	 * 
-	 * @param g
-	 *            The Graphics on which to paint things.
-	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
-	 */
 	@Override
 	public void paint(Graphics g) {
-		// set the background of the view
-//		g.setColor(Color.WHITE);
-//		g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(bImage, 0, 0, 600, 360, null);
-
 	}
 }
