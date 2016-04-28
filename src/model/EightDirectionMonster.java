@@ -16,15 +16,15 @@ public class EightDirectionMonster extends Monster {
 	 * Constructor
 	 * @param game the rogie
 	 */
-	public EightDirectionMonster(Game game) {
-		super(game);
+	public EightDirectionMonster(Game game, String name) {
+		super(game, name);
 		this.damage = 3;
 	}
 
 	@Override
 	public Site move() {
 		// get current sites for monster and rogue
-        Site monster = game.getMonsterSite();
+        Site monster = game.getMonsterSite(name);
         Site rogue = game.getRogueSite();
         
         // get 8 adjacent sites

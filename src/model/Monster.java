@@ -18,18 +18,28 @@ public abstract class Monster {
 	protected int size;    // size of the dungeon
 	protected int damage;    // the damage done by this monster
 	protected boolean hit;    // if hit the rogue last round	
+	protected String name;    // name of the monster
 
 	/**
      * constructor
      * @param game the game this monster is in
      */
-    public Monster(Game game) {
+    public Monster(Game game, String name) {
     	// initialize instance variables
         this.game = game;
+        this.name = name;
         this.dungeon = game.getDungeon();
         this.size = dungeon.size();
         this.hit = false;
     }
+    
+    /**
+     * gets the name of the monster
+     * @return the name of the monster
+     */
+	public String getName() {
+		return name;
+	}
     
     /**
      * gets the game
