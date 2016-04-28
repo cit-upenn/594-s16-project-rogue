@@ -186,10 +186,10 @@ public class GameController extends Controller implements KeyListener {
 			}
 		}
 
-		if (game.isEnd()) {
-			removeKeyListener(this);
-			JOptionPane.showMessageDialog(getParent(), "HaHa, ni ge sb");
-		}
+//		if (game.isEnd()) {
+//			removeKeyListener(this);
+//			JOptionPane.showMessageDialog(getParent(), "HaHa, ni ge sb");
+//		}
 	}
 
 	@Override

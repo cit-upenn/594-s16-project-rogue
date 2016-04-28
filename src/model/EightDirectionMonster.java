@@ -15,6 +15,7 @@ public class EightDirectionMonster extends Monster {
 	 */
 	public EightDirectionMonster(Game game) {
 		super(game);
+		this.damage = 3;
 	}
 
 	@Override

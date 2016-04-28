@@ -9,6 +9,9 @@ public abstract class Monster {
 	protected Game game;    // the game this monster is in
 	protected Dungeon dungeon;    // the dungeon in the game
 	protected int size;    // size of the dungeon
+	protected int damage;
+
+	
 
 	/**
      * constructor
@@ -26,6 +29,13 @@ public abstract class Monster {
 	 */
 	public Game getGame() {
 		return game;
+	}
+	
+	/**
+	 * @return the damage
+	 */
+	public int getDamage() {
+		return damage;
 	}
 
 	/**

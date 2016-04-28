@@ -4,6 +4,7 @@ public class RandomMonster extends Monster {
 	
     public RandomMonster(Game game) {
     	super(game);
+    	this.damage = 2;
 	}
 
 	@Override

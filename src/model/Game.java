@@ -116,9 +116,12 @@ public class Game extends Observable {
 		return rogue;
 	}
 	
-	public void removePowerUpSiteMap(Site s) {
-		powerUpSiteMap.remove(s);
-		System.out.println("after: " + powerUpSiteMap.size());
+	/**
+	 * get rid of the power up location if it exists
+	 * @param s
+	 */
+	public boolean removePowerUpSiteMap(Site s) {
+		return powerUpSiteMap.remove(s);
 	}
 	
 	/**
@@ -186,12 +189,17 @@ public class Game extends Observable {
 	public Dungeon getDungeon() { 
 		return dungeon;     
 	}
+	
+	public boolean isTunnel() {
+		return (rogueSite.equals(tunnelSite));
+	}
+
 
 	/**
 	 * check is games end
 	 * @return true / false
 	 */
-	public boolean isEnd() {
+	public boolean isCatchUp() {
 		return (rogueSite.equals(monsterSite));
 	}
 
@@ -201,39 +209,21 @@ public class Game extends Observable {
 	 */
 	public void nextStep(Site next) {
 		setRogueSite(next);
-		removePowerUpSiteMap(next);
-		if (!isEnd()) {
+		if (removePowerUpSiteMap(next)) {
+			rogue.powerup();
+		}
+		if (!isTunnel()) {
 			setMonsterSite(getMonster().move());
+			if (isCatchUp()) {
+				rogue.takeDamage(monster.getDamage()); 
+				if (rogue.isDead()) {
+					System.out.println("game over");
+				}
+			}
+		} else {
+			System.out.println("level up");
 		}
 	}
-
-	//    /**
-	//     * simulates the game play
-	//     * play until monster catches the rogue
-	//     */
-	//    public void play() {
-	//        for (int t = 1; true; t++) {
-	//            System.out.println("Move " + t);
-	//            System.out.println();
-	//            
-	//            // monster moves
-	//            if (monsterSite.equals(rogueSite)) break;
-	//            Site next = monster.move();
-	//            if (dungeon.isLegalMove(monsterSite, next)) monsterSite = next;
-	//            else throw new RuntimeException("Monster caught cheating");
-	//            System.out.println(this);
-	//
-	//            // rogue moves
-	//            if (monsterSite.equals(rogueSite)) break;
-	//            next = rogue.move();
-	//            if (dungeon.isLegalMove(rogueSite, next)) rogueSite = next;
-	//            else throw new RuntimeException("Rogue caught cheating");
-	//            System.out.println(this);
-	//        }
-	//
-	//        System.out.println("Caught by monster");
-	//
-	//    }
 
 }
 
