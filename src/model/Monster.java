@@ -10,8 +10,7 @@ public abstract class Monster {
 	protected Dungeon dungeon;    // the dungeon in the game
 	protected int size;    // size of the dungeon
 	protected int damage;
-
-	
+	protected boolean hit;    // if hit the rogue last round	
 
 	/**
      * constructor
@@ -22,6 +21,7 @@ public abstract class Monster {
         this.game = game;
         this.dungeon = game.getDungeon();
         this.size = dungeon.size();
+        this.hit = false;
     }
     
     /**

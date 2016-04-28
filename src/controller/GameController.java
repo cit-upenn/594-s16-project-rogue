@@ -28,6 +28,7 @@ import view.GameView;
  */
 @SuppressWarnings("serial")
 public class GameController extends Controller implements KeyListener {
+	
 	private WindowSwitcher switcher;
 	private Game game;
 	private GameView view;
@@ -51,11 +52,11 @@ public class GameController extends Controller implements KeyListener {
 		this.switcher = switcher;
 		this.t = new Timer();
 		mapFiles = new ArrayList<String>();
-		this.mapFiles.add("dungeon/1.txt");
-		this.mapFiles.add("dungeon/2.txt");
-		this.mapFiles.add("dungeon/3.txt");
-		this.mapFiles.add("dungeon/4.txt");
-		this.mapFiles.add("dungeon/5.txt");
+		mapFiles.add("dungeon/1.txt");
+		mapFiles.add("dungeon/2.txt");
+		mapFiles.add("dungeon/3.txt");
+		mapFiles.add("dungeon/4.txt");
+		mapFiles.add("dungeon/5.txt");
 	}
 
 	@Override
@@ -245,4 +246,5 @@ public class GameController extends Controller implements KeyListener {
 			tt = null;
 		}
 	}
+	
 }

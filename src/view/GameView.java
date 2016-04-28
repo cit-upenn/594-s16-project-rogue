@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -118,7 +117,7 @@ public class GameView extends JPanel implements Observer {
 		y = monsterX * size + pad;
 		g2D.drawImage(monster, x + 5, y + 5, 25, 25, null);
 
-		// paint monster position
+		// paint tunnel position
 		Site tunnelSite = model.getTunnelSite();
 		int tunnelX = tunnelSite.getX();
 		int tunnelY = tunnelSite.getY();
@@ -127,7 +126,7 @@ public class GameView extends JPanel implements Observer {
 		y = tunnelX * size + pad;
 		g2D.drawImage(tunnel, x + 5, y + 5, 25, 25, null);
 
-		// paint monster position
+		// paint power up position
 		ArrayList<Site> powerUpSiteMap = model.getPowerUpSiteMap();
 		for (Site p : powerUpSiteMap) {
 			int powerupX = p.getX();
@@ -145,4 +144,5 @@ public class GameView extends JPanel implements Observer {
 		// TODO Auto-generated method stub
 		repaint();
 	}
+	
 }

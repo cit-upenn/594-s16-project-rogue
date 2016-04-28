@@ -21,7 +21,7 @@ public class Rogue {
         this.game = game;
         this.dungeon = game.getDungeon();
         this.size = dungeon.size();
-        this.hp = 100;
+        this.hp = 1;
     }
     
     /**

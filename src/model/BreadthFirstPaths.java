@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class BreadthFirstPaths {
+	
 	private static final int INFINITY = Integer.MAX_VALUE;
 	private boolean[][] marked;  // marked[v] = is there an s-v path
 	private Site[][] edgeTo;      // edgeTo[v] = previous edge on shortest s-v path

@@ -208,7 +208,7 @@ public class Game extends Observable {
 	}
 
 	public boolean isTunnel() {
-		return (rogueSite.equals(tunnelSite));
+		return rogueSite.equals(tunnelSite);
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class Game extends Observable {
 	 * @return true / false
 	 */
 	public boolean isCatchUp() {
-		return (rogueSite.equals(monsterSite));
+		return rogueSite.equals(monsterSite);
 	}
 
 }
