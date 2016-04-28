@@ -29,7 +29,7 @@ public class GameView extends JPanel implements Observer {
 	private char[][] board;
 
 	private BufferedImage rogue, monster;
-	private BufferedImage wall, corridor, room;
+	private BufferedImage wall, corridor, room, tunnel, powerup;
 	private final static int pad = 50;
 	private final static int size = 25;
 	private final static BasicStroke stroke = new BasicStroke(2.0f);
@@ -46,8 +46,11 @@ public class GameView extends JPanel implements Observer {
 		room = loadImage("pic/room3.jpg");
 		corridor = loadImage("pic/corridor3.jpg");
 		wall = loadImage("pic/wall3.jpg");
+		tunnel = loadImage("pic/tunnel.jpg");
+		powerup = loadImage("pic/hp.jpg");
 		monster = loadImage("pic/randommonster.jpg");
 		rogue = loadImage("pic/rogue.jpg");
+
 	}
 
 	/**
@@ -57,7 +60,7 @@ public class GameView extends JPanel implements Observer {
 	 */
 	private BufferedImage loadImage(String filename) {
 		try {
-		return ImageIO.read(new File(filename));
+			return ImageIO.read(new File(filename));
 		} catch(IOException e) {
 			e.printStackTrace();
 			return null;
@@ -110,6 +113,27 @@ public class GameView extends JPanel implements Observer {
 		x = monsterY * size + pad;
 		y = monsterX * size + pad;
 		g2D.drawImage(monster, x+5, y+5, 25, 25, null);
+
+		// paint monster position
+		Site tunnelSite = model.getTunnelSite();
+		int tunnelX = tunnelSite.getX();
+		int tunnelY = tunnelSite.getY();
+		System.out.println("tunnel: " + tunnelX + "," + tunnelY);
+		x = tunnelY * size + pad;
+		y = tunnelX * size + pad;
+		g2D.drawImage(tunnel, x+5, y+5, 25, 25, null);
+
+		// paint monster position
+		ArrayList<Site> powerUpSiteMap = model.getPowerUpSiteMap();
+		for (Site p: powerUpSiteMap) {
+			int powerupX = p.getX();
+			int powerupY = p.getY();
+			System.out.println("powerup: " + powerupX + "," + powerupY);
+			x = powerupY * size + pad;
+			y = powerupX * size + pad;
+			g2D.drawImage(powerup, x+5, y+5, 25, 25, null);
+		}
+		
 
 	}
 
