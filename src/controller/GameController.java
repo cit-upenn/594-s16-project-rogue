@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,8 +31,8 @@ public class GameController extends Controller implements KeyListener {
 	private WindowSwitcher switcher;
 	private Game game;
 	private GameView view;
-	private static final String[] mapFiles = { "dungeon/1.txt", "dungeon/2.txt", "dungeon/3.txt", "dungeon/4.txt",
-			"dungeon/5.txt" };
+	private String mapFile;
+	public static ArrayList<String> mapFiles;
 
 	/**
 	 * GUI variables
@@ -49,27 +50,40 @@ public class GameController extends Controller implements KeyListener {
 	public GameController(WindowSwitcher switcher) {
 		this.switcher = switcher;
 		this.t = new Timer();
+		mapFiles = new ArrayList<String>();
+		this.mapFiles.add("dungeon/1.txt");
+		this.mapFiles.add("dungeon/2.txt");
+		this.mapFiles.add("dungeon/3.txt");
+		this.mapFiles.add("dungeon/4.txt");
+		this.mapFiles.add("dungeon/5.txt");
 	}
 
 	@Override
 	public void enable() {
 
-		display("Game", 600, 400);
+		display("Game", 1000, 1000);
 		addKeyListener(this);
 		setFocusable(true);
 		setVisible(true);
 		// add the map view
-		view.repaint();
+		// view.repaint();
 
 	}
 
 	/**
 	 * load the map of the game
 	 */
-	public void setGameMap(String Mapname) {
-		game = new Game(Mapname);
+	public void setGameMap(String mapName) {
+		this.mapFile = mapName;
+		game = new Game();
+		game.setMap(mapName);
 		view = new GameView(game);
 		game.addObserver(view);
+	}
+
+	public void switchMap(String mapName) {
+		game.setMap(mapName);
+		view.setGame(game);
 	}
 
 	@Override
@@ -132,6 +146,42 @@ public class GameController extends Controller implements KeyListener {
 
 	}
 
+	/**
+	 * do next step
+	 * 
+	 * @param next
+	 */
+	public void nextStep(Site next) {
+		game.setRogueSite(next);
+		if (game.removePowerUpSiteMap(next)) {
+			game.getRogue().powerup();
+		}
+		if (!game.isTunnel()) {
+			game.setMonsterSite(game.getMonster().move());
+			if (game.isCatchUp()) {
+				game.getRogue().takeDamage(game.getMonster().getDamage());
+				if (game.getRogue().isDead()) {
+					System.out.println("game over");
+					removeKeyListener(this);
+					JOptionPane.showMessageDialog(getParent(), "Game Over!");
+				}
+			}
+		} else {
+			int i = mapFiles.indexOf(mapFile);
+			if (i < mapFiles.size() - 1) {
+				mapFile = mapFiles.get(i + 1);
+				switchMap(mapFile);
+
+			} else {
+				removeKeyListener(this);
+				JOptionPane.showMessageDialog(getParent(), "You win!");
+			}
+
+			System.out.println("level up");
+
+		}
+	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -158,7 +208,7 @@ public class GameController extends Controller implements KeyListener {
 			Site next = new Site(current.getX() - 1, current.getY());
 			System.out.println("up: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
-				game.nextStep(next);
+				nextStep(next);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			System.out.println("down key pressed");
@@ -166,7 +216,7 @@ public class GameController extends Controller implements KeyListener {
 			Site next = new Site(current.getX() + 1, current.getY());
 			System.out.println("down: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
-				game.nextStep(next);
+				nextStep(next);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			System.out.println("right key pressed");
@@ -174,7 +224,7 @@ public class GameController extends Controller implements KeyListener {
 			Site next = new Site(current.getX(), current.getY() + 1);
 			System.out.println("right: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
-				game.nextStep(next);
+				nextStep(next);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			System.out.println("left key pressed");
@@ -182,14 +232,9 @@ public class GameController extends Controller implements KeyListener {
 			Site next = new Site(current.getX(), current.getY() - 1);
 			System.out.println("left: " + next.getX() + "," + next.getY());
 			if (game.getDungeon().isLegalMove(current, next)) {
-				game.nextStep(next);
+				nextStep(next);
 			}
 		}
-
-//		if (game.isEnd()) {
-//			removeKeyListener(this);
-//			JOptionPane.showMessageDialog(getParent(), "HaHa, ni ge sb");
-//		}
 	}
 
 	@Override

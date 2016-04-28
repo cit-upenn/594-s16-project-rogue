@@ -40,9 +40,7 @@ public class GameView extends JPanel implements Observer {
 	 * @param model
 	 */
 	public GameView(Game model) {
-		this.model = model;
-		this.board = model.getDungeon().getBoard();
-		System.out.println(Arrays.deepToString(board));
+		setGame(model);
 		room = loadImage("pic/room3.jpg");
 		corridor = loadImage("pic/corridor3.jpg");
 		wall = loadImage("pic/wall3.jpg");
@@ -53,20 +51,26 @@ public class GameView extends JPanel implements Observer {
 
 	}
 
+	public void setGame(Game model) {
+		this.model = model;
+		this.board = model.getDungeon().getBoard();
+		// System.out.println(Arrays.deepToString(board));
+	}
+
 	/**
 	 * Open and return a fixed size image file
+	 * 
 	 * @param filename
 	 * @return
 	 */
 	private BufferedImage loadImage(String filename) {
 		try {
 			return ImageIO.read(new File(filename));
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-
 
 	@Override
 	public void paint(Graphics g) {
@@ -85,13 +89,13 @@ public class GameView extends JPanel implements Observer {
 				int y = i * size + pad;
 				if (board[i][j] == '+') {
 					// corridor
-					g2D.drawImage(corridor, x+5, y+5, 25, 25, null);
+					g2D.drawImage(corridor, x + 5, y + 5, 25, 25, null);
 				} else if (board[i][j] == '.') {
 					// room
-					g2D.drawImage(room, x+5, y+5, 25, 25, null);
+					g2D.drawImage(room, x + 5, y + 5, 25, 25, null);
 				} else {
 					// wall
-					g2D.drawImage(wall, x+5, y+5, 25, 25, null);
+					g2D.drawImage(wall, x + 5, y + 5, 25, 25, null);
 				}
 			}
 		}
@@ -103,7 +107,7 @@ public class GameView extends JPanel implements Observer {
 		System.out.println("rogue: " + rogueX + "," + rogueY);
 		int x = rogueY * size + pad;
 		int y = rogueX * size + pad;
-		g2D.drawImage(rogue, x+5, y+5, 25, 25, null);
+		g2D.drawImage(rogue, x + 5, y + 5, 25, 25, null);
 
 		// paint monster position
 		Site monsterSite = model.getMonsterSite();
@@ -112,7 +116,7 @@ public class GameView extends JPanel implements Observer {
 		System.out.println("monster: " + monsterX + "," + monsterY);
 		x = monsterY * size + pad;
 		y = monsterX * size + pad;
-		g2D.drawImage(monster, x+5, y+5, 25, 25, null);
+		g2D.drawImage(monster, x + 5, y + 5, 25, 25, null);
 
 		// paint monster position
 		Site tunnelSite = model.getTunnelSite();
@@ -121,19 +125,18 @@ public class GameView extends JPanel implements Observer {
 		System.out.println("tunnel: " + tunnelX + "," + tunnelY);
 		x = tunnelY * size + pad;
 		y = tunnelX * size + pad;
-		g2D.drawImage(tunnel, x+5, y+5, 25, 25, null);
+		g2D.drawImage(tunnel, x + 5, y + 5, 25, 25, null);
 
 		// paint monster position
 		ArrayList<Site> powerUpSiteMap = model.getPowerUpSiteMap();
-		for (Site p: powerUpSiteMap) {
+		for (Site p : powerUpSiteMap) {
 			int powerupX = p.getX();
 			int powerupY = p.getY();
 			System.out.println("powerup: " + powerupX + "," + powerupY);
 			x = powerupY * size + pad;
 			y = powerupX * size + pad;
-			g2D.drawImage(powerup, x+5, y+5, 25, 25, null);
+			g2D.drawImage(powerup, x + 5, y + 5, 25, 25, null);
 		}
-		
 
 	}
 

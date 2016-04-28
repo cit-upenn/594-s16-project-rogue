@@ -52,8 +52,6 @@ public class WindowSwitcher {
 		difficultyMenu.disable();
 		gameController.setGameMap(mapName);
 		gameController.enable();
-	
-
 	}
 
 	public static void main(String[] args) {

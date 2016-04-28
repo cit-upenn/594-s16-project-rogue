@@ -13,7 +13,7 @@ public class FourDirectionMonster extends Monster {
 	 */
 	public FourDirectionMonster(Game game) {
 		super(game);
-		this.damage = 2;
+		this.damage = 1;
 	}
 
 	@Override
