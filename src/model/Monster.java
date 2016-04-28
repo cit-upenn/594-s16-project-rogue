@@ -1,15 +1,22 @@
 package model;
 
-/*************************************************************************
- *  Compilation:  javac Monster.java
+/**
+ * This class represents an abstract monster.
  * 
- *************************************************************************/
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
+ *
+ */
 public abstract class Monster {
 	
+	/**
+	 * instance variables
+	 */
 	protected Game game;    // the game this monster is in
 	protected Dungeon dungeon;    // the dungeon in the game
 	protected int size;    // size of the dungeon
-	protected int damage;
+	protected int damage;    // the damage done by this monster
 	protected boolean hit;    // if hit the rogue last round	
 
 	/**
@@ -25,6 +32,7 @@ public abstract class Monster {
     }
     
     /**
+     * gets the game
 	 * @return the game
 	 */
 	public Game getGame() {
@@ -32,6 +40,7 @@ public abstract class Monster {
 	}
 	
 	/**
+	 * gets the damage
 	 * @return the damage
 	 */
 	public int getDamage() {
@@ -39,6 +48,7 @@ public abstract class Monster {
 	}
 
 	/**
+	 * gets the dungeon
 	 * @return the dungeon
 	 */
 	public Dungeon getDungeon() {
@@ -46,6 +56,7 @@ public abstract class Monster {
 	}
 
 	/**
+	 * gets the size
 	 * @return the size
 	 */
 	public int getSize() {

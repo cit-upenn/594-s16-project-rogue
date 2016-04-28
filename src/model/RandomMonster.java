@@ -1,7 +1,23 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+/**
+ * Random monster which moves randomly when near to the rogue, 
+ * otherwise move towards the rogue.
+ * 
+ * @author Zhiyuan Li
+ * @author Yi Shang
+ * @author Di Wu
+ *
+ */
 public class RandomMonster extends Monster {
 	
+	/**
+	 * Constructor
+	 * @param game the game monster is in
+	 */
     public RandomMonster(Game game) {
     	super(game);
     	this.damage = 2;
@@ -12,27 +28,32 @@ public class RandomMonster extends Monster {
     	// current sites for monster and rogue
         Site monster = game.getMonsterSite();
         Site rogue = game.getRogueSite();
-        Site move = null;
         
         // move closer if monster is too far from rogue
         if (monster.manhattanTo(rogue) > 3) {            
     		BreadthFirstPaths bfp = new BreadthFirstPaths(dungeon, monster);
     		return bfp.pathTo(rogue).pop();
         }
-
-        // take random legal move
-        int n = 0;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                Site site = new Site(i, j);
-                if (dungeon.isLegalMove(monster, site)) {
-                    n++;
-                    if (Math.random() <= 1.0 / n) move = site;
-                }
-            }
-        }
         
-        return move;
+        // get 4 adjacent sites
+        int x = monster.getX();
+        int y = monster.getY();
+        
+        Site east = new Site(x + 1, y);
+        Site west = new Site(x - 1, y);
+        Site north = new Site(x, y - 1);
+        Site south = new Site(x, y + 1);
+        
+        // add legal moves to a list
+        ArrayList<Site> sites = new ArrayList<Site>();
+        if (dungeon.isLegalMove(monster, east)) sites.add(east);
+        if (dungeon.isLegalMove(monster, west)) sites.add(west);
+        if (dungeon.isLegalMove(monster, north)) sites.add(north);
+        if (dungeon.isLegalMove(monster, south)) sites.add(south);
+        
+        // take random legal move
+        Collections.shuffle(sites);        
+        return sites.get(0);
 	}
 
 }
