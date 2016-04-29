@@ -1,22 +1,23 @@
 package model;
 
 /**
- * This monster can only move to 4 direction: East, South, West, North.
+ * Random monster which moves randomly when near to the rogue, 
+ * otherwise move towards the rogue.
  * 
  * @author Zhiyuan Li
  * @author Yi Shang
  * @author Di Wu
  *
  */
-public class FourDirectionMonster extends Monster {
-
+public class LevelOneMonster extends Monster {
+	
 	/**
 	 * Constructor
-	 * @param game the rogue game
+	 * @param game the game monster is in
 	 */
-	public FourDirectionMonster(Game game, String name) {
-		super(game, name);
-		this.damage = 1;
+    public LevelOneMonster(Game game, String name) {
+    	super(game, name);
+    	this.damage = 1;
 	}
 
 	@Override

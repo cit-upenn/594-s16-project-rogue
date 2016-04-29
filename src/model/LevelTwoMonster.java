@@ -1,22 +1,22 @@
 package model;
 
 /**
- * This monster can move to 8 directions: E, S, N, W, WN, NE, ES, SW
+ * This monster can only move to 4 direction: East, South, West, North.
  * 
  * @author Zhiyuan Li
  * @author Yi Shang
  * @author Di Wu
  *
  */
-public class EightDirectionMonster extends Monster {
+public class LevelTwoMonster extends Monster {
 
 	/**
 	 * Constructor
-	 * @param game the rogie
+	 * @param game the rogue game
 	 */
-	public EightDirectionMonster(Game game, String name) {
+	public LevelTwoMonster(Game game, String name) {
 		super(game, name);
-		this.damage = 3;
+		this.damage = 2;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class EightDirectionMonster extends Monster {
         }
         
         // create BFS paths from monster to rogue
-		EightBreadthFirstPaths bfp = new EightBreadthFirstPaths(dungeon, monster);
+		FourBreadthFirstPaths bfp = new FourBreadthFirstPaths(dungeon, monster);
 		Site next = bfp.pathTo(rogue).pop();
 		if (next.equals(rogue)) {
 			if (hit) {
@@ -47,5 +47,5 @@ public class EightDirectionMonster extends Monster {
 		hit = false;
 		return next;
 	}
-	
+
 }

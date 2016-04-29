@@ -153,7 +153,7 @@ public class Game extends Observable {
 	}
 
 	/**
-	 * check is current rogue site is tunnel site
+	 * check if current rogue site is tunnel site
 	 * 
 	 * @return true / false
 	 */
@@ -162,7 +162,7 @@ public class Game extends Observable {
 	}
 
 	/**
-	 * check is current rogue site is monster site
+	 * check if current rogue site is monster site
 	 * 
 	 * @return true / false
 	 */
@@ -199,7 +199,7 @@ public class Game extends Observable {
 	}
 
 	/**
-	 * check is current rogue site is sword site
+	 * check if current rogue site is sword site
 	 * 
 	 * @return
 	 */
@@ -280,11 +280,11 @@ public class Game extends Observable {
 		dungeon = new Dungeon(board);
 		for (String s : monsterNameSiteMap.keySet()) {
 			if (s.equals("R")) {
-				monsterSiteMap.put(new RandomMonster(this, s), monsterNameSiteMap.get(s));
+				monsterSiteMap.put(new LevelOneMonster(this, s), monsterNameSiteMap.get(s));
 			}else if (s.equals("F")) {
-				monsterSiteMap.put(new FourDirectionMonster(this, s), monsterNameSiteMap.get(s));
+				monsterSiteMap.put(new LevelTwoMonster(this, s), monsterNameSiteMap.get(s));
 			} else {
-				monsterSiteMap.put(new EightDirectionMonster(this, s), monsterNameSiteMap.get(s));
+				monsterSiteMap.put(new LevelThreeMonster(this, s), monsterNameSiteMap.get(s));
 			}
 		}
 
