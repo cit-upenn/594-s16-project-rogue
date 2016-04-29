@@ -18,20 +18,20 @@ public class RandomMonster extends Monster {
 	 * Constructor
 	 * @param game the game monster is in
 	 */
-    public RandomMonster(Game game) {
-    	super(game);
+    public RandomMonster(Game game, String name) {
+    	super(game, name);
     	this.damage = 2;
 	}
 
 	@Override
 	public Site move() {
     	// current sites for monster and rogue
-        Site monster = game.getMonsterSite();
+        Site monster = game.getMonsterSite(name);
         Site rogue = game.getRogueSite();
         
         // move closer if monster is too far from rogue
         if (monster.manhattanTo(rogue) > 3) {            
-    		BreadthFirstPaths bfp = new BreadthFirstPaths(dungeon, monster);
+    		FourBreadthFirstPaths bfp = new FourBreadthFirstPaths(dungeon, monster);
     		return bfp.pathTo(rogue).pop();
         }
         

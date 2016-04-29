@@ -15,30 +15,35 @@ public class Game extends Observable {
 	/**
 	 * static char variables used in game
 	 */
-	private static final char MONSTER = 'M'; // name of the monster
-	private static final char ROGUE = '@'; // name of the rogue
-	private static final char POWERUP = '*'; // name of the power up
-	private static final char TUNNEL = '#'; // name of tunnel
+	private static final char R_MONSTER = 'R';    // name of the random monster
+	private static final char F_MONSTER = 'F';    // name of the four direction monster
+	private static final char E_MONSTER = 'E';    // name of the eight direction monster
+	private static final char ROGUE = '@';    // name of the rogue
+	private static final char POWERUP = '*';    // name of the power up
+	private static final char TUNNEL = '#';    // name of tunnel
+	private static final char SWORD = '$';    // name of the sword
 
 	/**
 	 * class instance variables that used in game
 	 */
 	private Dungeon dungeon; // the dungeon
-	private Monster monster; // the monster
 	private Rogue rogue; // the rogue
 
 	/**
 	 * keep track to record monster, rogue tunnel powerup site
 	 */
-	private Site monsterSite; // location of monster
-	private Site rogueSite; // location of rogue
-	private Site tunnelSite; // location of tunnel
-	private ArrayList<Site> powerUpSiteMap; // location of power up
+	private HashMap<String, Site> monsterNameSiteMap;   // map of monster to their site
+	private HashMap<Monster, Site> monsterSiteMap;    // location of monster
+	private Site rogueSite;    // location of rogue
+	private Site tunnelSite;    // location of tunnel
+	private ArrayList<Site> powerUpSiteMap;    // location of power up
+	private Site swordSite;    // location of sword
 
 	/**
 	 * Constructor for game
 	 */
 	public Game() {
+		rogue = new Rogue(this);
 	}
 
 	/**
@@ -48,7 +53,10 @@ public class Game extends Observable {
 	 *            the file that contains the map
 	 */
 	public void setLevelMap(String filename) {
-		powerUpSiteMap = new ArrayList<>();
+		System.out.println(filename);
+		powerUpSiteMap = new ArrayList<Site>();
+		monsterNameSiteMap = new HashMap<String, Site>();
+		monsterSiteMap = new HashMap<Monster, Site>();
 		char[][] board = readMap(filename);
 		init(board, filename);
 		sendNotification();
@@ -64,12 +72,12 @@ public class Game extends Observable {
 	}
 
 	/**
-	 * gets the monster of this game
+	 * gets the monster site info of this game
 	 * 
-	 * @return the monster of this game
+	 * @return the monsterSite of this game
 	 */
-	public Monster getMonster() {
-		return monster;
+	public HashMap<Monster, Site> getMonsterSiteMap() {
+		return monsterSiteMap;
 	}
 
 	/**
@@ -86,17 +94,20 @@ public class Game extends Observable {
 	 * 
 	 * @return the position of monster
 	 */
-	public Site getMonsterSite() {
-		return monsterSite;
+	public Site getMonsterSite(String name) {
+		for (Monster m : monsterSiteMap.keySet())
+			if (m.getName().equals(name))
+				return monsterSiteMap.get(m);
+		return null;
 	}
-
+	
 	/**
 	 * sets the position of monster
 	 * 
 	 * @return the position of monster
 	 */
-	public void setMonsterSite(Site monsterSite) {
-		this.monsterSite = monsterSite;
+	public void setMonsterSite(HashMap<Monster, Site> monsterSite) {
+		this.monsterSiteMap = monsterSite;
 		sendNotification();
 	}
 
@@ -134,7 +145,7 @@ public class Game extends Observable {
 	public ArrayList<Site> getPowerUpSiteMap() {
 		return powerUpSiteMap;
 	}
-
+	
 	/**
 	 * @return the tunnelSite
 	 */
@@ -157,7 +168,51 @@ public class Game extends Observable {
 	 * @return true / false
 	 */
 	public boolean isMonsterSite() {
-		return rogueSite.equals(monsterSite);
+		return monsterSiteMap.containsValue(rogueSite);
+	}
+	
+	/**
+	 * remove the monster
+	 * @param m
+	 */
+	public void removeMonster(Monster m) {
+		monsterSiteMap.remove(m);
+	}
+	
+	/**
+	 * return which monster caught the rogue
+	 * @return
+	 */
+	public Monster caughtBy() {
+		for (Monster m : monsterSiteMap.keySet()) {
+			if (monsterSiteMap.get(m).equals(rogueSite)) {
+				return m;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * sets the sword site
+	 */
+	public void setSwordSite() {
+		swordSite = null;
+	}
+
+	/**
+	 * check is current rogue site is sword site
+	 * 
+	 * @return
+	 */
+	public boolean isSwordSite() {
+		return rogueSite.equals(swordSite);
+	}
+
+	/**
+	 * @return the swordSite
+	 */
+	public Site getSwordSite() {
+		return swordSite;
 	}
 
 	/**
@@ -174,11 +229,21 @@ public class Game extends Observable {
 				String s = sc.nextLine();
 				for (int j = 0; j < boardLength; j++) {
 					board[i][j] = s.charAt(2 * j);
-					if (board[i][j] == MONSTER) { // check for monster's
+					if (board[i][j] == R_MONSTER) { // check for monster's
 													// location
-						monsterSite = new Site(i, j);
+						monsterNameSiteMap.put("R", new Site(i, j));
 						board[i][j] = '.';
 						// System.out.println("monster@ " + i + "," + j);
+					} else if (board[i][j] == F_MONSTER) { // check for
+															// monster's
+						// location
+						monsterNameSiteMap.put("F", new Site(i, j));
+						board[i][j] = '.';
+					} else if (board[i][j] == E_MONSTER) { // check for
+															// monster's
+						// location
+						monsterNameSiteMap.put("E", new Site(i, j));
+						board[i][j] = '.';
 					} else if (board[i][j] == ROGUE) { // check for rogue's
 														// location
 						rogueSite = new Site(i, j);
@@ -191,6 +256,9 @@ public class Game extends Observable {
 					} else if (board[i][j] == TUNNEL) { // check for tunnel's
 														// location
 						tunnelSite = new Site(i, j);
+						board[i][j] = '.';
+					} else if (board[i][j] == SWORD) {
+						swordSite = new Site(i, j);
 						board[i][j] = '.';
 					}
 				}
@@ -211,22 +279,14 @@ public class Game extends Observable {
 	private void init(char[][] board, String filename) {
 		// initialize dungeon, rogue, monster
 		dungeon = new Dungeon(board);
-		rogue = new Rogue(this);
-		switch (filename) {
-		// easy mode monster
-		case "dungeon/1.txt":
-		case "dungeon/2.txt":
-			monster = new RandomMonster(this);
-			break;
-		// medium mode monster
-		case "dungeon/3.txt":
-			monster = new FourDirectionMonster(this);
-			break;
-		// hard mode monster
-		case "dungeon/4.txt":
-		case "dungeon/5.txt":
-			monster = new EightDirectionMonster(this);
-			break;
+		for (String s : monsterNameSiteMap.keySet()) {
+			if (s.equals("R")) {
+				monsterSiteMap.put(new RandomMonster(this, s), monsterNameSiteMap.get(s));
+			}else if (s.equals("F")) {
+				monsterSiteMap.put(new FourDirectionMonster(this, s), monsterNameSiteMap.get(s));
+			} else {
+				monsterSiteMap.put(new EightDirectionMonster(this, s), monsterNameSiteMap.get(s));
+			}
 		}
 
 	}

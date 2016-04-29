@@ -13,7 +13,7 @@ import java.util.Stack;
  * @author Di Wu
  * 
  */
-public class BreadthFirstPaths {
+public class EightBreadthFirstPaths {
 	
 	/**
 	 * instance variables
@@ -29,7 +29,7 @@ public class BreadthFirstPaths {
 	 * @param d the dungeon
 	 * @param s the source site
 	 */
-	public BreadthFirstPaths(Dungeon d, Site s) {
+	public EightBreadthFirstPaths(Dungeon d, Site s) {
 		marked = new boolean[d.size()][d.size()];
 		distTo = new int[d.size()][d.size()];
 		edgeTo = new Site[d.size()][d.size()];
@@ -60,11 +60,15 @@ public class BreadthFirstPaths {
 			int x = v.getX();
 			int y = v.getY();
 
-			// 4 adjacent sites
+			// 8 adjacent sites
 			Site east = new Site(x + 1, y);
 			Site west = new Site(x - 1, y);
 			Site north = new Site(x, y - 1);
 			Site south = new Site(x, y + 1);
+			Site northeast = new Site(x + 1, y - 1);
+			Site northwest = new Site(x - 1, y - 1);
+			Site southeast = new Site(x + 1, y + 1);
+			Site southwest = new Site(x - 1, y + 1);
 
 			// BFS the rest of the dungeon
 			if (d.isLegalMove(v, east) && !marked[east.getX()][east.getY()]) {
@@ -90,6 +94,30 @@ public class BreadthFirstPaths {
 				distTo[south.getX()][south.getY()] = distTo[x][y] + 1;
 				marked[south.getX()][south.getY()] = true;
 				q.offer(south);
+			}
+			if (d.isLegalMove(v, northeast) && !marked[northeast.getX()][northeast.getY()]) {
+				edgeTo[northeast.getX()][northeast.getY()] = v;
+				distTo[northeast.getX()][northeast.getY()] = distTo[x][y] + 1;
+				marked[northeast.getX()][northeast.getY()] = true;
+				q.offer(northeast);
+			}
+			if (d.isLegalMove(v, northwest) && !marked[northwest.getX()][northwest.getY()]) {
+				edgeTo[northwest.getX()][northwest.getY()] = v;
+				distTo[northwest.getX()][northwest.getY()] = distTo[x][y] + 1;
+				marked[northwest.getX()][northwest.getY()] = true;
+				q.offer(northwest);
+			}
+			if (d.isLegalMove(v, southeast) && !marked[southeast.getX()][southeast.getY()]) {
+				edgeTo[southeast.getX()][southeast.getY()] = v;
+				distTo[southeast.getX()][southeast.getY()] = distTo[x][y] + 1;
+				marked[southeast.getX()][southeast.getY()] = true;
+				q.offer(southeast);
+			}
+			if (d.isLegalMove(v, southwest) && !marked[southwest.getX()][southwest.getY()]) {
+				edgeTo[southwest.getX()][southwest.getY()] = v;
+				distTo[southwest.getX()][southwest.getY()] = distTo[x][y] + 1;
+				marked[southwest.getX()][southwest.getY()] = true;
+				q.offer(southwest);
 			}
 
 		}

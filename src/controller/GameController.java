@@ -10,12 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.*;
 
 import model.Game;
+import model.Monster;
 import model.Site;
 import view.GameView;
 
@@ -228,13 +230,27 @@ public class GameController extends Controller implements KeyListener {
 			// rogue get a power up
 			game.getRogue().powerup();
 		}
+		if (game.isSwordSite()) {
+			game.getRogue().setHasSword(true);
+			game.setSwordSite();
+		}
 
 		if (!game.isTunnelSite()) {
 			// rogue do not enter the entrance of next map
-			game.setMonsterSite(game.getMonster().move());// let monster move
+			HashMap<Monster, Site> monsterSiteMap = game.getMonsterSiteMap();
+			for (Monster m : monsterSiteMap.keySet()) {
+				monsterSiteMap.put(m, m.move());
+			}
+			game.setMonsterSite(monsterSiteMap);// let monster move
 			if (game.isMonsterSite()) {
 				// if the monster catch the rogue, it will hurt the rogue
-				game.getRogue().takeDamage(game.getMonster().getDamage());
+				if (game.getRogue().isHasSword()) {
+					// remove monster
+					game.removeMonster(game.caughtBy());	
+					game.getRogue().setHasSword(false);
+				} else {
+					game.getRogue().takeDamage(game.caughtBy().getDamage());
+				}
 
 				// determine whether the rogue is dead
 				if (game.getRogue().isDead()) {

@@ -14,15 +14,15 @@ public class FourDirectionMonster extends Monster {
 	 * Constructor
 	 * @param game the rogue game
 	 */
-	public FourDirectionMonster(Game game) {
-		super(game);
+	public FourDirectionMonster(Game game, String name) {
+		super(game, name);
 		this.damage = 1;
 	}
 
 	@Override
 	public Site move() {
 		// get current sites for monster and rogue
-        Site monster = game.getMonsterSite();
+        Site monster = game.getMonsterSite(name);
         Site rogue = game.getRogueSite(); 
         
         // stay still if already hit rogue
@@ -32,7 +32,7 @@ public class FourDirectionMonster extends Monster {
         }
         
         // create BFS paths from monster to rogue
-		BreadthFirstPaths bfp = new BreadthFirstPaths(dungeon, monster);
+		FourBreadthFirstPaths bfp = new FourBreadthFirstPaths(dungeon, monster);
 		Site next = bfp.pathTo(rogue).pop();
 		if (next.equals(rogue)) {
 			if (hit) {

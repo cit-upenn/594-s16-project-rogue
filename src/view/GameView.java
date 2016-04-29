@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.Game;
+import model.Monster;
 import model.Site;
 
 /**
@@ -27,8 +28,9 @@ public class GameView extends JPanel implements Observer {
 	 */
 	private Game model;
 	private char[][] board;
-	private BufferedImage rogue, monster;
-	private BufferedImage wall, corridor, room, tunnel, powerup;
+
+	private BufferedImage rogue, r_monster, f_monster, e_monster;
+	private BufferedImage wall, corridor, room, tunnel, powerup, sword;
 	private final static int pad = 0;
 	private final static int size = 25;
 	private final static BasicStroke stroke = new BasicStroke(2.0f);
@@ -45,8 +47,11 @@ public class GameView extends JPanel implements Observer {
 		corridor = loadImage("pic/corridor3.jpg");
 		wall = loadImage("pic/wall3.jpg");
 		tunnel = loadImage("pic/tunnel.jpg");
+		sword = loadImage("pic/sword.jpg");
 		powerup = loadImage("pic/hp.jpg");
-		monster = loadImage("pic/randommonster.jpg");
+		r_monster = loadImage("pic/randommonster.jpg");
+		f_monster = loadImage("pic/fourdirectionmonster.jpg");
+		e_monster = loadImage("pic/eightdirectionmonster.jpg");
 		rogue = loadImage("pic/rogue.jpg");
 
 	}
@@ -70,7 +75,7 @@ public class GameView extends JPanel implements Observer {
 		int row = board.length;
 		int column = board[0].length;
 
-		// paint the by value
+		// paint char array by value
 		g2D.setStroke(stroke);
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
@@ -88,27 +93,38 @@ public class GameView extends JPanel implements Observer {
 				}
 			}
 		}
+		
+		// paint tunnel position
+		paintImage(model.getTunnelSite(), tunnel, g2D);
+
+		// paint sword position
+		paintImage(model.getSwordSite(), sword, g2D);
+
+		// paint power up position
+		for (Site powerUpSite : model.getPowerUpSiteMap()) {
+			paintImage(powerUpSite, powerup, g2D);
+		}
 
 		// paint rogue position
 		paintImage(model.getRogueSite(), rogue, g2D);
 
 		// paint monster position
-		paintImage(model.getMonsterSite(), monster, g2D);
-
-		// paint tunnel position
-		paintImage(model.getTunnelSite(), tunnel, g2D);
-
-		// paint power up position
-		ArrayList<Site> powerUpSiteMap = model.getPowerUpSiteMap();
-		for (Site powerUpSite : powerUpSiteMap) {
-			paintImage(powerUpSite, powerup, g2D);
+		HashMap<Monster, Site> monsterSiteMap = model.getMonsterSiteMap();
+		for (Monster m : monsterSiteMap.keySet()) {
+			String mName = m.getName();
+			if(mName.equals("R")) {
+				paintImage(monsterSiteMap.get(m), r_monster, g2D);
+			} else if (mName.equals("F")) {
+				paintImage(monsterSiteMap.get(m), f_monster, g2D);
+			} else {
+				paintImage(monsterSiteMap.get(m), e_monster, g2D);
+			}
 		}
 
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 		repaint();
 	}
 
@@ -134,12 +150,13 @@ public class GameView extends JPanel implements Observer {
 	 * @param g2D
 	 */
 	private void paintImage(Site characterSite, Image character, Graphics2D g2D) {
-		int X = characterSite.getX();
-		int Y = characterSite.getY();
-		// System.out.println("tunnel: " + X + "," + Y);
-		int x = Y * size + pad;
-		int y = X * size + pad;
-		g2D.drawImage(character, x + 5, y + 5, 25, 25, null);
+		if (characterSite != null) {
+			int X = characterSite.getX();
+			int Y = characterSite.getY();
+			int x = Y * size + pad;
+			int y = X * size + pad;
+			g2D.drawImage(character, x + 5, y + 5, 25, 25, null);
+		}
 	}
 
 }

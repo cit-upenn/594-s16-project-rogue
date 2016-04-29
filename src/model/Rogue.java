@@ -13,6 +13,7 @@ public class Rogue {
 	 * instance variable for rogue
 	 */
 	private int hp;
+	private boolean hasSword;
 
 	/**
 	 * constructor
@@ -29,7 +30,7 @@ public class Rogue {
 	 * rogue power up
 	 */
 	public void powerup() {
-		System.out.println(hp);
+//		System.out.println(hp);
 		hp = hp + 1;
 	}
 
@@ -40,7 +41,20 @@ public class Rogue {
 	 */
 	public void takeDamage(int damage) {
 		hp = hp - damage;
-		System.out.println(hp);
+	}
+	
+	/**
+	 * @return the hasSword
+	 */
+	public boolean isHasSword() {
+		return hasSword;
+	}
+
+	/**
+	 * @param hasSword the hasSword to set
+	 */
+	public void setHasSword(boolean hasSword) {
+		this.hasSword = hasSword;
 	}
 
 	/**
