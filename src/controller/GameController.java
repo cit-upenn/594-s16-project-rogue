@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,11 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 import model.Game;
@@ -75,6 +81,13 @@ public class GameController extends Controller implements KeyListener {
 	private static final int WIDTH = 720;
 	private static final int HEIGHT = 580;
 	private static final String hurtAudio = "sound/hurt.wav";
+	private static final String pickUpSwordAudio = "sound/pickup_sword.wav";
+	private static final String killMonsterAudio = "sound/kill_monster.wav";
+	private static final String powerUpAudio = "sound/power_up.wav";
+	private static final String levelUpAudio = "sound/level_up.wav";
+	private static final String bgmAudio = "sound/bgm.wav";
+	private static final String deadAudio = "sound/dead.wav";
+	private static final String winAudio = "sound/win.wav";
 
 	/**
 	 * to control the keyboard action
@@ -88,6 +101,7 @@ public class GameController extends Controller implements KeyListener {
 	private AudioPlayer palyer;
 	private AudioStream sound;
 	private AudioData audioData;
+	private Clip clip;
 
 	/**
 	 * constructor
@@ -142,6 +156,12 @@ public class GameController extends Controller implements KeyListener {
 		view = new GameView(game);
 		// add observer to game
 		game.addObserver(view);
+		try {
+			playBGM(bgmAudio);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -244,6 +264,7 @@ public class GameController extends Controller implements KeyListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switcher.showMainMenu();
+				clip.close();
 			}
 
 		});
@@ -261,9 +282,11 @@ public class GameController extends Controller implements KeyListener {
 		game.setRogueSite(next);
 		if (game.removePowerUpSiteMap(next)) {
 			// rogue get a power up
+			playAudio(powerUpAudio);
 			game.getRogue().powerup();
 		}
 		if (game.isSwordSite()) {
+			playAudio(pickUpSwordAudio);
 			game.getRogue().addSword();
 			game.setSwordSite();
 		}
@@ -279,6 +302,7 @@ public class GameController extends Controller implements KeyListener {
 				// if the monster catch the rogue, it will hurt the rogue
 				if (game.getRogue().hasSword()) {
 					// remove monster
+					playAudio(killMonsterAudio);
 					game.removeMonster(game.caughtBy());
 					game.getRogue().removeSword();
 				} else {
@@ -288,6 +312,8 @@ public class GameController extends Controller implements KeyListener {
 
 				// determine whether the rogue is dead
 				if (game.getRogue().isDead()) {
+					playAudio(deadAudio);
+					clip.close();
 					removeKeyListener(this);
 					JOptionPane.showMessageDialog(getParent(), "Game Over!");
 				}
@@ -299,9 +325,11 @@ public class GameController extends Controller implements KeyListener {
 				// if the map is not the final map, "level up", set next map
 				mapFile = mapFiles.get(i + 1);
 				level = i + 1 + 1;
+				playAudio(levelUpAudio);
 				switchMap(mapFile);
 			} else {
 				// if the map is the final map, the rogue wins
+				playAudio(winAudio);
 				removeKeyListener(this);
 				JOptionPane.showMessageDialog(getParent(), "You win!");
 			}
@@ -393,6 +421,24 @@ public class GameController extends Controller implements KeyListener {
 			e.printStackTrace();
 		}
 		palyer.start(stream);
+	}
+
+	/**
+	 * helper method to play audio
+	 * 
+	 * @param audioFile
+	 * @throws IOException
+	 * @throws UnsupportedAudioFileException
+	 * @throws LineUnavailableException
+	 * @throws InterruptedException
+	 */
+	private void playBGM(String bgmFile)
+			throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException {
+
+		AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(bgmFile));
+		clip = AudioSystem.getClip();
+		clip.open(inputStream);
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
 }
