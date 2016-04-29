@@ -191,8 +191,9 @@ public class GameController extends Controller implements KeyListener {
 	}
 
 	private void updateText() {
-		text.setText("LEVEL " + level + "\n");
+		text.setText("LEVEL " + level + "\n" + "Current HP : " + game.getRogue().getHp() + "\n" + "Current Sword number: " + game.getRogue().getNumberSword() );
 	}
+	
 
 	@Override
 	public void setButton(JButton button) {

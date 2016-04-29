@@ -44,6 +44,21 @@ public class Rogue {
 	}
 	
 	/**
+	 * @return the number of sword the rogue currently have
+	 */
+	public int getNumberSword() {
+		return numOfSword;
+	}
+	
+	
+	/**
+	 * @return the current rogue hp
+	 */
+	public int getHp() {
+		return hp;
+	}
+	
+	/**
 	 * @return the hasSword
 	 */
 	public boolean hasSword() {

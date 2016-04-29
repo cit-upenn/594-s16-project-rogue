@@ -53,7 +53,6 @@ public class Game extends Observable {
 	 *            the file that contains the map
 	 */
 	public void setLevelMap(String filename) {
-		System.out.println(filename);
 		powerUpSiteMap = new ArrayList<Site>();
 		monsterNameSiteMap = new HashMap<String, Site>();
 		monsterSiteMap = new HashMap<Monster, Site>();
