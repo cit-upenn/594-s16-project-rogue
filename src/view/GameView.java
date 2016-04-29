@@ -92,6 +92,17 @@ public class GameView extends JPanel implements Observer {
 				}
 			}
 		}
+		
+		// paint tunnel position
+		paintImage(model.getTunnelSite(), tunnel, g2D);
+
+		// paint sword position
+		paintImage(model.getSwordSite(), sword, g2D);
+
+		// paint power up position
+		for (Site powerUpSite : model.getPowerUpSiteMap()) {
+			paintImage(powerUpSite, powerup, g2D);
+		}
 
 		// paint rogue position
 		paintImage(model.getRogueSite(), rogue, g2D);
@@ -107,17 +118,6 @@ public class GameView extends JPanel implements Observer {
 			} else {
 				paintImage(monsterSiteMap.get(m), e_monster, g2D);
 			}
-		}
-		// paint tunnel position
-		paintImage(model.getTunnelSite(), tunnel, g2D);
-
-		// paint sword position
-		paintImage(model.getSwordSite(), sword, g2D);
-
-		// paint power up position
-		ArrayList<Site> powerUpSiteMap = model.getPowerUpSiteMap();
-		for (Site powerUpSite : powerUpSiteMap) {
-			paintImage(powerUpSite, powerup, g2D);
 		}
 
 	}

@@ -15,32 +15,29 @@ public class Game extends Observable {
 	/**
 	 * static char variables used in game
 	 */
-	private static final char R_MONSTER = 'R'; // name of the random monster
-	private static final char F_MONSTER = 'F'; // name of the four direction
-												// monster
-	private static final char E_MONSTER = 'E'; // name of the eight direction
-												// monster
-	private static final char ROGUE = '@'; // name of the rogue
-	private static final char POWERUP = '*'; // name of the power up
-	private static final char TUNNEL = '#'; // name of tunnel
-	private static final char SWORD = '$';
+	private static final char R_MONSTER = 'R';    // name of the random monster
+	private static final char F_MONSTER = 'F';    // name of the four direction monster
+	private static final char E_MONSTER = 'E';    // name of the eight direction monster
+	private static final char ROGUE = '@';    // name of the rogue
+	private static final char POWERUP = '*';    // name of the power up
+	private static final char TUNNEL = '#';    // name of tunnel
+	private static final char SWORD = '$';    // name of the sword
 
 	/**
 	 * class instance variables that used in game
 	 */
 	private Dungeon dungeon; // the dungeon
-//	private ArrayList<Monster> monster; // the monster
 	private Rogue rogue; // the rogue
 
 	/**
 	 * keep track to record monster, rogue tunnel powerup site
 	 */
-	private HashMap<String, Site> monsterNameSiteMap;
-	private HashMap<Monster, Site> monsterSiteMap; // location of monster
-	private Site rogueSite; // location of rogue
-	private Site tunnelSite; // location of tunnel
-	private ArrayList<Site> powerUpSiteMap; // location of power up
-	private Site swordSite; // location of sword
+	private HashMap<String, Site> monsterNameSiteMap;   // map of monster to their site
+	private HashMap<Monster, Site> monsterSiteMap;    // location of monster
+	private Site rogueSite;    // location of rogue
+	private Site tunnelSite;    // location of tunnel
+	private ArrayList<Site> powerUpSiteMap;    // location of power up
+	private Site swordSite;    // location of sword
 
 	/**
 	 * Constructor for game
@@ -73,15 +70,6 @@ public class Game extends Observable {
 	public Rogue getRogue() {
 		return rogue;
 	}
-
-//	/**
-//	 * gets the monster of this game
-//	 * 
-//	 * @return the monster of this game
-//	 */
-//	public ArrayList<Monster> getMonster() {
-//		return monster;
-//	}
 
 	/**
 	 * gets the monster site info of this game
@@ -157,7 +145,6 @@ public class Game extends Observable {
 	public ArrayList<Site> getPowerUpSiteMap() {
 		return powerUpSiteMap;
 	}
-
 	
 	/**
 	 * @return the tunnelSite
@@ -205,6 +192,9 @@ public class Game extends Observable {
 		return null;
 	}
 	
+	/**
+	 * sets the sword site
+	 */
 	public void setSwordSite() {
 		swordSite = null;
 	}
