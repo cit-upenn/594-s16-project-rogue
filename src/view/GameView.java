@@ -29,7 +29,7 @@ public class GameView extends JPanel implements Observer {
 	private char[][] board;
 	private BufferedImage rogue, monster;
 	private BufferedImage wall, corridor, room, tunnel, powerup;
-	private final static int pad = 50;
+	private final static int pad = 0;
 	private final static int size = 25;
 	private final static BasicStroke stroke = new BasicStroke(2.0f);
 
@@ -39,6 +39,7 @@ public class GameView extends JPanel implements Observer {
 	 * @param model
 	 */
 	public GameView(Game model) {
+		setOpaque(false);
 		setGame(model);
 		room = loadImage("pic/room3.jpg");
 		corridor = loadImage("pic/corridor3.jpg");
@@ -63,7 +64,6 @@ public class GameView extends JPanel implements Observer {
 
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
 		Graphics2D g2D = (Graphics2D) g;
 
 		// get board size

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,9 +13,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import model.Game;
 import model.Site;
@@ -50,6 +49,7 @@ public class GameController extends Controller implements KeyListener {
 	 * the current map
 	 */
 	private String mapFile;
+	private int level;
 
 	/**
 	 * store the total map files
@@ -59,8 +59,12 @@ public class GameController extends Controller implements KeyListener {
 	/**
 	 * GUI variables
 	 */
-	private JPanel top, left, right, bottom;
+	private JPanel top, left, right, bottom, rightBottom;
+	private JTextArea text;
 	private JButton back;
+
+	private static final int WIDTH = 700;
+	private static final int HEIGHT = 580;
 
 	/**
 	 * to control the keyboard action
@@ -83,11 +87,24 @@ public class GameController extends Controller implements KeyListener {
 		mapFiles.add("dungeon/3.txt");
 		mapFiles.add("dungeon/4.txt");
 		mapFiles.add("dungeon/5.txt");
+		addBackgroundImage();
+	}
+
+	/**
+	 * helper method to background image to the whole frame
+	 */
+	private void addBackgroundImage() {
+		// adjust image size and add to view
+		ImageIcon image = new ImageIcon("pic/background.jpg");
+		Image img = image.getImage();
+		Image newImg = img.getScaledInstance(WIDTH, HEIGHT, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newImage = new ImageIcon(newImg);
+		setContentPane(new JLabel(newImage));
 	}
 
 	@Override
 	public void enable() {
-		display("Game", 800, 800);
+		display("Game", WIDTH, HEIGHT);
 		addKeyListener(this);
 		setFocusable(true);
 		setVisible(true);
@@ -101,6 +118,7 @@ public class GameController extends Controller implements KeyListener {
 	 */
 	public void setGameMap(String mapFile) {
 		this.mapFile = mapFile;
+		level = 1;
 		game = new Game();
 		game.setLevelMap(mapFile);
 		view = new GameView(game);
@@ -117,6 +135,7 @@ public class GameController extends Controller implements KeyListener {
 	public void switchMap(String mapFile) {
 		game.setLevelMap(mapFile);
 		view.setGame(game);
+		updateText();
 	}
 
 	@Override
@@ -139,6 +158,7 @@ public class GameController extends Controller implements KeyListener {
 		add(top, BorderLayout.NORTH);
 		add(left, BorderLayout.WEST);
 		add(view, BorderLayout.CENTER);
+		right.setOpaque(false);
 		add(right, BorderLayout.EAST);
 		add(bottom, BorderLayout.SOUTH);
 
@@ -148,15 +168,28 @@ public class GameController extends Controller implements KeyListener {
 	 * helper method to add sub-panels within the bottom panel
 	 */
 	private void addSubPanels() {
+		// set right panel layout
+		right.setLayout(new GridLayout(2, 1));
+		text = new JTextArea();
+		right.add(text);
+		text.setForeground(Color.WHITE);
+		text.setOpaque(false);
+		updateText();
+		
+
 		// set buttom panel layout
 		bottom.setLayout(new GridLayout(1, 4));
 		bottom.setBackground(BLACK);
 
-		// add 3 option buttons
+		// add back button
 		back = new JButton("Back");
 		setButton(back);
 		bottom.add(back);
 
+	}
+
+	private void updateText() {
+		text.setText("LEVEL " + level + "\n");
 	}
 
 	@Override
@@ -215,6 +248,7 @@ public class GameController extends Controller implements KeyListener {
 			if (i < mapFiles.size() - 1) {
 				// if the map is not the final map, "level up", set next map
 				mapFile = mapFiles.get(i + 1);
+				level = i + 1 + 1;
 				switchMap(mapFile);
 			} else {
 				// if the map is the final map, the rogue wins
@@ -222,6 +256,7 @@ public class GameController extends Controller implements KeyListener {
 				JOptionPane.showMessageDialog(getParent(), "You win!");
 			}
 		}
+		updateText();
 	}
 
 	@Override
