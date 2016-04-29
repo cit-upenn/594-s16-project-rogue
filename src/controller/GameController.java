@@ -61,7 +61,7 @@ public class GameController extends Controller implements KeyListener {
 	/**
 	 * GUI variables
 	 */
-	private JPanel top, left, right, bottom, rightBottom;
+	private JPanel top, left, right, bottom;
 	private JTextArea text;
 	private JButton back;
 
@@ -231,7 +231,7 @@ public class GameController extends Controller implements KeyListener {
 			game.getRogue().powerup();
 		}
 		if (game.isSwordSite()) {
-			game.getRogue().setHasSword(true);
+			game.getRogue().addSword();
 			game.setSwordSite();
 		}
 
@@ -244,10 +244,10 @@ public class GameController extends Controller implements KeyListener {
 			game.setMonsterSite(monsterSiteMap);// let monster move
 			if (game.isMonsterSite()) {
 				// if the monster catch the rogue, it will hurt the rogue
-				if (game.getRogue().isHasSword()) {
+				if (game.getRogue().hasSword()) {
 					// remove monster
 					game.removeMonster(game.caughtBy());	
-					game.getRogue().setHasSword(false);
+					game.getRogue().removeSword();
 				} else {
 					game.getRogue().takeDamage(game.caughtBy().getDamage());
 				}
