@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
@@ -19,6 +21,10 @@ import javax.swing.*;
 import model.Game;
 import model.Monster;
 import model.Site;
+import sun.audio.AudioData;
+import sun.audio.AudioDataStream;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import view.GameView;
 
 /**
@@ -64,15 +70,24 @@ public class GameController extends Controller implements KeyListener {
 	private JPanel top, left, right, bottom;
 	private JTextArea text;
 	private JButton back;
+	private JLabel rogueImage;
 
-	private static final int WIDTH = 700;
+	private static final int WIDTH = 720;
 	private static final int HEIGHT = 580;
+	private static final String hurtAudio = "sound/hurt.wav";
 
 	/**
 	 * to control the keyboard action
 	 */
 	private Timer t;
 	private TimerTask tt;
+
+	/**
+	 * audio play
+	 */
+	private AudioPlayer palyer;
+	private AudioStream sound;
+	private AudioData audioData;
 
 	/**
 	 * constructor
@@ -83,6 +98,7 @@ public class GameController extends Controller implements KeyListener {
 	public GameController(WindowSwitcher switcher) {
 		this.switcher = switcher;
 		this.t = new Timer();
+		palyer = AudioPlayer.player;
 		mapFiles = new ArrayList<String>();
 		mapFiles.add("dungeon/1.txt");
 		mapFiles.add("dungeon/2.txt");
@@ -177,7 +193,8 @@ public class GameController extends Controller implements KeyListener {
 		text.setForeground(Color.WHITE);
 		text.setOpaque(false);
 		updateText();
-		
+		addRogueImage();
+		right.add(rogueImage);
 
 		// set buttom panel layout
 		bottom.setLayout(new GridLayout(1, 4));
@@ -190,10 +207,25 @@ public class GameController extends Controller implements KeyListener {
 
 	}
 
-	private void updateText() {
-		text.setText("LEVEL " + level + "\n" + "Current HP : " + game.getRogue().getHp() + "\n" + "Current Sword number: " + game.getRogue().getNumberSword() );
+	/**
+	 * helper method to rogue image to the lower right corner
+	 */
+	private void addRogueImage() {
+		// adjust image size and add to view
+		ImageIcon image = new ImageIcon("pic/undead_rogue.jpg");
+		Image img = image.getImage();
+		Image newImg = img.getScaledInstance(161, 257, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newImage = new ImageIcon(newImg);
+		rogueImage = new JLabel(newImage);
 	}
-	
+
+	/**
+	 * helper method to show rogue status
+	 */
+	private void updateText() {
+		text.setText("LEVEL " + level + "\t\n\n\n" + "HP :                    " + game.getRogue().getHp() + "\t\n\n"
+				+ "Sword number:   " + game.getRogue().getNumberSword() + "\t");
+	}
 
 	@Override
 	public void setButton(JButton button) {
@@ -247,9 +279,10 @@ public class GameController extends Controller implements KeyListener {
 				// if the monster catch the rogue, it will hurt the rogue
 				if (game.getRogue().hasSword()) {
 					// remove monster
-					game.removeMonster(game.caughtBy());	
+					game.removeMonster(game.caughtBy());
 					game.getRogue().removeSword();
 				} else {
+					playAudio(hurtAudio);
 					game.getRogue().takeDamage(game.caughtBy().getDamage());
 				}
 
@@ -341,6 +374,25 @@ public class GameController extends Controller implements KeyListener {
 			tt.cancel();
 			tt = null;
 		}
+	}
+
+	/**
+	 * helper method to play audio
+	 * 
+	 * @param audioFile
+	 */
+	private void playAudio(String audioFile) {
+
+		AudioDataStream stream = null;
+		try {
+			sound = new AudioStream(new FileInputStream(audioFile));
+			audioData = sound.getData();
+			stream = new AudioDataStream(audioData);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		palyer.start(stream);
 	}
 
 }
