@@ -49,9 +49,9 @@ public class GameView extends JPanel implements Observer {
 		tunnel = loadImage("pic/tunnel.jpg");
 		sword = loadImage("pic/sword.jpg");
 		powerup = loadImage("pic/hp.jpg");
-		r_monster = loadImage("pic/randommonster.jpg");
-		f_monster = loadImage("pic/fourdirectionmonster.jpg");
-		e_monster = loadImage("pic/eightdirectionmonster.jpg");
+		r_monster = loadImage("pic/levelonemonster.jpg");
+		f_monster = loadImage("pic/leveltwomonster.jpg");
+		e_monster = loadImage("pic/levelthreemonster.jpg");
 		rogue = loadImage("pic/rogue.jpg");
 
 	}

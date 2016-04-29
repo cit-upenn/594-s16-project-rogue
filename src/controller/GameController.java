@@ -243,8 +243,8 @@ public class GameController extends Controller implements KeyListener {
 	 * helper method to show rogue status
 	 */
 	private void updateText() {
-		text.setText("LEVEL " + level + "\t\n\n\n" + "HP :                    " + game.getRogue().getHp() + "\t\n\n"
-				+ "Sword number:   " + game.getRogue().getNumberSword() + "\t");
+		text.setText("LEVEL " + level + "\t\n\n\n" + "HP :               " + game.getRogue().getHp() + "\t\n\n"
+				+ "Sword :          " + game.getRogue().getNumberSword() + "\t");
 	}
 
 	@Override
