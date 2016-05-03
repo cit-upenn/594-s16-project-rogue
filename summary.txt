@@ -1,14 +1,29 @@
-Name: Rogue
+CIT 594 HW6
 
-Description: Rogue is a kind of role-playing games characterized by a dungeon crawl through procedurally generated game levels, turn-based gameplay, tile-based graphics, and permanent death of the player-character. 
-
-Actual work break down: 
-	Yi Shang: model->monster strategy.etc
-	Zhiyuan Li: controller .etc
-	Di Wu: model & game view
-
-Git: https://github.com/cit-upenn/594-s16-project-rogue.git
+Zhiyuan Li
+Yi Shang 
+Di Wu
 
 
 
+
+Project Name
+Rogue
+
+
+
+Description 
+Rogue is a kind of role-playing games characterized by a dungeon crawl through procedurally generated game levels, turn-based gameplay, tile-based graphics, and permanent death of the player-character. 
+
+
+
+Work Break Down
+Yi Shang: monster strategy, design of game model, etc.
+Zhiyuan Li: GUI and controller design, external feature, etc.
+Di Wu: game view design, miscellaneous components, etc
+
+
+
+Git Usage
+https://github.com/cit-upenn/594-s16-project-rogue.git
 
