@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -116,6 +117,11 @@ public class MainMenu extends Controller {
 
 	}
 
+	/**
+	 * create button add background
+	 * @param name
+	 * @return
+	 */
 	private JButton createButton(String name) {
 		ImageIcon image = new ImageIcon("pic/lobbybutton.jpg");
 		Image img = image.getImage();
@@ -154,16 +160,24 @@ public class MainMenu extends Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				JOptionPane.showMessageDialog(getParent(), "1. The rogue starts at a particular postion with hitpoint = 1\n\n"
+						+ "2. The rogue can move one step at a time, in four directions\n\n"
+						+ "3. There are three types of monsters, each with different damage values\n\n"
+						+ "4. The rogue can collect power-up to increment hitpoint value\n\n"
+						+ "5. The rogue can collect swords to kill monster one at a time\n\n"
+						+ "6. When rogue gets the exit mark, he will level up to next map\n\n"
+						+ "7. The game is over when rogue passes all maps or he has been killed by any monster\n");
 			}
-
 		});
 
 		authorInfo.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				JOptionPane.showMessageDialog(getParent(), "Author By: \n"
+						+ "Zhiyuan Li\n"
+						+ "Yi Shang\n"
+						+ "Di Wu\n");
 			}
 
 		});

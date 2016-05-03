@@ -133,6 +133,11 @@ public class DifficultyMenu extends Controller {
 
 	}
 	
+	/**
+	 * create button add background
+	 * @param name
+	 * @return
+	 */
 	private JButton createButton(String name) {
 		ImageIcon image = new ImageIcon("pic/mapbutton.jpg");
 		Image img = image.getImage();
