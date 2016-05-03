@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * This class represents the game lobby(main menu), inherits from Controller
@@ -100,25 +102,34 @@ public class MainMenu extends Controller {
 
 		// set buttom panel layout
 		bottom.setLayout(new GridLayout(1, 3));
-		bottom.setBackground(BLACK);
 
 		// add 3 option buttons
-		start = new JButton("Start");
+		start = createButton("Start");
 		setButton(start);
 		bottom.add(start);
-		rules = new JButton("Rules");
+		rules = createButton("Rules");
 		setButton(rules);
 		bottom.add(rules);
-		authorInfo = new JButton("About Us");
+		authorInfo = createButton("About Us");
 		setButton(authorInfo);
 		bottom.add(authorInfo);
 
 	}
 
+	private JButton createButton(String name) {
+		ImageIcon image = new ImageIcon("pic/lobbybutton.jpg");
+		Image img = image.getImage();
+		Image newImg = img.getScaledInstance(220, 30, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newImage = new ImageIcon(newImg);
+		JButton b = new JButton(name, newImage);
+		b.setVerticalTextPosition(SwingConstants.CENTER);
+		b.setHorizontalTextPosition(SwingConstants.CENTER);
+		return b;
+	}
+
 	@Override
 	public void setButton(JButton button) {
 		button.setForeground(Color.white);
-		button.setBackground(MEDIUM_ORCHID);
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
