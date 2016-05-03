@@ -15,29 +15,33 @@ public class Game extends Observable {
 	/**
 	 * static char variables used in game
 	 */
-	private static final char R_MONSTER = 'R';    // name of the random monster
-	private static final char F_MONSTER = 'F';    // name of the four direction monster
-	private static final char E_MONSTER = 'E';    // name of the eight direction monster
-	private static final char ROGUE = '@';    // name of the rogue
-	private static final char POWERUP = '*';    // name of the power up
-	private static final char TUNNEL = '#';    // name of tunnel
-	private static final char SWORD = '$';    // name of the sword
+	private static final char R_MONSTER = 'R'; // name of the random monster
+	private static final char F_MONSTER = 'F'; // name of the four direction
+												// monster
+	private static final char E_MONSTER = 'E'; // name of the eight direction
+												// monster
+	private static final char ROGUE = '@'; // name of the rogue
+	private static final char POWERUP = '*'; // name of the power up
+	private static final char TUNNEL = '#'; // name of tunnel
+	private static final char SWORD = '$'; // name of the sword
 
 	/**
 	 * class instance variables that used in game
 	 */
 	private Dungeon dungeon; // the dungeon
 	private Rogue rogue; // the rogue
+	private int level;
 
 	/**
 	 * keep track to record monster, rogue tunnel powerup site
 	 */
-	private HashMap<String, Site> monsterNameSiteMap;   // map of monster to their site
-	private HashMap<Monster, Site> monsterSiteMap;    // location of monster
-	private Site rogueSite;    // location of rogue
-	private Site tunnelSite;    // location of tunnel
-	private ArrayList<Site> powerUpSiteMap;    // location of power up
-	private Site swordSite;    // location of sword
+	private HashMap<String, Site> monsterNameSiteMap; // map of monster to their
+														// site
+	private HashMap<Monster, Site> monsterSiteMap; // location of monster
+	private Site rogueSite; // location of rogue
+	private Site tunnelSite; // location of tunnel
+	private ArrayList<Site> powerUpSiteMap; // location of power up
+	private Site swordSite; // location of sword
 
 	/**
 	 * Constructor for game
@@ -99,7 +103,7 @@ public class Game extends Observable {
 				return monsterSiteMap.get(m);
 		return null;
 	}
-	
+
 	/**
 	 * sets the position of monster
 	 * 
@@ -144,7 +148,7 @@ public class Game extends Observable {
 	public ArrayList<Site> getPowerUpSiteMap() {
 		return powerUpSiteMap;
 	}
-	
+
 	/**
 	 * @return the tunnelSite
 	 */
@@ -169,17 +173,19 @@ public class Game extends Observable {
 	public boolean isMonsterSite() {
 		return monsterSiteMap.containsValue(rogueSite);
 	}
-	
+
 	/**
 	 * remove the monster
+	 * 
 	 * @param m
 	 */
 	public void removeMonster(Monster m) {
 		monsterSiteMap.remove(m);
 	}
-	
+
 	/**
 	 * return which monster caught the rogue
+	 * 
 	 * @return
 	 */
 	public Monster caughtBy() {
@@ -190,7 +196,7 @@ public class Game extends Observable {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * sets the sword site
 	 */
@@ -215,10 +221,19 @@ public class Game extends Observable {
 	}
 
 	/**
+	 * @return the level
+	 */
+	public int getLevel() {
+		return level;
+	}
+
+	/**
 	 * This is a helper method to read file, get map info if it success,
 	 * otherwise system exit will be called.
 	 */
 	private char[][] readMap(String filename) {
+		// get level
+		this.level = Integer.parseInt(filename.replaceAll("\\D+", ""));
 		// create Scanner to read in file
 		try (Scanner sc = new Scanner(new File(filename))) {
 			// read in data
@@ -281,7 +296,7 @@ public class Game extends Observable {
 		for (String s : monsterNameSiteMap.keySet()) {
 			if (s.equals("R")) {
 				monsterSiteMap.put(new LevelOneMonster(this, s), monsterNameSiteMap.get(s));
-			}else if (s.equals("F")) {
+			} else if (s.equals("F")) {
 				monsterSiteMap.put(new LevelTwoMonster(this, s), monsterNameSiteMap.get(s));
 			} else {
 				monsterSiteMap.put(new LevelThreeMonster(this, s), monsterNameSiteMap.get(s));
