@@ -34,6 +34,7 @@ public class GameView extends JPanel implements Observer {
 	private final static int pad = 0;
 	private final static int size = 25;
 	private final static BasicStroke stroke = new BasicStroke(2.0f);
+	private int level;
 
 	/**
 	 * Constructor for View
@@ -64,13 +65,13 @@ public class GameView extends JPanel implements Observer {
 	public void setGame(Game model) {
 		this.model = model;
 		this.board = model.getDungeon().getBoard();
+		this.level = model.getLevel();
 		// System.out.println(Arrays.deepToString(board));
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2D = (Graphics2D) g;
-
 		// get board size
 		int row = board.length;
 		int column = board[0].length;
@@ -93,7 +94,7 @@ public class GameView extends JPanel implements Observer {
 				}
 			}
 		}
-		
+
 		// paint tunnel position
 		paintImage(model.getTunnelSite(), tunnel, g2D);
 
@@ -112,7 +113,7 @@ public class GameView extends JPanel implements Observer {
 		HashMap<Monster, Site> monsterSiteMap = model.getMonsterSiteMap();
 		for (Monster m : monsterSiteMap.keySet()) {
 			String mName = m.getName();
-			if(mName.equals("R")) {
+			if (mName.equals("R")) {
 				paintImage(monsterSiteMap.get(m), r_monster, g2D);
 			} else if (mName.equals("F")) {
 				paintImage(monsterSiteMap.get(m), f_monster, g2D);
@@ -145,6 +146,7 @@ public class GameView extends JPanel implements Observer {
 
 	/**
 	 * Paint image file
+	 * 
 	 * @param characterSite
 	 * @param character
 	 * @param g2D

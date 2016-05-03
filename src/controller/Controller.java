@@ -9,8 +9,8 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
- * This abstract class inherits from JFrame, and represents the super class of all
- * controller of the game: MainMenu, DifficultyMenu, and GameController.
+ * This abstract class inherits from JFrame, and represents the super class of
+ * all controller of the game: MainMenu, DifficultyMenu, and GameController.
  * 
  * @author Zhiyuan Li
  * @author Yi Shang
@@ -52,6 +52,7 @@ public abstract class Controller extends JFrame {
 		layOutComponents();
 		attachListenersToComponents();
 		setPreferredSize(new Dimension(weight, height));
+		setResizable(false);
 		setLocation();
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
