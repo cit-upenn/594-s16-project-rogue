@@ -221,10 +221,26 @@ public class GameController extends Controller implements KeyListener {
 		bottom.setBackground(BLACK);
 
 		// add back button
-		back = new JButton("Back");
+		back = createButton("Back");
 		setButton(back);
 		bottom.add(back);
 
+	}
+	
+	/**
+	 * create button add background
+	 * @param name
+	 * @return
+	 */
+	private JButton createButton(String name) {
+		ImageIcon image = new ImageIcon("pic/backbutton.jpg");
+		Image img = image.getImage();
+		Image newImg = img.getScaledInstance(720, 30, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newImage = new ImageIcon(newImg);
+		JButton b = new JButton(name, newImage);
+		b.setVerticalTextPosition(SwingConstants.CENTER);
+		b.setHorizontalTextPosition(SwingConstants.CENTER);
+		return b;
 	}
 
 	/**
@@ -243,18 +259,18 @@ public class GameController extends Controller implements KeyListener {
 	 * helper method to show rogue status
 	 */
 	private void updateText() {
-		text.setText("LEVEL " + level + "\t\n\n\n" + "HP :               " + game.getRogue().getHp() + "\t\n\n"
+		text.setText(
+				"\nLEVEL " + level + "\t\n\n\n" + "HP :               " + game.getRogue().getHp() + "\t\n\n"
 				+ "Sword :          " + game.getRogue().getNumberSword() + "\t");
 	}
 
 	@Override
 	public void setButton(JButton button) {
 		button.setForeground(Color.white);
-		button.setBackground(INDIGO);
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
-		button.setFont(new Font("Arial", Font.PLAIN, 25));
+		button.setFont(new Font("Book Antiqua", Font.BOLD, 20));
 	}
 
 	@Override

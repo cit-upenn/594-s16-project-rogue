@@ -30,11 +30,7 @@ public class GameView extends JPanel implements Observer {
 	private char[][] board;
 
 	private BufferedImage rogue, r_monster, f_monster, e_monster;
-	private BufferedImage wall1, corridor1, room1;
-	private BufferedImage wall2, corridor2, room2;
-	private BufferedImage wall3, corridor3, room3;
-	private BufferedImage wall4, corridor4, room4;
-	private BufferedImage wall5, corridor5, room5;
+	private BufferedImage[] wallList, corridorList, roomList;
 	private BufferedImage tunnel, powerup, sword;
 	private final static int pad = 0;
 	private final static int size = 25;
@@ -49,21 +45,7 @@ public class GameView extends JPanel implements Observer {
 	public GameView(Game model) {
 		setOpaque(false);
 		setGame(model);
-		room1 = loadImage("pic/room1.jpg");
-		room2 = loadImage("pic/room2.jpg");
-		room3 = loadImage("pic/room3.jpg");
-		room4 = loadImage("pic/room4.jpg");
-		room5 = loadImage("pic/room5.jpg");
-		corridor1 = loadImage("pic/corridor1.jpg");
-		corridor2 = loadImage("pic/corridor2.jpg");
-		corridor3 = loadImage("pic/corridor3.jpg");
-		corridor4 = loadImage("pic/corridor4.jpg");
-		corridor5 = loadImage("pic/corridor5.jpg");
-		wall1 = loadImage("pic/wall1.jpg");
-		wall2 = loadImage("pic/wall2.jpg");
-		wall3 = loadImage("pic/wall3.jpg");
-		wall4 = loadImage("pic/wall4.jpg");
-		wall5 = loadImage("pic/wall5.jpg");
+		loadImageList();
 		tunnel = loadImage("pic/tunnel.jpg");
 		sword = loadImage("pic/sword.jpg");
 		powerup = loadImage("pic/hp.jpg");
@@ -100,13 +82,13 @@ public class GameView extends JPanel implements Observer {
 				int y = i * size + pad;
 				if (board[i][j] == '+') {
 					// corridor
-					g2D.drawImage(corridor3, x + 5, y + 5, 25, 25, null);
+					g2D.drawImage(corridorList[level - 1], x + 5, y + 5, 25, 25, null);
 				} else if (board[i][j] == '.') {
 					// room
-					g2D.drawImage(room3, x + 5, y + 5, 25, 25, null);
+					g2D.drawImage(roomList[level - 1], x + 5, y + 5, 25, 25, null);
 				} else {
 					// wall
-					g2D.drawImage(wall3, x + 5, y + 5, 25, 25, null);
+					g2D.drawImage(wallList[level - 1], x + 5, y + 5, 25, 25, null);
 				}
 			}
 		}
@@ -158,6 +140,27 @@ public class GameView extends JPanel implements Observer {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * Load image list
+	 */
+	private void loadImageList() {
+		roomList = new BufferedImage[5];
+		for (int i = 0; i < roomList.length; i++) {
+			roomList[i] = loadImage("pic/room" + (i + 1) + ".jpg");
+		}
+
+		corridorList = new BufferedImage[5];
+		for (int i = 0; i < corridorList.length; i++) {
+			corridorList[i] = loadImage("pic/corridor" + (i + 1) + ".jpg");
+		}
+
+		wallList = new BufferedImage[5];
+		for (int i = 0; i < wallList.length; i++) {
+			wallList[i] = loadImage("pic/wall" + (i + 1) + ".jpg");
+		}
+
 	}
 
 	/**

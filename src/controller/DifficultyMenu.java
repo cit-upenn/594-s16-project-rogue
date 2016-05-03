@@ -5,11 +5,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import view.DifficultyView;
 
@@ -113,34 +116,41 @@ public class DifficultyMenu extends Controller {
 
 		// set buttom panel layout
 		bottom.setLayout(new GridLayout(1, 4));
-		bottom.setBackground(BLACK);
 
 		// add 3 option buttons
-		easy = new JButton("Easy");
+		easy = createButton("Easy");
 		setButton(easy);
 		bottom.add(easy);
-		medium = new JButton("Medium");
-		medium.setForeground(Color.white);
+		medium = createButton("Medium");
 		setButton(medium);
 		bottom.add(medium);
-		hard = new JButton("Hard");
+		hard = createButton("Hard");
 		setButton(hard);
 		bottom.add(hard);
-		back = new JButton("Back");
+		back = createButton("Back");
 		setButton(back);
 		bottom.add(back);
 
+	}
+	
+	private JButton createButton(String name) {
+		ImageIcon image = new ImageIcon("pic/mapbutton.jpg");
+		Image img = image.getImage();
+		Image newImg = img.getScaledInstance(220, 30, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newImage = new ImageIcon(newImg);
+		JButton b = new JButton(name, newImage);
+		b.setVerticalTextPosition(SwingConstants.CENTER);
+		b.setHorizontalTextPosition(SwingConstants.CENTER);
+		return b;
 	}
 
 	@Override
 	public void setButton(JButton button) {
 		button.setForeground(Color.white);
-		// button.setBackground(MEDIUM_ORCHID);
 		button.setOpaque(true);
 		button.setBorderPainted(true);
 		button.setBorder(WHITE_BORDER);
-		button.setFont(new Font("Arial", Font.PLAIN, 25));
-		button.setBackground(CRIMSON);
+		button.setFont(new Font("Book Antiqua", Font.BOLD, 20));
 	}
 
 	@Override
